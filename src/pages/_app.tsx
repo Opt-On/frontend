@@ -13,7 +13,6 @@ export default function App({ Component, pageProps, router }: AppProps) {
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
-                <h1>title name</h1>
                 <AnimatePresence mode="wait">
                     <Component key={router.route} {...pageProps} />
                 </AnimatePresence>

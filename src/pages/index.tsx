@@ -7,7 +7,7 @@ export default function Home() {
             <section>
                 <div>
                     <h1>Home</h1>
-                    <Link style={{ textDecoration: "none", color: "inherit" }} href="/test">aaaaaa</Link>
+                    <Link style={{ textDecoration: "none", color: "inherit" }} href="/transcript">Transcript Page</Link>
                     <Button variant="primary">Button</Button>
                 </div>
             </section>
