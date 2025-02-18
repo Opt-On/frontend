@@ -10,15 +10,19 @@ export default function SliderButton() {
     return null; 
   }
 
+  const isActive = (path: string) => {
+    return `${styles.link} ${pathname === path ? styles.selected : ""} `;
+  };
+
   return (
     <div className={styles.container}>
-      <Link href="/option" className={`${styles.link} ${pathname === "/option" ? styles.selected : ""}`} style={{ textDecoration: "none" }}>
+      <Link href="/option" className={isActive("/option")} style={{ textDecoration: "none" }}>
         Option
       </Link>
-      <Link href="/" className={`${styles.link} ${styles.iconLink} ${pathname === "/" ? styles.selected : ""}`}>
-        <HomeIcon size={18} />
+      <Link href="/" className={isActive("/") + styles.iconLink}>
+        <HomeIcon size={18}/>
       </Link>
-      <Link href="/degree" className={`${styles.link} ${pathname === "/degree" ? styles.selected : ""}`} style={{ textDecoration: "none" }}>
+      <Link href="/degree" className={isActive("/degree")} style={{ textDecoration: "none" }}>
         Degree
       </Link>
     </div>
