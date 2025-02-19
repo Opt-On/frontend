@@ -46,7 +46,7 @@ export default function FileUpload() {
   const handleDragLeave = () => setIsDragging(false);
 
   const renderHeader = () => (
-    <Box sx={{ pt: 3, px: 4 }}>
+    <Box sx={{ pt: 2, pl: 3, pr: 2 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Text sx={{ fontSize: 18, fontWeight: "bold", pt: "8px" }}>Import course history</Text>
             <IconButton onClick={handleClose} icon={XIcon} variant="invisible" aria-labelledby="close"/>
