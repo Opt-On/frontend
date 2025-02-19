@@ -48,8 +48,8 @@ export default function FileUpload() {
   const renderHeader = () => (
     <Box sx={{ pt: 3, px: 4 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Text sx={{ fontSize: 18, fontWeight: "bold", pt: "1rem" }}>Import course history</Text>
-            <IconButton icon={XIcon} variant="invisible" aria-labelledby="close"/>
+            <Text sx={{ fontSize: 18, fontWeight: "bold", pt: "8px" }}>Import course history</Text>
+            <IconButton onClick={handleClose} icon={XIcon} variant="invisible" aria-labelledby="close"/>
         </Box>
         <Text sx={{ fontSize: 14, color: "#656d76", display: "block" }}>
             Upload your transcript below to import your course history.
