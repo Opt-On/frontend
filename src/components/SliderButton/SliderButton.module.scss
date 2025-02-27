@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 14rem;
+    background: #f6f8fa;
+    padding: 4px;
+    border-radius: 32px;
+    color: #656d76;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 160%;
+}
+
+.link {
+    text-decoration: none;
+    padding: 8px 16px; 
+    color: #656d76;
+    cursor: pointer;
+    border-radius: 32px; 
+}
+
+.selected {
+    background-color: #000; 
+    color: #fff; 
+}
+
+.iconLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+}
