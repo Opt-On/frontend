@@ -38,7 +38,6 @@ export default function NavBar() {
         paddingRight: "64px",
         paddingLeft: "64px",
         height: "6rem",
-        backgroundColor: "red",
       }}
     >
       <h1 style={{ fontWeight: 600, fontSize: "20px", lineHeight: "160%" }}>
@@ -55,7 +54,6 @@ export default function NavBar() {
               justifyContent: "flex-end",
               alignItems: "center",
               height: "100%",
-              backgroundColor: "blue",
             }}
           >
             <Avatar
