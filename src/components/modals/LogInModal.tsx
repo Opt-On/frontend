@@ -6,21 +6,11 @@ type LogInModalProps = {
 };
 
 export const LogInModal: React.FC<LogInModalProps> = ({ handleClose }) => {
-  const { user, loginWithGoogle, logout } = useAuth();
+  const { loginWithGoogle } = useAuth();
 
-  console.log(user);
   return (
     <Dialog onClose={handleClose} title="Log in or sign up">
-      {!user ? (
-        <>
-          <button onClick={loginWithGoogle}>Log in with Google</button>
-        </>
-      ) : (
-        <>
-          <h3>{user!.displayName}</h3>
-          <button onClick={logout}>log out</button>
-        </>
-      )}
+      <button onClick={loginWithGoogle}>Log in with Google</button>
     </Dialog>
   );
 };
