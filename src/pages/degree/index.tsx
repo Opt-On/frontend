@@ -7,8 +7,7 @@ import {
   RequirementStatus,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
-import { Box, Button, Text } from "@primer/react";
-import Link from "next/link";
+import { Box, Text } from "@primer/react";
 
 export default function Degree() {
   // TODO: get these values from db, maybe add to context or something
@@ -115,7 +114,7 @@ export default function Degree() {
             />
           ))}
         </Box>
-        <div
+        {/* <div
           style={{
             position: "absolute",
             right: "-10px",
@@ -131,7 +130,7 @@ export default function Degree() {
             Transcript Page
           </Link>
           <Button variant="primary">Button</Button>
-        </div>
+        </div> */}
       </section>
     </main>
   );

@@ -37,7 +37,7 @@ export function RequirementDisplay({
       display="grid"
       gridTemplateColumns="10rem 1fr"
       width="100%"
-      padding="8rem"
+      padding="16rem"
       paddingTop="3rem"
     >
       <Box display="flex" flexDirection="column" marginTop="0.5rem">
