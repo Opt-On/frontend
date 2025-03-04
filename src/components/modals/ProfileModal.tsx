@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useAuth } from "@/context";
-import { Box, Button, Dialog, Text } from "@primer/react";
+import { Box, Button, Dialog, Text, TextInput } from "@primer/react";
 
 type ProfileModalProps = {
   handleClose: (gesture: "close-button" | "escape") => void;
@@ -36,38 +36,31 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
             display="grid"
             gridTemplateColumns="repeat(2, 1fr)"
             marginTop="0.75rem"
+            sx={{ columnGap: "1rem", rowGap: "0.25rem" }}
           >
             <div>
               <Text size="medium" weight="semibold">
                 First Name
               </Text>
-              <div>
-                <Text>john</Text>
-              </div>
+              <TextInput value={"john"} disabled block></TextInput>
             </div>
             <div>
               <Text size="medium" weight="semibold">
                 Last Name
               </Text>
-              <div>
-                <Text>pork</Text>
-              </div>
+              <TextInput value={"pork"} disabled block></TextInput>
             </div>
             <div>
               <Text size="medium" weight="semibold">
                 Program
               </Text>
-              <div>
-                <Text>porkin ur mom</Text>
-              </div>
+              <TextInput value={"porkin ur mom"} disabled block></TextInput>
             </div>
             <div>
               <Text size="medium" weight="semibold">
                 Graduation Year
               </Text>
-              <div>
-                <Text>2069</Text>
-              </div>
+              <TextInput value={"2069"} disabled block></TextInput>
             </div>
           </Box>
         </Box>
