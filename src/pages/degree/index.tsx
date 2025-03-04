@@ -1,18 +1,138 @@
-import Link from "next/link";
-import { Button } from "@primer/react";
+import {
+  RequirementDisplay,
+  RequirementDisplayInfo,
+} from "@/components/common/RequirementDisplay";
+import {
+  RequirementInfo,
+  RequirementStatus,
+} from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
+import { Box, Button, Text } from "@primer/react";
+import Link from "next/link";
 
 export default function Degree() {
-    return (
-        <main>
-            <section>
-                <NavBar />
-                <div>
-                    <h1>Degree</h1>
-                    <Link style={{ textDecoration: "none", color: "inherit" }} href="/transcript">Transcript Page</Link>
-                    <Button variant="primary">Button</Button>
-                </div>
-            </section>
-        </main>
-    )
+  // TODO: get these values from db, maybe add to context or something
+  const degreeType = "Bachelors of BOFA";
+  const degreeName = "NUTS Engineering";
+  const graduationYear = "2025";
+
+  const degreeRequirementList: RequirementInfo[] = [
+    {
+      requirementName: "1A",
+      date: "Fall 2020",
+      status: RequirementStatus.COMPLETE,
+    },
+    {
+      requirementName: "1B",
+      date: "Winter 2021",
+      status: RequirementStatus.COMPLETE,
+    },
+    {
+      requirementName: "2A",
+      date: "Fall 2021",
+      status: RequirementStatus.COMPLETE,
+    },
+    {
+      requirementName: "2B",
+      date: "Spring 2022",
+      status: RequirementStatus.COMPLETE,
+    },
+    {
+      requirementName: "3A",
+      date: "Winter 2023",
+      status: RequirementStatus.COMPLETE,
+    },
+    {
+      requirementName: "3B",
+      date: "Fall 2023",
+      status: RequirementStatus.COMPLETE,
+    },
+    {
+      requirementName: "4A",
+      date: "Spring 2024",
+      status: RequirementStatus.PROVISIONALLY_COMPLETE,
+    },
+    {
+      requirementName: "4B",
+      date: "Winter 2025",
+      status: RequirementStatus.PROVISIONALLY_COMPLETE,
+    },
+    {
+      requirementName: "Free Elective",
+      status: RequirementStatus.PROVISIONALLY_COMPLETE,
+    },
+  ];
+
+  const degreeRequirements: RequirementDisplayInfo = {
+    requirementInfo: degreeRequirementList,
+    name: "MGTE",
+    date: "Winter 2025",
+    completionStatus: RequirementStatus.PROVISIONALLY_COMPLETE,
+  };
+
+  const optionsRequirements: RequirementDisplayInfo[] = [
+    {
+      requirementInfo: [
+        {
+          requirementName: "List 1",
+          status: RequirementStatus.PROVISIONALLY_COMPLETE,
+        },
+        {
+          requirementName: "List 2",
+          status: RequirementStatus.INCOMPLETE,
+        },
+        {
+          requirementName: "List 3",
+          status: RequirementStatus.COMPLETE,
+        },
+      ],
+      name: "computing option",
+      completionStatus: RequirementStatus.INCOMPLETE,
+    },
+  ];
+
+  return (
+    <main>
+      <section>
+        <NavBar />
+        <Box
+          padding="2rem"
+          width="100%"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+        >
+          <h1>Track your degree</h1>
+          <Text>See how you&apos;re tracking towards a {degreeType}</Text>
+          <Text weight="semibold" marginTop="2rem">
+            {degreeName} {graduationYear}
+          </Text>
+          <RequirementDisplay requirementDisplayInfo={degreeRequirements} />
+          {optionsRequirements.map((optionRequirements, index) => (
+            <RequirementDisplay
+              requirementDisplayInfo={optionRequirements}
+              key={`optionRequirement${index}`}
+            />
+          ))}
+        </Box>
+        <div
+          style={{
+            position: "absolute",
+            right: "-10px",
+            bottom: "-10px",
+            height: "4rem",
+            width: "8rem",
+          }}
+        >
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            href="/transcript"
+          >
+            Transcript Page
+          </Link>
+          <Button variant="primary">Button</Button>
+        </div>
+      </section>
+    </main>
+  );
 }
