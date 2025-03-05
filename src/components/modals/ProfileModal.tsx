@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import { useAuth } from "@/context";
 import { Box, Button, Dialog, Text, TextInput } from "@primer/react";
+import { useRouter } from "next/router";
 
 type ProfileModalProps = {
   handleClose: (gesture: "close-button" | "escape") => void;
@@ -8,6 +8,13 @@ type ProfileModalProps = {
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
   const { user, logout } = useAuth();
+  const router = useRouter();
+
+  function handleLogout() {
+    logout();
+    handleClose("close-button");
+    router.push("/");
+  }
 
   return (
     <Dialog onClose={handleClose} title="Profile">
@@ -77,7 +84,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
             }
           </Text>
         </Box>
-        <Button onClick={logout}>Sign Out</Button>
+        <Button onClick={() => handleLogout()}>Sign Out</Button>
       </div>
     </Dialog>
   );
