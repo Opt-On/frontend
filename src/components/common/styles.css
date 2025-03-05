@@ -1,0 +1,40 @@
+/* does not work rn lol */
+.long-dashed-border {
+  /*Horizontal*/
+  background-image: linear-gradient(
+    to right,
+    black 33%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: bottom;
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+
+  /*Vertical*/
+  background-image: linear-gradient(black 33%, rgba(255, 255, 255, 0) 0%);
+  background-position: right;
+  background-size: 10px 1px;
+  background-repeat: repeat-y;
+}
+
+/* todo: move to scss or find a better component to use */
+.select-button {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #656d76;
+  color: #656d76;
+  background-color: #fff;
+  width: 25%;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:focus {
+    border-color: black;
+    outline: none;
+  }
+}
+
+.select-option {
+  padding: 10px;
+  font-size: 16px;
+}
