@@ -185,10 +185,15 @@ export default function OptionProgressDetailed() {
               flexDirection="row"
               gridTemplateColumns="12rem auto"
               alignItems="stretch"
-              sx={{ gap: "3rem" }}
+              sx={{ gap: "1rem" }}
             >
               <Box display="flex" flexDirection="column">
-                <Text as="h3" weight="medium" whiteSpace="nowrap">
+                <Text
+                  as="h3"
+                  weight="medium"
+                  whiteSpace="nowrap"
+                  style={{ width: "7rem" }}
+                >
                   {optionRequirement.name} <ArrowUpRightIcon size={24} />
                 </Text>
                 {/* we may want to map this to the exact copy, too lazy rn */}
