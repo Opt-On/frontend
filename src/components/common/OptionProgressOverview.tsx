@@ -24,7 +24,11 @@ import OptionProgressPreview from "./OptionProgressPreview";
 //   font-size: 16px;
 // `;
 
-export default function OptionProgressOverview() {
+export default function OptionProgressOverview({
+  setIsMainPage,
+}: {
+  setIsMainPage: (arg0: boolean) => void;
+}) {
   const [selected, setSelected] = useState("Choose an option");
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
 
@@ -32,8 +36,9 @@ export default function OptionProgressOverview() {
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       setSelected(event.target.value);
       setOptionSelected(event.target.value);
+      setIsMainPage(false);
     },
-    [] // Empty dependency array means the callback won't change unless the component is re-mounted
+    []
   );
 
   return (
@@ -69,7 +74,7 @@ export default function OptionProgressOverview() {
         <OptionProgressDetailed />
       ) : (
         <>
-          <Text weight="light" marginTop="12rem" as="h4">
+          <Text weight="light" marginTop="8rem" as="h4">
             Options you&lsquo;ve made progress towards{" "}
           </Text>
           <Box

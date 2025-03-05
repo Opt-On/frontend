@@ -1,5 +1,10 @@
-import { ArrowUpRightIcon, SparkleFillIcon } from "@primer/octicons-react";
+import {
+  ArrowUpRightIcon,
+  SparkleFillIcon,
+  UndoIcon,
+} from "@primer/octicons-react";
 import { Box, Button, ProgressBar, Text } from "@primer/react";
+import { useState } from "react";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
 import { RequirementStatus } from "./RequirementDisplayList";
@@ -31,6 +36,8 @@ export const getColor = (status: string) => {
 };
 
 export default function OptionProgressDetailed() {
+  const [showRecommendations, setShowRecommendations] = useState(false);
+
   const completedRequirements = 3;
   const totalRequirements = 6;
   const optionRequirements: OptionRequirement[] = [
@@ -74,6 +81,11 @@ export default function OptionProgressDetailed() {
       ],
     },
   ];
+
+  const toggleShowRecommendations = () => {
+    // api call here to run model maybe ? depends on a bunch of stuff
+    setShowRecommendations(!showRecommendations);
+  };
 
   return (
     <Box
@@ -131,13 +143,24 @@ export default function OptionProgressDetailed() {
               3
             </Text>
           </Box>
-          <Button
-            variant="primary"
-            trailingVisual={SparkleFillIcon}
-            block={false}
-          >
-            Get Recommendations
-          </Button>
+          {!showRecommendations ? (
+            <Button
+              variant="primary"
+              trailingVisual={SparkleFillIcon}
+              block={false}
+              onClick={toggleShowRecommendations}
+            >
+              Get Recommendations
+            </Button>
+          ) : (
+            <Button
+              trailingVisual={UndoIcon}
+              block={false}
+              onClick={toggleShowRecommendations}
+            >
+              Reset Recommendations
+            </Button>
+          )}
         </Box>
       </Box>
       <Box
@@ -222,6 +245,7 @@ export default function OptionProgressDetailed() {
                     );
                   }
                 )}
+                {/* add recommendations here, create new card component */}
                 {[
                   ...Array(
                     optionRequirement.courseCount -

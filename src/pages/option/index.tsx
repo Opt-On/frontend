@@ -1,8 +1,11 @@
 import OptionProgressOverview from "@/components/common/OptionProgressOverview";
 import NavBar from "@/components/NavBar";
 import { Text } from "@primer/react";
+import { useState } from "react";
 
 export default function Option() {
+  const [isMainPage, setIsMainPage] = useState(true);
+
   return (
     <main>
       <section>
@@ -18,7 +21,7 @@ export default function Option() {
         >
           <Text
             as="h1"
-            marginTop="12rem"
+            marginTop={isMainPage ? "6rem" : "2rem"}
             weight="light"
             style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}
           >
@@ -27,7 +30,7 @@ export default function Option() {
           <Text as="h3" weight="light" marginTop="0.25rem">
             Select from available options to see more details
           </Text>
-          <OptionProgressOverview />
+          <OptionProgressOverview setIsMainPage={setIsMainPage} />
         </div>
       </section>
     </main>

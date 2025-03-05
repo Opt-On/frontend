@@ -1,20 +1,20 @@
 /* does not work rn lol */
 .long-dashed-border {
   /*Horizontal*/
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to right,
     black 33%,
     rgba(255, 255, 255, 0) 0%
   );
   background-position: bottom;
   background-size: 10px 1px;
-  background-repeat: repeat-x;
+  background-repeat: repeat-x; */
 
   /*Vertical*/
-  background-image: linear-gradient(black 33%, rgba(255, 255, 255, 0) 0%);
+  /* background-image: linear-gradient(black 33%, rgba(255, 255, 255, 0) 0%);
   background-position: right;
   background-size: 10px 1px;
-  background-repeat: repeat-y;
+  background-repeat: repeat-y; */
 }
 
 /* todo: move to scss or find a better component to use */
