@@ -57,7 +57,6 @@ export default function CourseCompletionProgress({
           variant={getVariant(courseInfo.status)}
         ></IssueLabel>
       </Box>
-      <Box></Box>
     </Box>
   );
 }

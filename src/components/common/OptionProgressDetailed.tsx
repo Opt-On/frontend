@@ -7,6 +7,7 @@ import { Box, Button, ProgressBar, Text } from "@primer/react";
 import { useState } from "react";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
+import RecommendedCourseCard from "./RecommendedCourseCard";
 import { RequirementStatus } from "./RequirementDisplayList";
 
 export type completedCourseInfo = {
@@ -15,11 +16,18 @@ export type completedCourseInfo = {
   description: string;
   status: RequirementStatus;
 };
+
+export type recommendedCourseInfo = {
+  name: string;
+  description: string;
+};
+
 export type OptionRequirement = {
   name: string;
   courseCount: number;
   completionStatus: RequirementStatus;
   completedCourses: completedCourseInfo[];
+  recommendedCourses?: recommendedCourseInfo[];
 };
 
 export const getColor = (status: string) => {
@@ -38,6 +46,7 @@ export const getColor = (status: string) => {
 export default function OptionProgressDetailed() {
   const [showRecommendations, setShowRecommendations] = useState(false);
 
+  // from db/ model
   const completedRequirements = 3;
   const totalRequirements = 6;
   const optionRequirements: OptionRequirement[] = [
@@ -51,6 +60,12 @@ export default function OptionProgressDetailed() {
           term: "1A",
           description: "intro to programming",
           status: RequirementStatus.COMPLETE,
+        },
+      ],
+      recommendedCourses: [
+        {
+          name: "MSE 121",
+          description: "intro to programming",
         },
       ],
     },
@@ -77,6 +92,20 @@ export default function OptionProgressDetailed() {
           term: "3B",
           description: "human-computer interaction",
           status: RequirementStatus.PROVISIONALLY_COMPLETE,
+        },
+      ],
+      recommendedCourses: [
+        {
+          name: "MSE 121",
+          description: "intro to programming",
+        },
+        {
+          name: "MSE 121",
+          description: "intro to programming",
+        },
+        {
+          name: "MSE 121",
+          description: "intro to programming",
         },
       ],
     },
@@ -245,25 +274,41 @@ export default function OptionProgressDetailed() {
                     );
                   }
                 )}
-                {/* add recommendations here, create new card component */}
-                {[
-                  ...Array(
-                    optionRequirement.courseCount -
-                      optionRequirement.completedCourses.length
-                  ),
-                ].map((_, incompleteIndex) => {
-                  return (
-                    <IncompleteRequirementCard
-                      key={`courseProgressCard${index}-${incompleteIndex}}`}
-                      index={
-                        optionRequirement.courseCount -
-                        optionRequirement.completedCourses.length +
-                        incompleteIndex -
-                        1
-                      }
-                    />
-                  );
-                })}
+                {showRecommendations &&
+                  optionRequirement.recommendedCourses &&
+                  optionRequirement.recommendedCourses
+                    .slice(
+                      0,
+                      optionRequirement.courseCount -
+                        optionRequirement.completedCourses.length
+                    )
+                    .map((recommendedCourse, recommendationIndex) => {
+                      return (
+                        <RecommendedCourseCard
+                          key={`recommendation${index}-${recommendationIndex}`}
+                          courseInfo={recommendedCourse}
+                        />
+                      );
+                    })}
+                {!showRecommendations &&
+                  [
+                    ...Array(
+                      optionRequirement.courseCount -
+                        optionRequirement.completedCourses.length
+                    ),
+                  ].map((_, incompleteIndex) => {
+                    return (
+                      <IncompleteRequirementCard
+                        key={`courseProgressCard${index}-${incompleteIndex}}`}
+                        index={
+                          optionRequirement.courseCount -
+                          optionRequirement.completedCourses.length +
+                          incompleteIndex -
+                          1
+                        }
+                      />
+                    );
+                  })}
               </Box>
             </Box>
           );
