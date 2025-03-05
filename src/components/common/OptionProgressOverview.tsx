@@ -55,13 +55,13 @@ export default function OptionProgressOverview() {
           Choose an option
         </option>
         <option className="select-option" value="Management Science">
-          Option 1
+          Management Science
         </option>
         <option className="select-option" value="Computing">
-          Option 2
+          Computing Option
         </option>
-        <option className="select-option" value="Idk">
-          Option 3
+        <option className="select-option" value="Water">
+          Water
         </option>
       </select>
 

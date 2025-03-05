@@ -2,7 +2,7 @@ import { ArrowUpRightIcon, SparkleFillIcon } from "@primer/octicons-react";
 import { Box, Button, ProgressBar, Text } from "@primer/react";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
-import { getVariant, RequirementStatus } from "./RequirementDisplayList";
+import { RequirementStatus } from "./RequirementDisplayList";
 
 export type completedCourseInfo = {
   name: string;
@@ -15,6 +15,19 @@ export type OptionRequirement = {
   courseCount: number;
   completionStatus: RequirementStatus;
   completedCourses: completedCourseInfo[];
+};
+
+export const getColor = (status: string) => {
+  switch (status) {
+    case RequirementStatus.COMPLETE:
+      return "green";
+    case RequirementStatus.PROVISIONALLY_COMPLETE:
+      return "gray";
+    case RequirementStatus.INCOMPLETE:
+      return "gray";
+    default:
+      return "plum";
+  }
 };
 
 export default function OptionProgressDetailed() {
@@ -50,7 +63,7 @@ export default function OptionProgressDetailed() {
     {
       name: "List 3",
       courseCount: 4,
-      completionStatus: RequirementStatus.COMPLETE,
+      completionStatus: RequirementStatus.INCOMPLETE,
       completedCourses: [
         {
           name: "MSE 343",
@@ -182,7 +195,7 @@ export default function OptionProgressDetailed() {
                 <Text
                   as="h4"
                   weight="light"
-                  color={getVariant(optionRequirement.completionStatus)}
+                  color={getColor(optionRequirement.completionStatus)}
                 >
                   {optionRequirement.completionStatus}
                 </Text>
