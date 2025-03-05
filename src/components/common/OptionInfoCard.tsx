@@ -1,4 +1,4 @@
-import { Box } from "@primer/react";
+import { Box, Text } from "@primer/react";
 
 export type OptionInfoCardProps = {};
 
@@ -11,7 +11,7 @@ export type OptionInfoCardProps = {};
 export function OptionInfoCard() {
   return (
     <Box
-      padding="1.5rem"
+      padding="1.25rem"
       color="#0969da"
       //   minHeight="20vh"
       display="flex"
@@ -23,7 +23,9 @@ export function OptionInfoCard() {
         aspectRatio: "323/281",
       }}
     >
-      <h4>Computing Option</h4>
+      <Text as="h5" weight="medium">
+        Computing Option
+      </Text>
       <h6>
         <span style={{ color: "#0969da", opacity: 0.5 }}>
           easy peasy lemon squeezy.
