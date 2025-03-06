@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Box, Button, Dialog, IconButton, Text } from "@primer/react";
-import { PlayIcon, XIcon } from "@primer/octicons-react";
+import { Box, Button, Dialog, Text } from "@primer/react";
+import { PlayIcon } from "@primer/octicons-react";
 import styles from "@/components/modals/QuizModal/QuizModal.module.scss";
 import { questions } from "./questionData";
 import ProgressBar from "./ProgressBar";
@@ -24,7 +24,7 @@ type QuestionProps = {
 function Question({ question, options, onSelect, selectedAnswer }: QuestionProps) {
   return (
     <Box>
-      <Text fontSize={24} fontWeight='bold' mb={3}>
+      <Text fontSize={24} fontWeight="bold" mb={3}>
         {question}
       </Text>
       {options.map((option, index) => (
@@ -73,17 +73,11 @@ export default function QuizModal() {
     const newUserAnswers = [...userAnswers];
     newUserAnswers[currentQuestionIndex] = optionIndex;
     setUserAnswers(newUserAnswers);
-
-    // Move to the next question if not on the last question
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
   };
 
-  const handleBack = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
+  // Move to the next question
+  const handleNext = () => {
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
   // Calculate scores dynamically based on userAnswers
@@ -123,11 +117,11 @@ export default function QuizModal() {
       {displayQuizModal && (
         <Dialog
           onClose={handleClose}
-          title='Quiz'
+          title="Quiz"
           renderHeader={() => <Header handleClose={handleClose} progress={currentQuestionIndex} />}
           className={styles.dialog}
         >
-          <Box width='75%' margin='auto'>
+          <Box width="75%" margin="auto">
             {currentQuestionIndex < questions.length ? (
               <>
                 <Question
@@ -137,13 +131,21 @@ export default function QuizModal() {
                   selectedAnswer={userAnswers[currentQuestionIndex]}
                 />
                 {currentQuestionIndex > 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 2 }}>
+                  <Button onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)} sx={{ mt: 2 }}>
                     Back
                   </Button>
                 )}
+                {/* Next Button, enabled only when an option is selected */}
+                <Button
+                  onClick={handleNext}
+                  sx={{ mt: 2 }}
+                  disabled={userAnswers[currentQuestionIndex] === null} // Disable if no answer is selected
+                >
+                  Next
+                </Button>
               </>
             ) : (
-              <Text fontSize={24} fontWeight='bold'>
+              <Text fontSize={24} fontWeight="bold">
                 {Object.entries(scores).reduce(
                   (max, x) => (x[1] > scores[max] ? x[0] : max),
                   Object.keys(scores)[0]
