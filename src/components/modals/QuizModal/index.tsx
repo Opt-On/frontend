@@ -89,6 +89,8 @@ export default function QuizModal() {
 
   const handleClose = () => {
     setDisplayQuizModal(false);
+    setCurrentQuestionIndex(0);
+    setUserAnswers(new Array(questions.length).fill(null));
   };
 
   const handleSelect = (points: { [key: string]: number }, optionIndex: number) => {
@@ -156,9 +158,7 @@ export default function QuizModal() {
         <Dialog
           onClose={handleClose}
           title='Quiz'
-          renderHeader={() => (
-            <Header handleClose={handleClose} progress={currentQuestionIndex} />
-          )}
+          renderHeader={() => <Header handleClose={handleClose} progress={currentQuestionIndex} />}
           className={styles.dialog}
         >
           <Box width='75%' margin='auto'>
