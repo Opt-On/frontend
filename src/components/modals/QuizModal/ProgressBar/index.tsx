@@ -9,7 +9,7 @@ export default function ProgressBar({ currentIndex }: ProgressBarProps) {
   return (
     <div className={styles.container}>
       {Array.from({ length: 10 }).map((_, index) => {
-        const isActive = currentIndex === index;
+        const isActive = currentIndex === index || (currentIndex === 10 && index === 9);
 
         return (
           <motion.div
