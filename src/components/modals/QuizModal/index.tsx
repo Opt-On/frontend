@@ -4,6 +4,7 @@ import { PlayIcon, XIcon } from "@primer/octicons-react";
 import styles from "@/components/modals/QuizModal/QuizModal.module.scss";
 import { questions } from "./questionData";
 import ProgressBar from "./ProgressBar";
+import Header from "./Header";
 
 // Define the type for a question option
 export type Option = {
@@ -36,41 +37,6 @@ function Question({ question, options, onSelect, selectedAnswer }: QuestionProps
           {option.label}
         </Button>
       ))}
-    </Box>
-  );
-}
-
-// Header Component
-type HeaderProps = {
-  handleClose: () => void;
-  progress: number;
-};
-
-function Header({ handleClose, progress }: HeaderProps) {
-  return (
-    <Box className={styles.wrapper}>
-      <Box className={styles.header}>
-        <IconButton
-          onClick={handleClose}
-          size='large'
-          icon={() => <XIcon size={24} />}
-          variant='invisible'
-          aria-labelledby='close'
-        />
-      </Box>
-      {/* <ProgressBar
-        width="75%"
-        style={{ margin: "auto", gap: "4px", background: "transparent" }}
-      >
-        {new Array(10).fill(null).map((_, index) => (
-          <ProgressBar.Item
-            key={index}
-            progress={10}
-            sx={{ bg: index < progress ? "#bf8700" : "#d2d9e0" }}
-          />
-        ))} 
-      </ProgressBar> */}
-      <ProgressBar currentIndex={progress} />
     </Box>
   );
 }
