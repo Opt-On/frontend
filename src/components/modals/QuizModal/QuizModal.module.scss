@@ -1,0 +1,34 @@
+$color: #bf3989;
+$backgroundColor: #ffeff7;
+$borderColor: rgba(255, 128, 200, 0.25);
+
+.icon {
+    color: $color;
+}
+
+.button {
+    color: $color !important;
+    background: $backgroundColor !important;
+    border-color: $borderColor !important;
+}
+
+.wrapper {
+    padding: 16px;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 8px;
+}
+
+.dialog {
+    width: min(80vw, 1024) !important;
+    height: min(80vw, 1024) !important;
+}
+  

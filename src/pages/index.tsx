@@ -1,8 +1,7 @@
 import { OptionInfoCard } from "@/components/common/OptionInfoCard";
+import QuizModal from "@/components/modals/QuizModal";
 import NavBar from "@/components/NavBar";
-import { PlayIcon } from "@primer/octicons-react";
-import { Box, Button, Text } from "@primer/react";
-import "./styles.css";
+import { Box, Text } from "@primer/react";
 
 export default function Home() {
   return (
@@ -28,18 +27,8 @@ export default function Home() {
           >
             Making your option planning easier or whatever
           </Text>
-          {/* pain in the ass to do the css for this manually, maybe switch to diff */}
           <Box paddingTop="2rem">
-            <Button
-              leadingVisual={() => <PlayIcon className="pink-play-icon" />}
-              style={{
-                color: "#bf3989",
-                backgroundColor: "#ffeff7",
-                borderColor: "rgba(255, 128, 200, 0.25)",
-              }}
-            >
-              Take our quiz!
-            </Button>
+            <QuizModal />
           </Box>
           <Box
             display="grid"
