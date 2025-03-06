@@ -1,0 +1,23 @@
+.container {
+  width: 50%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.dot {
+  margin: 4px;
+  height: 10px;
+  border-radius: 10px;
+  background: black;
+}
+
+.active {
+  opacity: 50%;
+  width: 30px;
+}
+
+.inactive {
+  opacity: 25%;
+  width: 10px;
+}

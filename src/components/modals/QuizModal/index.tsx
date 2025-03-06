@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  IconButton,
-  Text,
-} from "@primer/react";
+import { Box, Button, Dialog, IconButton, Text } from "@primer/react";
 import { PlayIcon, XIcon } from "@primer/octicons-react";
 import styles from "@/components/modals/QuizModal/QuizModal.module.scss";
 import { questions } from "./questionData";
@@ -26,15 +20,10 @@ type QuestionProps = {
 };
 
 // Question Component
-function Question({
-  question,
-  options,
-  onSelect,
-  selectedAnswer,
-}: QuestionProps) {
+function Question({ question, options, onSelect, selectedAnswer }: QuestionProps) {
   return (
     <Box>
-      <Text fontSize={24} fontWeight="bold" mb={3}>
+      <Text fontSize={24} fontWeight='bold' mb={3}>
         {question}
       </Text>
       {options.map((option, index) => (
@@ -63,10 +52,10 @@ function Header({ handleClose, progress }: HeaderProps) {
       <Box className={styles.header}>
         <IconButton
           onClick={handleClose}
-          size="large"
+          size='large'
           icon={() => <XIcon size={24} />}
-          variant="invisible"
-          aria-labelledby="close"
+          variant='invisible'
+          aria-labelledby='close'
         />
       </Box>
       {/* <ProgressBar
@@ -102,10 +91,7 @@ export default function QuizModal() {
     setDisplayQuizModal(false);
   };
 
-  const handleSelect = (
-    points: { [key: string]: number },
-    optionIndex: number
-  ) => {
+  const handleSelect = (points: { [key: string]: number }, optionIndex: number) => {
     // Validate currentQuestionIndex and optionIndex
     if (
       currentQuestionIndex >= questions.length ||
@@ -169,13 +155,13 @@ export default function QuizModal() {
       {displayQuizModal && (
         <Dialog
           onClose={handleClose}
-          title="Quiz"
+          title='Quiz'
           renderHeader={() => (
             <Header handleClose={handleClose} progress={currentQuestionIndex} />
           )}
           className={styles.dialog}
         >
-          <Box width="75%" margin="auto">
+          <Box width='75%' margin='auto'>
             {currentQuestionIndex < questions.length ? (
               <>
                 <Question
@@ -191,7 +177,7 @@ export default function QuizModal() {
                 )}
               </>
             ) : (
-              <Text fontSize={24} fontWeight="bold">
+              <Text fontSize={24} fontWeight='bold'>
                 {Object.entries(scores).reduce(
                   (max, x) => (x[1] > scores[max] ? x[0] : max),
                   Object.keys(scores)[0]
