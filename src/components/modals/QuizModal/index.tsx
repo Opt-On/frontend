@@ -82,7 +82,7 @@ export default function QuizModal() {
               hasAnswered={userAnswers[currentQuestionIndex] !== null}
             />
           )}
-          className={styles.dialog}
+          className={`${styles.dialog} ${currentQuestionIndex > 9 ? styles.result : ""}`}
         >
           <Box width='75%' margin='auto'>
             {currentQuestionIndex < questions.length ? (

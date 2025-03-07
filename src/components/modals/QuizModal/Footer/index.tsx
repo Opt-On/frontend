@@ -12,7 +12,7 @@ export default function Footer({ currentQuestionIndex, setCurrentQuestionIndex, 
   return (
     <>
       {currentQuestionIndex < 10 && (
-        <div style={{ padding: "48px", display: "flex", justifyContent: "center", gap: "16px" }}>
+        <div className={styles.container}>
           <IconButton
             icon={ChevronLeftIcon}
             aria-labelledby='next'
