@@ -60,7 +60,11 @@ export function RequirementDisplayList({
             >
               <h3>{requirement.requirementName}</h3>
               {requirement.date && (
-                <Text weight="light" style={{ flex: 1, paddingLeft: "0.5rem" }}>
+                <Text
+                  weight="light"
+                  color="#656d76"
+                  style={{ flex: 1, paddingLeft: "0.5rem" }}
+                >
                   {requirement.date}
                 </Text>
               )}
