@@ -1,5 +1,4 @@
 import { Box, Text } from "@primer/react";
-import "./styles.css";
 
 export default function IncompleteRequirementCard({
   index,
@@ -21,7 +20,6 @@ export default function IncompleteRequirementCard({
         borderColor: "border.default",
         borderRadius: "1rem",
       }}
-      className="long-dashed-border"
     >
       <Text as="h4" weight="medium" color="#656d76">
         {`Course ${index} requirement`}

@@ -3,12 +3,8 @@ import { IssueLabel } from "@primer/react/experimental";
 import { completedCourseInfo } from "./OptionProgressDetailed";
 import { RequirementStatus } from "./RequirementDisplayList";
 import { getVariant } from "./RequirementToggleDisplay";
-import "./styles.css";
 
-function getCourseCompletionString(
-  completionStatus: RequirementStatus,
-  term: string
-) {
+function getCourseCompletionString(completionStatus: RequirementStatus, term: string) {
   if (completionStatus == RequirementStatus.COMPLETE) {
     return `Completed ${term}`;
   } else if (completionStatus == RequirementStatus.PROVISIONALLY_COMPLETE) {
@@ -24,13 +20,13 @@ export default function CourseCompletionProgress({
 }) {
   return (
     <Box
-      display="flex"
-      flexDirection="row"
-      alignItems="center"
-      justifyContent="space-between"
-      width="100%"
-      padding="0.5rem 1rem"
-      height="69px"
+      display='flex'
+      flexDirection='row'
+      alignItems='center'
+      justifyContent='space-between'
+      width='100%'
+      padding='0.5rem 1rem'
+      height='69px'
       sx={{
         border: "1px solid #656d76",
         borderWidth: 1,
@@ -39,20 +35,14 @@ export default function CourseCompletionProgress({
       }}
     >
       <Box>
-        <Text as="h3" weight="medium">
+        <Text as='h3' weight='medium'>
           {courseInfo.name}
         </Text>
-        <Text as="h5" weight="light" color="#656d76">
+        <Text as='h5' weight='light' color='#656d76'>
           {courseInfo.description}
         </Text>
       </Box>
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        style={{ flex: 1 }}
-        paddingRight="1rem"
-      >
-        {/* TODO: Make this label look better */}
+      <Box display='flex' justifyContent='flex-end' style={{ flex: 1 }} paddingRight='1rem'>
         <IssueLabel
           text={getCourseCompletionString(courseInfo.status, courseInfo.term)}
           variant={getVariant(courseInfo.status)}
