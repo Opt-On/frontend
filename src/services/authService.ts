@@ -11,7 +11,7 @@ const googleProvider = new GoogleAuthProvider();
 export const loginWithGoogle = async (): Promise<UserCredential | null> => {
   try {
     return await signInWithPopup(auth, googleProvider);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
   } catch (error: any) {
     if (error.code === "auth/popup-closed-by-user") {
       console.warn("Popup was closed before authentication completed.");
