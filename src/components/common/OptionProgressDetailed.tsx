@@ -120,7 +120,7 @@ export default function OptionProgressDetailed() {
     <Box
       display="flex"
       flexDirection="column"
-      marginTop="2rem"
+      marginTop="1rem"
       alignItems="center"
       width="45rem"
     >

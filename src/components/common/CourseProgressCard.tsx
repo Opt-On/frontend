@@ -1,7 +1,8 @@
 import { Box, Text } from "@primer/react";
 import { IssueLabel } from "@primer/react/experimental";
 import { completedCourseInfo } from "./OptionProgressDetailed";
-import { getVariant, RequirementStatus } from "./RequirementDisplayList";
+import { RequirementStatus } from "./RequirementDisplayList";
+import { getVariant } from "./RequirementToggleDisplay";
 import "./styles.css";
 
 function getCourseCompletionString(
