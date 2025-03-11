@@ -1,7 +1,7 @@
 import { Box, IconButton } from "@primer/react";
 import { XIcon } from "@primer/octicons-react";
 import ProgressBar from "../ProgressBar";
-import styles from "@/components/modals/QuizModal/Header/Header.module.scss";
+import styles from "@/components/Quiz/Header/Header.module.scss";
 
 type HeaderProps = {
   handleClose: () => void;

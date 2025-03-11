@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@primer/octicons-react";
 import { IconButton } from "@primer/react";
-import styles from "@/components/modals/QuizModal/Footer/Footer.module.scss";
+import styles from "@/components/Quiz/Footer/Footer.module.scss";
 
 interface FooterProps {
   currentQuestionIndex: number;
@@ -27,7 +27,7 @@ export default function Footer({ currentQuestionIndex, setCurrentQuestionIndex, 
             aria-labelledby='next'
             size='large'
             className={styles.next}
-            disabled={!hasAnswered}
+            // disabled={!hasAnswered}
             onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
           >
             Back

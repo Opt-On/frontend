@@ -1,5 +1,5 @@
 import { OptionInfoCard } from "@/components/common/OptionInfoCard";
-import QuizModal from "@/components/modals/QuizModal";
+import Quiz from "@/components/Quiz";
 import NavBar from "@/components/NavBar";
 import { Box, Text } from "@primer/react";
 
@@ -28,7 +28,7 @@ export default function Home() {
             Making your option planning easier or whatever
           </Text>
           <Box paddingTop="2rem">
-            <QuizModal />
+            <Quiz />
           </Box>
           <Box
             display="grid"
