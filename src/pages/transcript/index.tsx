@@ -2,11 +2,14 @@ import { useState } from 'react';
 
 export default function UploadTranscript() {
   const [file, setFile] = useState<File>();
-  const [summary, setSummary] = useState<Object>();
+  const [summary, setSummary] = useState<object>();
   const [error, setError] = useState('');
 
-  const handleFileChange = (event: any) => {
-    setFile(event.target.files[0]);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setFile(files[0]);
+    }
   };
 
   const handleUpload = async () => {

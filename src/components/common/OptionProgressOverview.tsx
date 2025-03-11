@@ -38,7 +38,7 @@ export default function OptionProgressOverview({
       setOptionSelected(event.target.value);
       setIsMainPage(false);
     },
-    []
+    [setIsMainPage]
   );
 
   return (
