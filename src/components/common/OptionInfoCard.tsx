@@ -1,6 +1,6 @@
 import { Box, Text } from "@primer/react";
 
-export type OptionInfoCardProps = {};
+// export type OptionInfoCardProps = {};
 
 // export function OptionInfoCard({
 //   optionInfo,

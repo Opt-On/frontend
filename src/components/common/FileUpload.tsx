@@ -1,18 +1,13 @@
+import { submitTranscript } from "@/api/transcript";
+import { FileDirectoryIcon } from "@primer/octicons-react";
+import { Box, Button, Text } from "@primer/react";
 import React, { useState } from "react";
-import { Button, Dialog, Box, Text, IconButton } from "@primer/react";
-import { FileDirectoryIcon, XIcon } from "@primer/octicons-react";
 
 export default function FileUpload() {
-  const [isOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const MAX_FILE_SIZE = 200 * 1024; // 200KB in bytes
-
-  const handleClose = () => {
-    setIsOpen(false);
-    setFile(null);
-  };
 
   const handleFile = (file: File | undefined) => {
     if (file?.size && file?.size > MAX_FILE_SIZE) {
@@ -44,26 +39,19 @@ export default function FileUpload() {
 
   const handleDragLeave = () => setIsDragging(false);
 
-  const renderHeader = () => (
-    <Box sx={{ pt: 2, pl: 3, pr: 2 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Text sx={{ fontSize: 18, fontWeight: "bold", pt: "8px" }}>
-          Import course history
-        </Text>
-        <IconButton
-          onClick={handleClose}
-          icon={XIcon}
-          variant="invisible"
-          aria-labelledby="close"
-        />
-      </Box>
-      <Text sx={{ fontSize: 14, color: "#656d76", display: "block" }}>
-        Upload your transcript below to import your course history.
-      </Text>
-    </Box>
-  );
+  const handleSubmitTranscript = async () => {
+    if (!file) return alert("Please select a file");
 
-  const renderBody = () => (
+    try {
+      const response = await submitTranscript(file);
+      console.log(`Success: ${response.message}`);
+    } catch (error) {
+      console.log("Upload failed");
+      console.error(error);
+    }
+  };
+
+  return (
     <Box sx={{ p: 3 }}>
       <Box
         as="div"
@@ -108,54 +96,19 @@ export default function FileUpload() {
       </Box>
 
       {file && (
-        <Box mt={3}>
+        <Box
+          mt={3}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
           <Text as="p">
             <strong>Uploaded File:</strong> {file.name}
           </Text>
+          {/* maybe temp */}
+          <Button onClick={handleSubmitTranscript}>Save</Button>
         </Box>
       )}
     </Box>
-  );
-
-  const renderFooter = () => (
-    <Box
-      sx={{ pb: 3, px: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}
-    >
-      <Button onClick={handleClose}>Cancel</Button>
-      <Button
-        variant="primary"
-        onClick={() => {
-          if (file) {
-            console.log("Uploading file:", file.name);
-          }
-          handleClose();
-        }}
-      >
-        Import
-      </Button>
-    </Box>
-  );
-
-  return (
-    <>
-      <Button variant="primary" onClick={() => setIsOpen(true)}>
-        Upload
-      </Button>
-
-      {isOpen && (
-        <Dialog
-          title={
-            <Text sx={{ fontSize: 18, fontWeight: "bold" }}>
-              Import course history
-            </Text>
-          }
-          subtitle="Upload your transcript below to import your course history."
-          onClose={handleClose}
-          renderHeader={renderHeader}
-          renderBody={renderBody}
-          renderFooter={renderFooter}
-        />
-      )}
-    </>
   );
 }

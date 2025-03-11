@@ -2,6 +2,7 @@
 import { useAuth } from "@/context";
 import { Box, Button, Dialog, Text, TextInput } from "@primer/react";
 import { useRouter } from "next/router";
+import FileUpload from "../common/FileUpload";
 
 type ProfileModalProps = {
   handleClose: (gesture: "close-button" | "escape") => void;
@@ -84,6 +85,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
               </Box>
             }
           </Text>
+          <FileUpload></FileUpload>
         </Box>
         <Button onClick={() => handleLogout()}>Sign Out</Button>
       </div>

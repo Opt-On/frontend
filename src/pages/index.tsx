@@ -1,10 +1,12 @@
 import { OptionInfoCard } from "@/components/common/OptionInfoCard";
 import NavBar from "@/components/NavBar";
+// import { useAuth } from "@/context";
 import { PlayIcon } from "@primer/octicons-react";
 import { Box, Button, Text } from "@primer/react";
 import "./styles.css";
 
 export default function Home() {
+  // const { user } = useAuth();
   return (
     <main>
       <section>
