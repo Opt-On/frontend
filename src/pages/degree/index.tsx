@@ -114,23 +114,6 @@ export default function Degree() {
             />
           ))}
         </Box>
-        {/* <div
-          style={{
-            position: "absolute",
-            right: "-10px",
-            bottom: "-10px",
-            height: "4rem",
-            width: "8rem",
-          }}
-        >
-          <Link
-            style={{ textDecoration: "none", color: "inherit" }}
-            href="/transcript"
-          >
-            Transcript Page
-          </Link>
-          <Button variant="primary">Button</Button>
-        </div> */}
       </section>
     </main>
   );

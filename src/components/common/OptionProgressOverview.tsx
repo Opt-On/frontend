@@ -1,5 +1,6 @@
 import { Box, Text } from "@primer/react";
 import { useCallback, useState } from "react";
+import ActionSelect from "../ActionSelect";
 import OptionProgressDetailed from "./OptionProgressDetailed";
 import OptionProgressPreview from "./OptionProgressPreview";
 
@@ -24,21 +25,34 @@ import OptionProgressPreview from "./OptionProgressPreview";
 //   font-size: 16px;
 // `;
 
-export default function OptionProgressOverview({
-  setIsMainPage,
-}: {
-  setIsMainPage: (arg0: boolean) => void;
-}) {
-  const [selected, setSelected] = useState("Choose an option");
+export default function OptionProgressOverview() {
+  const [selected, setSelected] = useState(-1);
+  // const [isMainPage, setIsMainPage] = useState(true);
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const optionList = [
+    "Artificial Intelligence",
+    "Biomechanics",
+    "Computer Engineering",
+    "Computing",
+    "Entrepreneurship",
+    "Environmental Engineering",
+    "Life Sciences",
+    "Management Science",
+    "Mechatronics",
+    "Physical Sciences",
+    "Quantum Engineering",
+    "Software Engineering",
+    "Statistics",
+  ];
+
   const handleSelectChange = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelected(event.target.value);
-      setOptionSelected(event.target.value);
-      setIsMainPage(false);
+    (index: number) => {
+      setSelected(index);
+      setOptionSelected(optionList[index]);
     },
-    []
+    [optionList]
   );
 
   return (
@@ -47,28 +61,27 @@ export default function OptionProgressOverview({
       flexDirection="column"
       alignItems="center"
       width="100%"
-      marginTop="1rem"
+      // marginTop="1rem"
     >
-      {/* primers select buggy mess, will deal with later*/}
-      <select
-        id="menu"
-        value={selected}
-        onChange={(e) => handleSelectChange(e)}
-        className="select-button"
+      <Text
+        as="h1"
+        marginTop={selected == -1 ? "6rem" : "2rem"}
+        weight="light"
+        style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}
       >
-        <option className="select-option" value="default" hidden>
-          Choose an option
-        </option>
-        <option className="select-option" value="Management Science">
-          Management Science
-        </option>
-        <option className="select-option" value="Computing">
-          Computing Option
-        </option>
-        <option className="select-option" value="Water">
-          Water
-        </option>
-      </select>
+        What option are you interested in?
+      </Text>
+      <Text as="h3" weight="light" marginTop="0.25rem">
+        Select from available options to see more details
+      </Text>
+      {/* primers select buggy mess, will deal with later*/}
+      <Box marginTop="1rem">
+        <ActionSelect
+          optionList={optionList}
+          selected={selected}
+          handleSetSelected={handleSelectChange}
+        />
+      </Box>
 
       {optionSelected ? (
         <OptionProgressDetailed />

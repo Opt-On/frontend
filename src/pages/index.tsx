@@ -3,13 +3,11 @@ import NavBar from "@/components/NavBar";
 import { PlayIcon } from "@primer/octicons-react";
 import { Box, Button, Text } from "@primer/react";
 import "./styles.css";
-import ActionSelect from "@/components/ActionSelect";
 
 export default function Home() {
   return (
     <main>
       <section>
-        <ActionSelect />
         <NavBar />
         <Box
           display="flex"

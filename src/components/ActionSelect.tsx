@@ -1,20 +1,30 @@
 import { CheckIcon } from "@primer/octicons-react";
-import { ActionList, ActionMenu, Button, Heading, Popover, Text, Tooltip } from "@primer/react";
-import { useState } from "react";
+import { ActionList, ActionMenu, Box } from "@primer/react";
 
-export default function ActionSelect() {
-  const [selected, setSelected] = useState(-1);
-
-  const courses = ["MSCI 121", "MSCI 342", "MSCI 240", "MSCI 245", "MSCI 433"];
-
+export default function ActionSelect({
+  selected,
+  handleSetSelected,
+  optionList,
+}: {
+  selected: number;
+  handleSetSelected: (index: number) => void;
+  optionList: string[];
+}) {
   return (
     <ActionMenu>
-      <ActionMenu.Button>{selected === -1 ? "Select Course" : courses[selected]}</ActionMenu.Button>
-      <ActionMenu.Overlay width='auto'>
+      <ActionMenu.Button>
+        <Box width="25rem">
+          {selected === -1 ? "Choose an option" : optionList[selected]}
+        </Box>
+      </ActionMenu.Button>
+      <ActionMenu.Overlay width="auto" side="inside-center">
         <ActionList>
-          {courses.map((course, index) => (
-            <ActionList.LinkItem onClick={() => setSelected(index)}>
-              {course}
+          {optionList.map((option, index) => (
+            <ActionList.LinkItem
+              key={`courseList-${index}`}
+              onClick={() => handleSetSelected(index)}
+            >
+              <span>{option}</span>
               <ActionList.LeadingVisual>
                 {index === selected ? (
                   <CheckIcon />
@@ -24,7 +34,6 @@ export default function ActionSelect() {
                   </span>
                 )}
               </ActionList.LeadingVisual>
-              <ActionList.Description>{course}</ActionList.Description>
             </ActionList.LinkItem>
           ))}
         </ActionList>
