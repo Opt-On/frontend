@@ -9,7 +9,7 @@ type ProfileModalProps = {
 };
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
-  const { user, logout } = useAuth();
+  const { user, logout, userInfo } = useAuth();
   const router = useRouter();
 
   function handleLogout() {
@@ -51,25 +51,41 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
               <Text size="medium" weight="semibold">
                 First Name
               </Text>
-              <TextInput value={"john"} disabled block></TextInput>
+              <TextInput
+                value={userInfo?.firstName || "john"}
+                disabled
+                block
+              ></TextInput>
             </div>
             <div>
               <Text size="medium" weight="semibold">
                 Last Name
               </Text>
-              <TextInput value={"pork"} disabled block></TextInput>
+              <TextInput
+                value={userInfo?.lastName || "pork"}
+                disabled
+                block
+              ></TextInput>
             </div>
             <div>
               <Text size="medium" weight="semibold">
                 Program
               </Text>
-              <TextInput value={"porkin ur mom"} disabled block></TextInput>
+              <TextInput
+                value={userInfo?.program || "porkin ur mom"}
+                disabled
+                block
+              ></TextInput>
             </div>
             <div>
               <Text size="medium" weight="semibold">
                 Graduation Year
               </Text>
-              <TextInput value={"2069"} disabled block></TextInput>
+              <TextInput
+                value={userInfo?.graduationYear || "2069"}
+                disabled
+                block
+              ></TextInput>
             </div>
           </Box>
         </Box>
@@ -78,7 +94,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
             Upload Transcript
           </Text>
           <Text size="medium" weight="light">
-            Last uploaded on 04/20/2024:{" "}
+            Last uploaded on {userInfo?.uploadDate || "04/20/2024"}:{" "}
             {
               <Box as="span" sx={{ textDecoration: "underline" }}>
                 {user?.displayName}.pdf
