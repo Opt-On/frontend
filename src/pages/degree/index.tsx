@@ -7,13 +7,14 @@ import {
   RequirementStatus,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
+import { useAuth } from "@/context";
 import { Box, Text } from "@primer/react";
 
 export default function Degree() {
-  // TODO: get these values from db, maybe add to context or something
-  const degreeType = "Bachelors of BOFA";
-  const degreeName = "NUTS Engineering";
-  const graduationYear = "2025";
+  const { userInfo } = useAuth();
+  const degreeType = "Bachelors of BOFA"; // need to parse this field
+  const degreeName = userInfo?.program || "NUTS Engineering";
+  const graduationYear = userInfo?.graduationYear || "2025";
 
   const degreeRequirementList: RequirementInfo[] = [
     {
