@@ -29,7 +29,6 @@ export default function CourseCompletionProgress({
       justifyContent="space-between"
       width="100%"
       padding="1rem 1rem"
-      backgroundColor="red"
       height="69px"
       sx={{
         border: "1px solid #656d76",
