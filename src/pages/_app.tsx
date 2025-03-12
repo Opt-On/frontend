@@ -1,5 +1,5 @@
 import { AuthProvider } from "@/context";
-import "@primer/css/dist/primer.css";
+// import "@primer/css/dist/primer.css";
 import { BaseStyles, ThemeProvider } from "@primer/react";
 import { AnimatePresence } from "motion/react";
 import { AppProps } from "next/app";
