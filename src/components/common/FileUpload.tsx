@@ -1,9 +1,11 @@
 import { submitTranscript } from "@/api/transcript";
+import { useAuth } from "@/context";
 import { FileDirectoryIcon } from "@primer/octicons-react";
 import { Box, Button, Text } from "@primer/react";
 import React, { useState } from "react";
 
 export default function FileUpload() {
+  const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -43,8 +45,12 @@ export default function FileUpload() {
     if (!file) return alert("Please select a file");
 
     try {
-      const response = await submitTranscript(file);
-      console.log(`Success: ${response.message}`);
+      if (!user!.email) {
+        console.error("missing email");
+        return;
+      }
+      const response = await submitTranscript(file, user!.email);
+      console.log(`Success: ${response}`);
     } catch (error) {
       console.log("Upload failed");
       console.error(error);
