@@ -4,7 +4,10 @@ import { completedCourseInfo } from "./OptionProgressDetailed";
 import { RequirementStatus } from "./RequirementDisplayList";
 import { getVariant } from "./RequirementToggleDisplay";
 
-function getCourseCompletionString(completionStatus: RequirementStatus, term: string) {
+function getCourseCompletionString(
+  completionStatus: RequirementStatus,
+  term: string
+) {
   if (completionStatus == RequirementStatus.COMPLETE) {
     return `Completed ${term}`;
   } else if (completionStatus == RequirementStatus.PROVISIONALLY_COMPLETE) {
@@ -20,13 +23,14 @@ export default function CourseCompletionProgress({
 }) {
   return (
     <Box
-      display='flex'
-      flexDirection='row'
-      alignItems='center'
-      justifyContent='space-between'
-      width='100%'
-      padding='0.5rem 1rem'
-      height='69px'
+      display="flex"
+      flexDirection="row"
+      alignItems="center"
+      justifyContent="space-between"
+      width="100%"
+      padding="1rem 1rem"
+      backgroundColor="red"
+      height="69px"
       sx={{
         border: "1px solid #656d76",
         borderWidth: 1,
@@ -34,15 +38,20 @@ export default function CourseCompletionProgress({
         borderRadius: "1rem",
       }}
     >
-      <Box>
-        <Text as='h3' weight='medium'>
+      <Box padding="1rem 0">
+        <Text as="h3" weight="medium">
           {courseInfo.name}
         </Text>
-        <Text as='h5' weight='light' color='#656d76'>
+        <Text as="h5" weight="light" color="#656d76">
           {courseInfo.description}
         </Text>
       </Box>
-      <Box display='flex' justifyContent='flex-end' style={{ flex: 1 }} paddingRight='1rem'>
+      <Box
+        display="flex"
+        justifyContent="flex-end"
+        style={{ flex: 1 }}
+        paddingRight="0.1rem"
+      >
         <IssueLabel
           text={getCourseCompletionString(courseInfo.status, courseInfo.term)}
           variant={getVariant(courseInfo.status)}

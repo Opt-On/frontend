@@ -35,9 +35,9 @@ export function RequirementDisplay({
   return (
     <Box
       display="grid"
-      gridTemplateColumns="10rem 1fr"
+      gridTemplateColumns="12rem 1fr"
       width="100%"
-      padding="1rem 16rem"
+      padding="1rem 15rem"
     >
       <Box display="flex" flexDirection="column" marginTop="0.5rem">
         <h3>{requirementDisplayInfo.name}</h3>

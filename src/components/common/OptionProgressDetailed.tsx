@@ -122,7 +122,7 @@ export default function OptionProgressDetailed() {
       flexDirection="column"
       marginTop="1rem"
       alignItems="center"
-      width="45rem"
+      width="50rem"
     >
       <Box
         padding="0.5rem"
@@ -198,7 +198,7 @@ export default function OptionProgressDetailed() {
         width="100%"
         padding="1rem 3rem"
       >
-        <Box>
+        <Box marginTop="0">
           <Text as="h5" weight="semibold">
             Status
           </Text>
@@ -239,12 +239,13 @@ export default function OptionProgressDetailed() {
               alignItems="stretch"
               sx={{ gap: "1rem" }}
             >
-              <Box display="flex" flexDirection="column">
+              <Box>
                 <Text
                   as="h3"
                   weight="medium"
                   whiteSpace="nowrap"
                   style={{ width: "7rem" }}
+                  marginTop="0"
                 >
                   {optionRequirement.name} <ArrowUpRightIcon size={24} />
                 </Text>
