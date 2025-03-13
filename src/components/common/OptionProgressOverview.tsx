@@ -66,12 +66,12 @@ export default function OptionProgressOverview() {
       <Text
         as="h1"
         marginTop={selected == -1 ? "6rem" : "2rem"}
-        weight="light"
+        fontWeight="light"
         style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}
       >
         What option are you interested in?
       </Text>
-      <Text as="h3" weight="light" marginTop="0.25rem">
+      <Text as="h3" fontWeight="light" marginTop="0.25rem">
         Select from available options to see more details
       </Text>
       {/* primers select buggy mess, will deal with later*/}
@@ -87,7 +87,7 @@ export default function OptionProgressOverview() {
         <OptionProgressDetailed />
       ) : (
         <>
-          <Text weight="light" marginTop="8rem" as="h4">
+          <Text fontWeight="light" marginTop="8rem" as="h4">
             Options you&lsquo;ve made progress towards{" "}
           </Text>
           <Box

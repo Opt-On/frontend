@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import FileUpload from "../common/FileUpload";
 
 type ProfileModalProps = {
-  handleClose: (gesture: "close-button" | "escape") => void;
+  handleClose: () => void;
 };
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
@@ -14,15 +14,15 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
 
   function handleLogout() {
     logout();
-    handleClose("close-button");
+    handleClose();
     router.push("/");
   }
 
   return (
-    <Dialog onClose={handleClose} title="Profile">
+    <Dialog onDismiss={handleClose} title="Profile">
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         <Box display="flex" flexDirection="column">
-          <Text size="large" weight="semibold">
+          <Text fontSize="large" fontWeight="semibold">
             Avatar
           </Text>
           <div>
@@ -35,10 +35,10 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
           </div>
         </Box>
         <Box display="flex" flexDirection="column">
-          <Text size="large" weight="semibold">
+          <Text fontSize="large" fontWeight="semibold">
             Basic Information
           </Text>
-          <Text size="medium" weight="light">
+          <Text fontSize="medium" fontWeight="light">
             To update basic information please re-upload your transcript.
           </Text>
           <Box
@@ -48,7 +48,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
             sx={{ columnGap: "1rem", rowGap: "0.25rem" }}
           >
             <div>
-              <Text size="medium" weight="semibold">
+              <Text fontSize="medium" fontWeight="semibold">
                 First Name
               </Text>
               <TextInput
@@ -58,7 +58,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
               ></TextInput>
             </div>
             <div>
-              <Text size="medium" weight="semibold">
+              <Text fontSize="medium" fontWeight="semibold">
                 Last Name
               </Text>
               <TextInput
@@ -68,7 +68,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
               ></TextInput>
             </div>
             <div>
-              <Text size="medium" weight="semibold">
+              <Text fontSize="medium" fontWeight="semibold">
                 Program
               </Text>
               <TextInput
@@ -78,7 +78,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
               ></TextInput>
             </div>
             <div>
-              <Text size="medium" weight="semibold">
+              <Text fontSize="medium" fontWeight="semibold">
                 Graduation Year
               </Text>
               <TextInput
@@ -90,10 +90,10 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ handleClose }) => {
           </Box>
         </Box>
         <Box display="flex" flexDirection="column">
-          <Text size="large" weight="semibold">
+          <Text fontSize="large" fontWeight="semibold">
             Upload Transcript
           </Text>
-          <Text size="medium" weight="light">
+          <Text fontSize="medium" fontWeight="light">
             Last uploaded on {userInfo?.uploadDate || "04/20/2024"}:{" "}
             {
               <Box as="span" sx={{ textDecoration: "underline" }}>

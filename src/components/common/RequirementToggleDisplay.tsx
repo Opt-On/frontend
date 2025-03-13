@@ -1,5 +1,5 @@
 import { Box, Text } from "@primer/react";
-import { IssueLabel } from "@primer/react/experimental";
+// import { IssueLabel } from "@primer/react/experimental";
 import { useState } from "react";
 import {
   CourseResult,
@@ -87,7 +87,7 @@ export default function RequirementToggleDisplay({
           <h3>{requirementInfo.requirementName}</h3>
           {requirementInfo.date && (
             <Text
-              weight="light"
+              fontWeight="light"
               color="#656d76"
               style={{ flex: 1, paddingLeft: "0.5rem" }}
             >
@@ -101,11 +101,11 @@ export default function RequirementToggleDisplay({
           style={{ flex: 1 }}
           paddingRight="1rem"
         >
-          {/* TODO: Make this label look better */}
+          {/* TODO: Make this label look better
           <IssueLabel
             text={requirementInfo.status}
             variant={getVariant(requirementInfo.status)}
-          ></IssueLabel>
+          ></IssueLabel> */}
         </Box>
       </Box>
       {showCourses && (
@@ -135,13 +135,13 @@ export default function RequirementToggleDisplay({
                 width="100%"
               >
                 <Box>
-                  <Text weight="semibold">{course.courseCode}</Text>
-                  <Text marginLeft="0.5rem" weight="light">
+                  <Text fontWeight="semibold">{course.courseCode}</Text>
+                  <Text marginLeft="0.5rem" fontWeight="light">
                     {course.courseName}
                   </Text>
                 </Box>
                 <Box>
-                  <Text weight="light">{course.grade}</Text>
+                  <Text fontWeight="light">{course.grade}</Text>
                 </Box>
               </Box>
             );

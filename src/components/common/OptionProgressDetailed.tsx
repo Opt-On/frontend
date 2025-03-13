@@ -138,10 +138,10 @@ export default function OptionProgressDetailed() {
         }}
       >
         <Box padding="0.5rem">
-          <Text as="h1" weight="medium" style={{ fontSize: "2.5rem" }}>
+          <Text as="h1" fontWeight="medium" style={{ fontSize: "2.5rem" }}>
             {completedRequirements}/{totalRequirements}
           </Text>
-          <Text weight="light">option requirements met</Text>
+          <Text fontWeight="light">option requirements met</Text>
           <ProgressBar
             style={{
               marginTop: "0.25rem",
@@ -166,7 +166,7 @@ export default function OptionProgressDetailed() {
           justifyContent="space-between"
         >
           <Box display="flex" flexDirection="column">
-            <Text weight="semibold">TLDR;</Text>
+            <Text fontWeight="semibold">TLDR;</Text>
             <Text whiteSpace="nowrap">
               You need to complete 1 course from List 2, and 2 courses from List
               3
@@ -199,26 +199,26 @@ export default function OptionProgressDetailed() {
         padding="1rem 3rem"
       >
         <Box>
-          <Text as="h5" weight="semibold">
+          <Text as="h5" fontWeight="semibold">
             Status
           </Text>
-          <Text as="h5" weight="light">
+          <Text as="h5" fontWeight="light">
             Declared in 3A (F23)
           </Text>
         </Box>
         <Box>
-          <Text as="h5" weight="semibold">
+          <Text as="h5" fontWeight="semibold">
             grade requirements
           </Text>
-          <Text as="h5" weight="light">
+          <Text as="h5" fontWeight="light">
             minimum 70% average
           </Text>
         </Box>
         <Box>
-          <Text as="h5" weight="semibold">
+          <Text as="h5" fontWeight="semibold">
             coordinator
           </Text>
-          <Text as="h5" weight="light">
+          <Text as="h5" fontWeight="light">
             Fatih Safa Erenay, Management Science and Engineering
           </Text>
         </Box>
@@ -242,7 +242,7 @@ export default function OptionProgressDetailed() {
               <Box display="flex" flexDirection="column">
                 <Text
                   as="h3"
-                  weight="medium"
+                  fontWeight="medium"
                   whiteSpace="nowrap"
                   style={{ width: "7rem" }}
                 >
@@ -251,7 +251,7 @@ export default function OptionProgressDetailed() {
                 {/* we may want to map this to the exact copy, too lazy rn */}
                 <Text
                   as="h4"
-                  weight="light"
+                  fontWeight="light"
                   color={getColor(optionRequirement.completionStatus)}
                 >
                   {optionRequirement.completionStatus}

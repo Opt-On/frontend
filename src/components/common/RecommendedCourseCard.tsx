@@ -25,10 +25,10 @@ export default function RecommendedCourseCard({
       }}
     >
       <Box>
-        <Text as="h3" weight="medium" color="#0969DA">
+        <Text as="h3" fontWeight="medium" color="#0969DA">
           {courseInfo.name}
         </Text>
-        <Text as="h5" weight="light">
+        <Text as="h5" fontWeight="light">
           deez nuts
         </Text>
       </Box>
