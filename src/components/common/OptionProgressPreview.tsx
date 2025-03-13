@@ -33,7 +33,7 @@ export default function OptionProgressPreview({
         alignItems="center"
         sx={{ gap: "1rem" }}
       >
-        <Text weight="semibold" style={{ flexWrap: "nowrap" }} as="h4">
+        <Text fontWeight="semibold" style={{ flexWrap: "nowrap" }} as="h4">
           {name}
         </Text>
         {isDeclared && (

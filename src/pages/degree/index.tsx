@@ -104,7 +104,7 @@ export default function Degree() {
         >
           <h1>Track your degree</h1>
           <Text>See how you&apos;re tracking towards a {degreeType}</Text>
-          <Text weight="semibold" marginTop="2rem">
+          <Text fontWeight="semibold" marginTop="2rem">
             {degreeName} {graduationYear}
           </Text>
           <RequirementDisplay requirementDisplayInfo={degreeRequirements} />

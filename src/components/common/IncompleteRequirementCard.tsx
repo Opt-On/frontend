@@ -21,7 +21,7 @@ export default function IncompleteRequirementCard({
         borderRadius: "1rem",
       }}
     >
-      <Text as="h4" weight="medium" color="#656d76">
+      <Text as="h4" fontWeight="medium" color="#656d76">
         {`Course ${index} requirement`}
       </Text>
     </Box>

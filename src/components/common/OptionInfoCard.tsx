@@ -23,7 +23,7 @@ export function OptionInfoCard() {
         aspectRatio: "323/281",
       }}
     >
-      <Text as="h5" weight="medium">
+      <Text as="h5" fontWeight="medium">
         Computing Option
       </Text>
       <h6>

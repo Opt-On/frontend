@@ -1,17 +1,17 @@
 import { Box, Text } from "@primer/react";
-import { IssueLabel } from "@primer/react/experimental";
+// import { IssueLabel } from "@primer/react/experimental";
 import { completedCourseInfo } from "./OptionProgressDetailed";
-import { RequirementStatus } from "./RequirementDisplayList";
-import { getVariant } from "./RequirementToggleDisplay";
+// import { RequirementStatus } from "./RequirementDisplayList";
+// import { getVariant } from "./RequirementToggleDisplay";
 
-function getCourseCompletionString(completionStatus: RequirementStatus, term: string) {
-  if (completionStatus == RequirementStatus.COMPLETE) {
-    return `Completed ${term}`;
-  } else if (completionStatus == RequirementStatus.PROVISIONALLY_COMPLETE) {
-    return `In progress ${term}`;
-  }
-  return `Incomplete`;
-}
+// function getCourseCompletionString(completionStatus: RequirementStatus, term: string) {
+//   if (completionStatus == RequirementStatus.COMPLETE) {
+//     return `Completed ${term}`;
+//   } else if (completionStatus == RequirementStatus.PROVISIONALLY_COMPLETE) {
+//     return `In progress ${term}`;
+//   }
+//   return `Incomplete`;
+// }
 
 export default function CourseCompletionProgress({
   courseInfo,
@@ -35,18 +35,18 @@ export default function CourseCompletionProgress({
       }}
     >
       <Box>
-        <Text as='h3' weight='medium'>
+        <Text as='h3' fontWeight='medium'>
           {courseInfo.name}
         </Text>
-        <Text as='h5' weight='light' color='#656d76'>
+        <Text as='h5' fontWeight='light' color='#656d76'>
           {courseInfo.description}
         </Text>
       </Box>
       <Box display='flex' justifyContent='flex-end' style={{ flex: 1 }} paddingRight='1rem'>
-        <IssueLabel
+        {/* <IssueLabel
           text={getCourseCompletionString(courseInfo.status, courseInfo.term)}
           variant={getVariant(courseInfo.status)}
-        ></IssueLabel>
+        ></IssueLabel> */}
       </Box>
     </Box>
   );

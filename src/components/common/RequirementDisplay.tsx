@@ -41,11 +41,11 @@ export function RequirementDisplay({
     >
       <Box display="flex" flexDirection="column" marginTop="0.5rem">
         <h3>{requirementDisplayInfo.name}</h3>
-        <Text weight="light">{"Fall 2020"}</Text>
+        <Text fontWeight="light">{"Fall 2020"}</Text>
         <Text
           marginTop="1.5rem"
           color={getVariant(requirementDisplayInfo.completionStatus)}
-          weight="light"
+          fontWeight="light"
         >
           {requirementDisplayInfo.completionStatus}
         </Text>
