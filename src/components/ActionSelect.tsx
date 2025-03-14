@@ -1,5 +1,7 @@
+import { useAuth } from "@/context";
 import { CheckIcon } from "@primer/octicons-react";
 import { ActionList, ActionMenu, Box } from "@primer/react";
+import { useMemo } from "react";
 
 export default function ActionSelect({
   selected,
@@ -10,6 +12,39 @@ export default function ActionSelect({
   handleSetSelected: (index: number) => void;
   optionList: string[];
 }) {
+  const { userInfo } = useAuth();
+  const optionBlacklist = {
+    "Artificial Intelligence Option": [
+      "Artificial Intelligence Specialization",
+    ],
+    "Biomechanics Option": [],
+    "Computer Engineering Option": [
+      "Computing Option",
+      "Software Engineering Option",
+    ],
+    "Computing Option": [
+      "Computer Engineering",
+      "Computer Engineering Option",
+      "Software Engineering",
+      "Software Engineering Option",
+    ],
+    "Entrepreneurship Option": [],
+    "Management Science Option": ["Management Engineering"],
+    "Mechatronics Option": [],
+    "Software Engineering": [],
+    "Statistics Option": [],
+  };
+
+  const filteredOptionList = useMemo(() => {
+    if (!userInfo?.program) return optionList;
+    return optionList.filter((option) => {
+      return (
+        !optionBlacklist[option]?.includes(userInfo.program) &&
+        userInfo.options.every()
+      );
+    });
+  }, [optionList, userInfo]);
+
   return (
     <ActionMenu>
       <ActionMenu.Button>

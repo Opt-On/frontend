@@ -22,6 +22,7 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   program: string;
+  options: string[];
   graduationYear: number;
   uploadDate: string;
 }
@@ -55,6 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             program: data.programName,
+            options: data.optionNames,
             graduationYear: 2069,
             uploadDate: data.uploadDate,
           };

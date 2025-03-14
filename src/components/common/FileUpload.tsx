@@ -8,6 +8,8 @@ export default function FileUpload() {
   const { user } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showFailureMessage, setShowFailureMessage] = useState(false);
 
   const MAX_FILE_SIZE = 200 * 1024; // 200KB in bytes
 
@@ -51,10 +53,30 @@ export default function FileUpload() {
       }
       const response = await submitTranscript(file, user!.email);
       console.log(`Success: ${response}`);
+      flashSuccessMessage();
     } catch (error) {
       console.log("Upload failed");
+      flashFailureMessage();
       console.error(error);
     }
+  };
+
+  const flashSuccessMessage = async () => {
+    setFile(null);
+    setShowSuccessMessage(true);
+    setShowFailureMessage(false);
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 5000);
+  };
+
+  const flashFailureMessage = async () => {
+    setFile(null);
+    setShowFailureMessage(true);
+    setShowSuccessMessage(false);
+    setTimeout(() => {
+      setShowFailureMessage(false);
+    }, 5000);
   };
 
   return (
@@ -115,6 +137,8 @@ export default function FileUpload() {
           <Button onClick={handleSubmitTranscript}>Save</Button>
         </Box>
       )}
+      {showSuccessMessage && <Text color="green">Success </Text>}
+      {showFailureMessage && <Text color="red">WOmp womp </Text>}
     </Box>
   );
 }
