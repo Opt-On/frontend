@@ -32,19 +32,19 @@ export default function OptionProgressOverview() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const optionList = [
-    "Artificial Intelligence",
-    "Biomechanics",
-    "Computer Engineering",
-    "Computing",
-    "Entrepreneurship",
-    "Environmental Engineering",
-    "Life Sciences",
-    "Management Science",
-    "Mechatronics",
-    "Physical Sciences",
-    "Quantum Engineering",
-    "Software Engineering",
-    "Statistics",
+    "Artificial Intelligence Option",
+    "Biomechanics Option",
+    "Computer Engineering Option",
+    "Computing Option",
+    "Entrepreneurship Option",
+    "Environmental Engineering Option",
+    "Life Sciences Option",
+    "Management Science Option",
+    "Mechatronics Option",
+    "Physical Sciences Option",
+    "Quantum Engineering Option",
+    "Software Engineering Option",
+    "Statistics Option",
   ];
 
   const handleSelectChange = useCallback(
