@@ -40,7 +40,7 @@ export default function ActionSelect({
     return optionList.filter((option) => {
       return (
         !optionBlacklist[option]?.includes(userInfo.program) &&
-        userInfo.options.every()
+        userInfo.options.every(option)
       );
     });
   }, [optionList, userInfo]);
