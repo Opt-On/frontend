@@ -1,3 +1,4 @@
+"use client"
 import OptionProgressOverview from "@/components/common/OptionProgressOverview";
 import NavBar from "@/components/NavBar";
 

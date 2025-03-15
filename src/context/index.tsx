@@ -1,13 +1,8 @@
+"use client";
 // src/context/AuthContext.tsx
 import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
 
