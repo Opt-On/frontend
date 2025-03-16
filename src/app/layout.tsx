@@ -1,8 +1,9 @@
 import "@primer/css/dist/primer.css";
-import './global.css'; 
+import "./global.css";
 import { ReactNode } from "react";
 import { BaseStyles, ThemeProvider } from "@primer/react";
 import { AuthProvider } from "@/context";
+import { StyledComponentsRegistry } from "./registry";
 
 export const metadata = {
   title: "Opton",
@@ -13,11 +14,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
-        <ThemeProvider>
-          <BaseStyles>
-            <AuthProvider>{children}</AuthProvider>
-          </BaseStyles>
-        </ThemeProvider>
+        <StyledComponentsRegistry>
+          <ThemeProvider>
+            <BaseStyles>
+              <AuthProvider>{children}</AuthProvider>
+            </BaseStyles>
+          </ThemeProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
