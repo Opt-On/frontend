@@ -1,3 +1,5 @@
+"use client";
+
 import { LogInModal } from "@/components/modals/LogInModal";
 import SliderButton from "@/components/SliderButton";
 import { useAuth } from "@/context";
@@ -8,8 +10,7 @@ import { ProfileModal } from "../modals/ProfileModal";
 export default function NavBar() {
   const { user } = useAuth();
   const [displayLogInModal, setDisplayLogInModal] = useState<boolean>(false);
-  const [displayProfileModal, setDisplayProfileModal] =
-    useState<boolean>(false);
+  const [displayProfileModal, setDisplayProfileModal] = useState<boolean>(false);
 
   const toggleProfileModal = () => {
     setDisplayProfileModal(!displayProfileModal && !!user);
@@ -40,9 +41,7 @@ export default function NavBar() {
         height: "6rem",
       }}
     >
-      <h1 style={{ fontWeight: 600, fontSize: "20px", lineHeight: "160%" }}>
-        OPT&apos;ON
-      </h1>
+      <h1 style={{ fontWeight: 600, fontSize: "20px", lineHeight: "160%" }}>OPT&apos;ON</h1>
       {user ? (
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -58,16 +57,11 @@ export default function NavBar() {
           >
             <Avatar
               size={32}
-              src={
-                user.photoURL ||
-                "https://avatars.githubusercontent.com/u/7143434?v=4"
-              }
+              src={user.photoURL || "https://avatars.githubusercontent.com/u/7143434?v=4"}
               onClick={toggleProfileModal}
             />
           </div>
-          {displayProfileModal && (
-            <ProfileModal handleClose={hideProfileModal} />
-          )}
+          {displayProfileModal && <ProfileModal handleClose={hideProfileModal} />}
         </>
       ) : (
         <div

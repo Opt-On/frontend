@@ -1,3 +1,4 @@
+"use client";
 import { OptionInfoCard } from "@/components/common/OptionInfoCard";
 import NavBar from "@/components/NavBar";
 // import { useAuth } from "@/context";

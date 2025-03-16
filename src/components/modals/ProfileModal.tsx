@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useAuth } from "@/context";
 import { Box, Button, Dialog, Text, TextInput } from "@primer/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import FileUpload from "../common/FileUpload";
 
 type ProfileModalProps = {

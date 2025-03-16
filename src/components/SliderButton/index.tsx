@@ -1,13 +1,15 @@
-import { useRouter } from "next/router";
+"use client";
 import { HomeIcon } from "@primer/octicons-react";
 import Link from "next/link";
 import styles from "@/components/SliderButton/SliderButton.module.scss";
+import { usePathname } from "next/navigation";
+
 
 export default function SliderButton() {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
 
   if (!pathname) {
-    return null; 
+    return null;
   }
 
   const isActive = (path: string) => {
@@ -16,13 +18,13 @@ export default function SliderButton() {
 
   return (
     <div className={styles.container}>
-      <Link href="/option" className={isActive("/option")} style={{ textDecoration: "none" }}>
+      <Link href='/option' className={isActive("/option")} style={{ textDecoration: "none" }}>
         Option
       </Link>
-      <Link href="/" className={isActive("/") + styles.iconLink}>
-        <HomeIcon size={18}/>
+      <Link href='/' className={isActive("/") + styles.iconLink}>
+        <HomeIcon size={18} />
       </Link>
-      <Link href="/degree" className={isActive("/degree")} style={{ textDecoration: "none" }}>
+      <Link href='/degree' className={isActive("/degree")} style={{ textDecoration: "none" }}>
         Degree
       </Link>
     </div>

@@ -1,3 +1,4 @@
+"use client";
 import { Box, Text } from "@primer/react";
 import { useCallback, useState } from "react";
 import ActionSelect from "../ActionSelect";
@@ -57,25 +58,25 @@ export default function OptionProgressOverview() {
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      width="100%"
+      display='flex'
+      flexDirection='column'
+      alignItems='center'
+      width='100%'
       // marginTop="1rem"
     >
       <Text
-        as="h1"
+        as='h1'
         marginTop={selected == -1 ? "6rem" : "2rem"}
-        weight="light"
+        weight='light'
         style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}
       >
         What option are you interested in?
       </Text>
-      <Text as="h3" weight="light" marginTop="0.25rem">
+      <Text as='h3' weight='light' marginTop='0.25rem'>
         Select from available options to see more details
       </Text>
       {/* primers select buggy mess, will deal with later*/}
-      <Box marginTop="1rem">
+      <Box marginTop='1rem'>
         <ActionSelect
           optionList={optionList}
           selected={selected}
@@ -87,15 +88,10 @@ export default function OptionProgressOverview() {
         <OptionProgressDetailed />
       ) : (
         <>
-          <Text weight="light" marginTop="8rem" as="h4">
+          <Text weight='light' marginTop='8rem' as='h4'>
             Options you&lsquo;ve made progress towards{" "}
           </Text>
-          <Box
-            display="flex"
-            flexDirection="row"
-            sx={{ gap: "2rem" }}
-            marginTop="3rem"
-          >
+          <Box display='flex' flexDirection='row' sx={{ gap: "2rem" }} marginTop='3rem'>
             <OptionProgressPreview isDeclared={true} />
             <OptionProgressPreview isDeclared={false} />
             <OptionProgressPreview isDeclared={false} />
