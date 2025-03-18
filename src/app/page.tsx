@@ -1,6 +1,7 @@
 "use client";
 import { OptionInfoCard } from "@/components/common/OptionInfoCard";
 import NavBar from "@/components/NavBar";
+import Quiz from "@/components/Quiz";
 // import { useAuth } from "@/context";
 import { PlayIcon } from "@primer/octicons-react";
 import { Box, Button, Text } from "@primer/react";
@@ -19,20 +20,7 @@ export default function Home() {
             Making your option planning easier or whatever
           </Text>
           <Box paddingTop='2rem'>
-            <Button
-              leadingVisual={() => (
-                <span style={{ color: "#bf3989" }}>
-                  <PlayIcon />
-                </span>
-              )}
-              style={{
-                color: "#bf3989",
-                backgroundColor: "#ffeff7",
-                borderColor: "rgba(255, 128, 200, 0.25)",
-              }}
-            >
-              Take our quiz!
-            </Button>
+            <Quiz />
           </Box>
           <Box
             display='grid'
