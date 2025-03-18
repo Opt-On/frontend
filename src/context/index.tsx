@@ -1,10 +1,29 @@
 "use client";
-// src/context/AuthContext.tsx
 import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
+
+interface Course {
+  [courseCode: string]: string;
+}
+
+interface TermSummary {
+  termId: number;
+  level: string;
+  courses: Course[];
+}
+
+interface UserInfo {
+  firstName: string;
+  lastName: string;
+  studentNumber: number;
+  programName: string;
+  optionNames: string[];
+  termSummaries: TermSummary[];
+  uploadDate: string;
+}
 
 interface AuthContextType {
   user: User | null;
@@ -13,15 +32,6 @@ interface AuthContextType {
   userInfo: UserInfo | null;
 }
 
-interface UserInfo {
-  firstName: string;
-  lastName: string;
-  program: string;
-  graduationYear: number;
-  uploadDate: string;
-}
-
-// Create Context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -34,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       if (!user?.email) {
         setUserInfo(null);
         return;
@@ -45,25 +55,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (userSnap.exists()) {
         const data = userSnap.data();
+
         try {
-          const userData = {
+          const termSummaries: TermSummary[] = data.termSummaries.map((term: any) => ({
+            termId: term.termId,
+            level: term.level,
+            courses: term.courses.map((course: any) => course), 
+          }));
+
+          const userData: UserInfo = {
             firstName: data.firstName,
             lastName: data.lastName,
-            program: data.programName,
-            graduationYear: 2069,
+            studentNumber: data.studentNumber,
+            programName: data.programName,
+            optionNames: data.optionNames || [],
+            termSummaries,
             uploadDate: data.uploadDate,
           };
+
           setUserInfo(userData);
-        } catch {
-          console.error("missing user data field :I");
+        } catch (error) {
+          console.error("Error processing user data:", error);
         }
       } else {
-        // handle maybe
         console.log("No such user!");
       }
     };
 
-    fetchData();
+    fetchUserData();
   }, [user]);
 
   return (
