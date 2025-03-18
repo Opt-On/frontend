@@ -1,4 +1,5 @@
 "use client"
+import Quiz from '@/components/Quiz';
 import { useState } from 'react';
 
 export default function UploadTranscript() {
@@ -46,6 +47,7 @@ export default function UploadTranscript() {
       <h2>Upload Transcript</h2>
       <input type="file" accept="application/pdf" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
+      <Quiz />
 
       {summary && (
         <div>

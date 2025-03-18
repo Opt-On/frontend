@@ -1,0 +1,44 @@
+.container {
+  width: 180px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+
+  .dot {
+    margin: 4px;
+    height: 8px;
+    width: 8px;
+    border-radius: 4px;
+    background: black;
+
+    &.active {
+      opacity: 50%;
+      width: 20px;
+    }
+
+    &.inactive {
+      opacity: 25%;
+      width: 4px;
+    }
+  }
+}
+
+@media screen and (min-width: 376px) {
+  .container {
+    width: 200px;
+
+    .dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 10px;
+
+      &.active {
+        width: 30px;
+      }
+
+      &.inactive {
+        width: 10px;
+      }
+    }
+  }
+}
