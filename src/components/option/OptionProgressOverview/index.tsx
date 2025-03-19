@@ -38,6 +38,14 @@ export default function OptionProgressOverview() {
     [optionIds]
   );
 
+  const handlePreviewClick = (optionName: string) => {
+    const index = optionNames.indexOf(optionMap[optionName]);
+    if (index !== -1) {
+      setSelected(index);
+      setOptionSelected(optionIds[index]);
+    }
+  };
+
   const { user } = useAuth();
   const [optionProgress, setOptionProgress] = useState<OptionProgress[]>([]);
 
@@ -88,9 +96,19 @@ export default function OptionProgressOverview() {
             Options you&lsquo;ve made progress towards
           </Text>
           <Box className={styles.progressPreviewContainer}>
-            <OptionProgressPreview optionProgress={optionProgress[0]} isDeclared />
-            <OptionProgressPreview optionProgress={optionProgress[1]} />
-            <OptionProgressPreview optionProgress={optionProgress[2]} />
+            <OptionProgressPreview
+              optionProgress={optionProgress[0]}
+              isDeclared
+              onClick={() => handlePreviewClick(optionProgress[0].name)}
+            />
+            <OptionProgressPreview
+              optionProgress={optionProgress[1]}
+              onClick={() => handlePreviewClick(optionProgress[1].name)}
+            />
+            <OptionProgressPreview
+              optionProgress={optionProgress[2]}
+              onClick={() => handlePreviewClick(optionProgress[2].name)}
+            />
           </Box>
         </>
       )}

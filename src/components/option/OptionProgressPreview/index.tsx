@@ -6,14 +6,16 @@ import { optionMap } from "../OptionProgressOverview";
 export type OptionProgressPreviewProps = {
   optionProgress: OptionProgress;
   isDeclared?: boolean;
+  onClick: () => void;
 };
 
 export default function OptionProgressPreview({
   optionProgress,
   isDeclared = false,
+  onClick,
 }: OptionProgressPreviewProps) {
   return (
-    <Box className={styles.optionProgressPreview}>
+    <Box className={styles.optionProgressPreview} onClick={onClick} role="button" tabIndex={0}>
       <Box className={styles.header}>
         <Text className={styles.title}>{optionProgress?.name ? optionMap[optionProgress.name] + " Option" : ""}</Text>
         {isDeclared && <Label className={styles.declaredLabel}>Declared</Label>}
