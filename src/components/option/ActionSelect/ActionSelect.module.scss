@@ -1,0 +1,21 @@
+.overlay {
+  width: auto;
+}
+
+.linkItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.button {
+  width: 10rem;
+
+  @media screen and (min-width: 768px) {
+    width: 25rem;
+  }
+}

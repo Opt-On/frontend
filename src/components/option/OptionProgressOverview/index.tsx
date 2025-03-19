@@ -1,12 +1,12 @@
 "use client";
 import { Box, Text } from "@primer/react";
 import { useCallback, useEffect, useState } from "react";
-import ActionSelect from "@/components/ActionSelect";
+import ActionSelect from "@/components/option/ActionSelect";
 import OptionProgressDetailed from "@/components/common/OptionProgressDetailed";
 import OptionProgressPreview from "../OptionProgressPreview";
 import { useAuth } from "@/context";
 import { auditOptions, OptionProgress } from "@/api/audit";
-
+import styles from "@/components/option/OptionProgressOverview/OptionProgressOverview.module.scss";
 
 export default function OptionProgressOverview() {
   const [selected, setSelected] = useState(-1);
@@ -65,26 +65,14 @@ export default function OptionProgressOverview() {
   }, [user]);
 
   return (
-    <Box
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      width='100%'
-      // marginTop="1rem"
-    >
-      <Text
-        as='h1'
-        marginTop={selected == -1 ? "6rem" : "2rem"}
-        weight='light'
-        style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}
-      >
+    <Box className={styles.wrapper}>
+      <Text as='h1' className={`${styles.header} ${selected !== -1 ? styles.selected : ""}`}>
         What option are you interested in?
       </Text>
-      <Text as='h3' weight='light' marginTop='0.25rem'>
+      <Text as='h3' className={styles.subtitle}>
         Select from available options to see more details
       </Text>
-      {/* primers select buggy mess, will deal with later*/}
-      <Box marginTop='1rem'>
+      <Box className={styles.actionSelectContainer}>
         <ActionSelect
           optionList={optionList}
           selected={selected}
@@ -96,10 +84,10 @@ export default function OptionProgressOverview() {
         <OptionProgressDetailed />
       ) : (
         <>
-          <Text weight='light' marginTop='8rem' as='h4'>
-            Options you&lsquo;ve made progress towards{" "}
+          <Text as='h4' className={styles.text}>
+            Options you&lsquo;ve made progress towards
           </Text>
-          <Box display='flex' flexDirection='row' sx={{ gap: "2rem" }} marginTop='3rem'>
+          <Box className={styles.progressPreviewContainer}>
             <OptionProgressPreview optionProgress={optionProgress[0]} isDeclared />
             <OptionProgressPreview optionProgress={optionProgress[1]} />
             <OptionProgressPreview optionProgress={optionProgress[2]} />

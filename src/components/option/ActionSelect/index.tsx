@@ -1,5 +1,6 @@
 import { CheckIcon } from "@primer/octicons-react";
 import { ActionList, ActionMenu, Box } from "@primer/react";
+import styles from "./ActionSelect.module.scss"; 
 
 export default function ActionSelect({
   selected,
@@ -13,15 +14,14 @@ export default function ActionSelect({
   return (
     <ActionMenu>
       <ActionMenu.Button>
-        <Box width="25rem">
-          {selected === -1 ? "Choose an option" : optionList[selected]}
-        </Box>
+        <Box className={styles.button}>{selected === -1 ? "Choose an option" : optionList[selected]}</Box>
       </ActionMenu.Button>
-      <ActionMenu.Overlay width="auto" side="inside-center">
+      <ActionMenu.Overlay className={styles.overlay} width='auto' side='inside-center'>
         <ActionList>
           {optionList.map((option, index) => (
             <ActionList.LinkItem
               key={`courseList-${index}`}
+              className={styles.linkItem}
               onClick={() => handleSetSelected(index)}
             >
               <span>{option}</span>
@@ -29,7 +29,7 @@ export default function ActionSelect({
                 {index === selected ? (
                   <CheckIcon />
                 ) : (
-                  <span style={{ visibility: "hidden" }}>
+                  <span className={styles.hidden}>
                     <CheckIcon />
                   </span>
                 )}
