@@ -1,30 +1,12 @@
 "use client";
 import { Box, Text } from "@primer/react";
-import { useCallback, useState } from "react";
-import ActionSelect from "../ActionSelect";
-import OptionProgressDetailed from "./OptionProgressDetailed";
-import OptionProgressPreview from "./OptionProgressPreview";
+import { useCallback, useEffect, useState } from "react";
+import ActionSelect from "@/components/ActionSelect";
+import OptionProgressDetailed from "@/components/common/OptionProgressDetailed";
+import OptionProgressPreview from "../OptionProgressPreview";
+import { useAuth } from "@/context";
+import { auditOptions, OptionProgress } from "@/api/audit";
 
-// const Select = styled.select`
-//   padding: 8px;
-//   border-radius: 6px;
-//   border: 1px solid #656d76;
-//   color: #656d76;
-//   background-color: #fff;
-//   width: 25%;
-//   font-size: 16px;
-//   cursor: pointer;
-
-//   &:focus {
-//     border-color: black;
-//     outline: none;
-//   }
-// `;
-
-// const Option = styled.option`
-//   padding: 10px;
-//   font-size: 16px;
-// `;
 
 export default function OptionProgressOverview() {
   const [selected, setSelected] = useState(-1);
@@ -55,6 +37,32 @@ export default function OptionProgressOverview() {
     },
     [optionList]
   );
+
+  const { user } = useAuth();
+  const [optionProgress, setOptionProgress] = useState<OptionProgress[]>([]);
+
+  const fetchAudit = async (email: string) => {
+    try {
+      const plans: { [key: string]: [number, number] }[] = await auditOptions(email);
+
+      const progress: OptionProgress[] = plans.map((item: { [key: string]: [number, number] }) => {
+        const name = Object.keys(item)[0];
+        const [completedRequirements, totalRequirements] = Object.values(item)[0];
+        return {
+          name,
+          completedRequirements,
+          totalRequirements,
+        };
+      });
+      setOptionProgress(progress);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAudit("owen.sellner@gmail.com");
+  }, [user]);
 
   return (
     <Box
@@ -92,9 +100,9 @@ export default function OptionProgressOverview() {
             Options you&lsquo;ve made progress towards{" "}
           </Text>
           <Box display='flex' flexDirection='row' sx={{ gap: "2rem" }} marginTop='3rem'>
-            <OptionProgressPreview isDeclared={true} />
-            <OptionProgressPreview isDeclared={false} />
-            <OptionProgressPreview isDeclared={false} />
+            <OptionProgressPreview optionProgress={optionProgress[0]} isDeclared />
+            <OptionProgressPreview optionProgress={optionProgress[1]} />
+            <OptionProgressPreview optionProgress={optionProgress[2]} />
           </Box>
         </>
       )}
