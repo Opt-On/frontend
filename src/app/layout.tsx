@@ -1,9 +1,11 @@
 import "@primer/css/dist/primer.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import "./global.css";
 import { ReactNode } from "react";
 import { BaseStyles, ThemeProvider } from "@primer/react";
 import { AuthProvider } from "@/context";
 import { StyledComponentsRegistry } from "./registry";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 export const metadata = {
   title: "Opton",
@@ -17,7 +19,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <StyledComponentsRegistry>
           <ThemeProvider>
             <BaseStyles>
-              <AuthProvider>{children}</AuthProvider>
+              <SkeletonTheme baseColor='#f6f8fa' highlightColor='#d3dadf'>
+                <AuthProvider>{children}</AuthProvider>
+              </SkeletonTheme>
             </BaseStyles>
           </ThemeProvider>
         </StyledComponentsRegistry>
