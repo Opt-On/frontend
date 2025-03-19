@@ -1,3 +1,12 @@
+.skeletonTitle {
+  width: 230px; 
+  height: 18px;
+}
+.skeletonText {
+  width: 230px; 
+  height: 10px;
+}
+
 .optionProgressPreview {
   display: flex;
   flex-direction: column;
@@ -52,6 +61,14 @@
 }
 
 @media screen and (min-width: 768px) {
+  .skeletonTitle {
+    width: 325px; 
+    height: 28px;
+  }
+  .skeletonText {
+    width: 325px; 
+    height: 14px;
+  }
   .optionProgressPreview {
     padding: 24px;
     min-height: 160px;

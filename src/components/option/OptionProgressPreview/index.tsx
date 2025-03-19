@@ -24,7 +24,7 @@ export default function OptionProgressPreview({
             {isDeclared && <Label className={styles.declaredLabel}>Declared</Label>}
           </>
         ) : (
-          <Skeleton width="325px" height="28px" />
+          <Skeleton className={styles.skeletonTitle} />
         )}
       </Box>
       <Box>
@@ -36,7 +36,7 @@ export default function OptionProgressPreview({
             </Text>
           </>
         ) : (
-          <Skeleton width="325px" height="14px" />
+          <Skeleton className={styles.skeletonText} />
         )}
         {optionProgress?.name ? (
           <ProgressBar
@@ -48,7 +48,7 @@ export default function OptionProgressPreview({
             }
           />
         ) : (
-          <Skeleton width="325px" height="14px" />
+          <Skeleton className={styles.skeletonText} />
         )}
       </Box>
     </Box>
