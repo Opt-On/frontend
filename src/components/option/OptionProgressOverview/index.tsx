@@ -8,34 +8,34 @@ import { useAuth } from "@/context";
 import { auditOptions, OptionProgress } from "@/api/audit";
 import styles from "@/components/option/OptionProgressOverview/OptionProgressOverview.module.scss";
 
+export const optionMap: { [key: string]: string } = {
+  COGSCOPT: "Cognitive Science",
+  COMPENGOPT: "Computer Engineering",
+  MSCIOPT: "Management Science",
+  BIOMECHOPT: "Biomechanics",
+  BUSOPT: "Business",
+  SWENGOPT: "Software Engineering",
+  ENTROPT: "Entrepreneurship",
+  AIENGOPT: "Artificial Intelligence",
+  COMPUOPT: "Computing",
+  STATOPT: "Statistics",
+  MATHOPT: "Mathematics",
+  MECTROPT: "Mechatronics",
+};
+
 export default function OptionProgressOverview() {
   const [selected, setSelected] = useState(-1);
-  // const [isMainPage, setIsMainPage] = useState(true);
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const optionList = [
-    "Artificial Intelligence",
-    "Biomechanics",
-    "Computer Engineering",
-    "Computing",
-    "Entrepreneurship",
-    "Environmental Engineering",
-    "Life Sciences",
-    "Management Science",
-    "Mechatronics",
-    "Physical Sciences",
-    "Quantum Engineering",
-    "Software Engineering",
-    "Statistics",
-  ];
+  const optionIds = Object.keys(optionMap);
+  const optionNames = Object.values(optionMap);
 
   const handleSelectChange = useCallback(
     (index: number) => {
       setSelected(index);
-      setOptionSelected(optionList[index]);
+      setOptionSelected(optionIds[index]);
     },
-    [optionList]
+    [optionIds]
   );
 
   const { user } = useAuth();
@@ -74,7 +74,7 @@ export default function OptionProgressOverview() {
       </Text>
       <Box className={styles.actionSelectContainer}>
         <ActionSelect
-          optionList={optionList}
+          optionList={optionNames}
           selected={selected}
           handleSetSelected={handleSelectChange}
         />

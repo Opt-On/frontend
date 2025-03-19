@@ -5,7 +5,7 @@ export default function Option() {
   return (
     <main>
       <section>
-        {/* <NavBar /> */}
+        <NavBar />
         <div
           style={{
             padding: "2rem",
