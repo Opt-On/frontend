@@ -1,5 +1,4 @@
-// "use client"
-import OptionProgressOverview from "@/components/common/OptionProgressOverview";
+import OptionProgressOverview from "@/components/option/OptionProgressOverview";
 import NavBar from "@/components/NavBar";
 
 export default function Option() {

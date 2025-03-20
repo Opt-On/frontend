@@ -1,0 +1,93 @@
+.skeletonTitle {
+  width: 230px; 
+  height: 18px;
+}
+.skeletonText {
+  width: 230px; 
+  height: 10px;
+}
+
+.optionProgressPreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 112px;
+  padding: 16px;
+  border: 1px solid #d0d7de;
+  border-radius: 1rem;
+  aspect-ratio: 368 / 156;
+  cursor: pointer;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    .title {
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .declaredLabel {
+      text-align: center;
+      justify-content: center;
+      color: #1e7f3f;
+      border: 1px solid #1e7f3f;
+      width: 60px;
+      height: 20px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+  }
+
+  .progressInfo {
+    padding-bottom: 0.5rem;
+    font-size: 12px;
+  }
+
+  .progressBar {
+    margin-top: 0.5rem;
+    background-color: #f6f8fa;
+
+    & > * {
+      background-color: #bf8700;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .skeletonTitle {
+    width: 325px; 
+    height: 28px;
+  }
+  .skeletonText {
+    width: 325px; 
+    height: 14px;
+  }
+  .optionProgressPreview {
+    padding: 24px;
+    min-height: 160px;
+
+    .header {
+      .title {
+        font-size: 16px;
+      }
+
+      .declaredLabel {
+        width: 73px;
+        height: 26px;
+        border-radius: 26px;
+        font-size: 12px;
+      }
+    }
+
+    .progressInfo {
+      font-size: 14px;
+    }
+  }
+}

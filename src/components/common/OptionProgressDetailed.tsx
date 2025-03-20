@@ -1,5 +1,3 @@
-import { getRecommendation } from "@/api/recommendation";
-import { useAuth } from "@/context";
 import {
   ArrowUpRightIcon,
   SparkleFillIcon,
@@ -19,11 +17,17 @@ export type completedCourseInfo = {
   status: RequirementStatus;
 };
 
+export type recommendedCourseInfo = {
+  name: string;
+  description: string;
+};
+
 export type OptionRequirement = {
   name: string;
   courseCount: number;
   completionStatus: RequirementStatus;
   completedCourses: completedCourseInfo[];
+  recommendedCourses?: recommendedCourseInfo[];
 };
 
 export const getColor = (status: string) => {
@@ -39,16 +43,8 @@ export const getColor = (status: string) => {
   }
 };
 
-export default function OptionProgressDetailed({
-  optionName,
-}: {
-  optionName: string;
-}) {
-  const { user } = useAuth();
-
+export default function OptionProgressDetailed() {
   const [showRecommendations, setShowRecommendations] = useState(false);
-  const [recommendedCourses, setRecommendedCourses] = useState<string[]>([]);
-  const [allRecommendedCourses, setAllRecommendedCourses] = useState<unknown>();
 
   // from db/ model
   const completedRequirements = 3;
@@ -115,28 +111,8 @@ export default function OptionProgressDetailed({
     },
   ];
 
-  const toggleShowRecommendations = async () => {
+  const toggleShowRecommendations = () => {
     // api call here to run model maybe ? depends on a bunch of stuff
-    if (!user || !user.email) {
-      return;
-    }
-    if (showRecommendations) {
-      setShowRecommendations(!showRecommendations);
-      return;
-    }
-
-    try {
-      let recommendations = await getRecommendation(
-        user?.email,
-        `${optionName} Option`
-      );
-      console.log("recommendations");
-      recommendations = JSON.parse(recommendations);
-      console.log(recommendations);
-      setAllRecommendedCourses(recommendations);
-    } catch {
-      console.log("handling error");
-    }
     setShowRecommendations(!showRecommendations);
   };
 
@@ -299,8 +275,8 @@ export default function OptionProgressDetailed({
                   }
                 )}
                 {showRecommendations &&
-                  recommendedCourses &&
-                  recommendedCourses
+                  optionRequirement.recommendedCourses &&
+                  optionRequirement.recommendedCourses
                     .slice(
                       0,
                       optionRequirement.courseCount -
