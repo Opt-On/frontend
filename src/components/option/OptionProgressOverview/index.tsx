@@ -69,7 +69,9 @@ export default function OptionProgressOverview() {
   };
 
   useEffect(() => {
-    fetchAudit("owen.sellner@gmail.com");
+    if (user && user.email) {
+      fetchAudit(user.email);
+    }
   }, [user]);
 
   return (
