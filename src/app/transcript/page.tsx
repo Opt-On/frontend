@@ -1,5 +1,4 @@
 "use client"
-import Quiz from '@/components/Quiz';
 import { useState } from 'react';
 
 export default function UploadTranscript() {
@@ -43,21 +42,19 @@ export default function UploadTranscript() {
   };
 
   return (
-    // <div>
-    //   <h2>Upload Transcript</h2>
-    //   <input type="file" accept="application/pdf" onChange={handleFileChange} />
-    //   <button onClick={handleUpload}>Upload</button>
-    //   <Quiz />
+    <div>
+      <h2>Upload Transcript</h2>
+      <input type="file" accept="application/pdf" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
 
-    //   {summary && (
-    //     <div>
-    //       <h3>Summary:</h3>
-    //       <pre>{JSON.stringify(summary, null, 2)}</pre>
-    //     </div>
-    //   )}
+      {summary && (
+        <div>
+          <h3>Summary:</h3>
+          <pre>{JSON.stringify(summary, null, 2)}</pre>
+        </div>
+      )}
 
-    //   {error && <p style={{ color: 'red' }}>{error}</p>}
-    // </div>
-    <Quiz />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </div>
   );
 }
