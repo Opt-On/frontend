@@ -16,7 +16,6 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   program: string;
-  graduationYear: number;
   uploadDate: string;
 }
 
@@ -53,7 +52,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             program: data.programName,
-            graduationYear: data.graduationYear,
             uploadDate: data.uploadDate,
           };
           setUserInfo(userData);
