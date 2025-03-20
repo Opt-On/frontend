@@ -14,20 +14,32 @@ const BASE_URL = "http://localhost:8080";
 //   return response.text();
 // };
 
-// export const auditWhatIf = async (email: string, plan: string) => {
-//   const formData = new FormData();
-//   formData.append("email", email);
-//   formData.append("plan", plan);
+// Audit an option
+export const auditWhatIf = async (email: string, plan: string) => {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("option", plan);
 
-//   const response = await fetch(`${BASE_URL}/audit/whatif`, {
-//     method: "POST",
-//     body: formData,
-//   });
+  const response = await fetch(`${BASE_URL}/audit/whatif`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      email: email,
+      option: plan,
+    },
+    body: JSON.stringify({}),
+  });
 
-//   if (!response.ok) throw new Error("Request failed");
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Request failed");
+  }
 
-//   return response.text();
-// };
+  // console.log(response.json());
+  console.log(typeof response);
+  // console.log(response);
+  return response;
+};
 
 export interface OptionProgress {
   name: string;
@@ -40,7 +52,7 @@ export const auditOptions = async (email: string) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "email": email,
+      email: email,
     },
     body: JSON.stringify({}),
   });

@@ -1,10 +1,12 @@
+import { auditWhatIf } from "@/api/audit";
+import { useAuth } from "@/context";
 import {
   ArrowUpRightIcon,
   SparkleFillIcon,
   UndoIcon,
 } from "@primer/octicons-react";
 import { Box, Button, ProgressBar, Text } from "@primer/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
 import RecommendedCourseCard from "./RecommendedCourseCard";
@@ -43,8 +45,24 @@ export const getColor = (status: string) => {
   }
 };
 
-export default function OptionProgressDetailed() {
+export default function OptionProgressDetailed({ option }: { option: string }) {
+  const { user } = useAuth();
+
   const [showRecommendations, setShowRecommendations] = useState(false);
+
+  useEffect(() => {
+    const getOptionProgress = async () => {
+      if (user && user.email) {
+        try {
+          const a = await auditWhatIf(user.email, option);
+          console.log("a", a);
+        } catch (e: unknown) {
+          console.log(e);
+        }
+      }
+    };
+    getOptionProgress();
+  }, [option, user]);
 
   // from db/ model
   const completedRequirements = 3;
