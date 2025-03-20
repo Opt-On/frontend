@@ -18,7 +18,7 @@ export default function Result({ program, handleClose }: ResultProps) {
         </Text>
       </div>
       <div className={styles.imagePlaceholder} />
-      <Button onClick={handleClose} variant='primary'>
+      <Button className={styles.button} onClick={handleClose} variant='primary'>
         Nice, that's all :&#41;
       </Button>
     </div>
