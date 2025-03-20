@@ -1,5 +1,4 @@
 "use client";
-// src/context/AuthContext.tsx
 import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
@@ -21,15 +20,19 @@ interface UserInfo {
   uploadDate: string;
 }
 
-// Create Context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isAuthResolved, setIsAuthResolved] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => setUser(user));
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setIsAuthResolved(true);
+    });
+
     return () => unsubscribe();
   }, []);
 
@@ -50,21 +53,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             program: data.programName,
-            graduationYear: 2069,
+            graduationYear: data.graduationYear,
             uploadDate: data.uploadDate,
           };
           setUserInfo(userData);
         } catch {
-          console.error("missing user data field :I");
+          console.error("Missing user data field");
         }
       } else {
-        // handle maybe
-        console.log("No such user!");
+        console.error("Missing user");
       }
     };
 
-    fetchData();
+    if (user) fetchData();
   }, [user]);
+
+  if (!isAuthResolved) {
+    return null;
+  }
 
   return (
     <AuthContext.Provider value={{ user, loginWithGoogle, logout, userInfo }}>
