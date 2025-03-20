@@ -5,27 +5,6 @@ import ActionSelect from "../ActionSelect";
 import OptionProgressDetailed from "./OptionProgressDetailed";
 import OptionProgressPreview from "./OptionProgressPreview";
 
-// const Select = styled.select`
-//   padding: 8px;
-//   border-radius: 6px;
-//   border: 1px solid #656d76;
-//   color: #656d76;
-//   background-color: #fff;
-//   width: 25%;
-//   font-size: 16px;
-//   cursor: pointer;
-
-//   &:focus {
-//     border-color: black;
-//     outline: none;
-//   }
-// `;
-
-// const Option = styled.option`
-//   padding: 10px;
-//   font-size: 16px;
-// `;
-
 export default function OptionProgressOverview() {
   const [selected, setSelected] = useState(-1);
   // const [isMainPage, setIsMainPage] = useState(true);
@@ -57,26 +36,20 @@ export default function OptionProgressOverview() {
   );
 
   return (
-    <Box
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      width='100%'
-      // marginTop="1rem"
-    >
+    <Box display="flex" flexDirection="column" alignItems="center" width="100%">
       <Text
-        as='h1'
+        as="h1"
         marginTop={selected == -1 ? "6rem" : "2rem"}
-        weight='light'
+        weight="light"
         style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}
       >
         What option are you interested in?
       </Text>
-      <Text as='h3' weight='light' marginTop='0.25rem'>
+      <Text as="h3" weight="light" marginTop="0.25rem">
         Select from available options to see more details
       </Text>
       {/* primers select buggy mess, will deal with later*/}
-      <Box marginTop='1rem'>
+      <Box marginTop="1rem">
         <ActionSelect
           optionList={optionList}
           selected={selected}
@@ -85,13 +58,18 @@ export default function OptionProgressOverview() {
       </Box>
 
       {optionSelected ? (
-        <OptionProgressDetailed />
+        <OptionProgressDetailed optionName={optionSelected} />
       ) : (
         <>
-          <Text weight='light' marginTop='8rem' as='h4'>
+          <Text weight="light" marginTop="8rem" as="h4">
             Options you&lsquo;ve made progress towards{" "}
           </Text>
-          <Box display='flex' flexDirection='row' sx={{ gap: "2rem" }} marginTop='3rem'>
+          <Box
+            display="flex"
+            flexDirection="row"
+            sx={{ gap: "2rem" }}
+            marginTop="3rem"
+          >
             <OptionProgressPreview isDeclared={true} />
             <OptionProgressPreview isDeclared={false} />
             <OptionProgressPreview isDeclared={false} />
