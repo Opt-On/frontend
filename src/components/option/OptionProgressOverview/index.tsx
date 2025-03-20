@@ -52,6 +52,7 @@ export default function OptionProgressOverview() {
   const fetchAudit = async (email: string) => {
     try {
       const plans: { [key: string]: [number, number] }[] = await auditOptions(email);
+      if (!plans) return;
 
       const progress: OptionProgress[] = plans.map((item: { [key: string]: [number, number] }) => {
         const name = Object.keys(item)[0];
