@@ -43,20 +43,21 @@ export default function UploadTranscript() {
   };
 
   return (
-    <div>
-      <h2>Upload Transcript</h2>
-      <input type="file" accept="application/pdf" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-      <Quiz />
+    // <div>
+    //   <h2>Upload Transcript</h2>
+    //   <input type="file" accept="application/pdf" onChange={handleFileChange} />
+    //   <button onClick={handleUpload}>Upload</button>
+    //   <Quiz />
 
-      {summary && (
-        <div>
-          <h3>Summary:</h3>
-          <pre>{JSON.stringify(summary, null, 2)}</pre>
-        </div>
-      )}
+    //   {summary && (
+    //     <div>
+    //       <h3>Summary:</h3>
+    //       <pre>{JSON.stringify(summary, null, 2)}</pre>
+    //     </div>
+    //   )}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+    //   {error && <p style={{ color: 'red' }}>{error}</p>}
+    // </div>
+    <Quiz />
   );
 }
