@@ -27,11 +27,17 @@ export const questions: QuestionType[] = [
       {
         label: "The Future of AI & Robotics 💬",
         points: { [OptionEnum.AI]: 2, [OptionEnum.TRON]: 1 },
+        src: "/square.png",
       },
-      { label: "Medical & Human Innovation 💮", points: { [OptionEnum.BIOMECHANICS]: 2 } },
+      {
+        label: "Medical & Human Innovation 💮",
+        points: { [OptionEnum.BIOMECHANICS]: 2 },
+        src: "/square.png",
+      },
       {
         label: "The Science of the Digital World 💯",
         points: { [OptionEnum.COMPUTER_ENGINEERING]: 2, [OptionEnum.QUANTUM]: 1 },
+        src: "/square.png",
       },
       {
         label: "Building Software & Startups 💯",
@@ -40,14 +46,17 @@ export const questions: QuestionType[] = [
           [OptionEnum.COMPUTING]: 1,
           [OptionEnum.ENTREPRENEURSHIP]: 1,
         },
+        src: "/square.png",
       },
       {
         label: "Business, Finance, & Data 💮",
         points: { [OptionEnum.MSCI]: 2, [OptionEnum.STATS]: 1, [OptionEnum.ENTREPRENEURSHIP]: 1 },
+        src: "/square.png",
       },
       {
         label: "Sustainability & Engineering the \nFuture 💷",
         points: { [OptionEnum.ENVIRO]: 2 },
+        src: "/square.png",
       },
     ],
   },
