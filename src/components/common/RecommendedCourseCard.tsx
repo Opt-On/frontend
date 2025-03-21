@@ -29,7 +29,7 @@ export default function RecommendedCourseCard({
           {courseInfo.name}
         </Text>
         <Text as="h5" weight="light">
-          deez nuts
+          {courseInfo.description}
         </Text>
       </Box>
       {/* TODO: replace this shit with a select menu */}
