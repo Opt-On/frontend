@@ -119,53 +119,55 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       const optionName =
         option in optionMap ? `${optionMap[option]} Option` : "womp womp";
       try {
-        const recommendations = await getRecommendations(
-          user?.email,
-          optionName
-        );
+        if (!showRecommendations) {
+          const recommendations = await getRecommendations(
+            user?.email,
+            optionName
+          );
 
-        const newOptionRequirements = [...optionRequirements];
+          const newOptionRequirements = [...optionRequirements];
 
-        const requirementsNeeded: { [key: string]: number } = {};
+          const requirementsNeeded: { [key: string]: number } = {};
 
-        // calc number of requirements we need
-        for (const optionRequirement of optionRequirements) {
-          const listRequirementsNeeded =
-            optionRequirement.courseCount -
-            optionRequirement.completedCourses.length;
-          requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
-        }
+          // calc number of requirements we need
+          for (const optionRequirement of optionRequirements) {
+            const listRequirementsNeeded =
+              optionRequirement.courseCount -
+              optionRequirement.completedCourses.length;
+            requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
+          }
 
-        for (const course of recommendations) {
-          const courseSublists = JSON.parse(
-            course.option_sublist.replace(/'/g, '"')
-          ); // json str to array
+          for (const course of recommendations) {
+            const courseSublists = JSON.parse(
+              course.option_sublist.replace(/'/g, '"')
+            ); // json str to array
 
-          for (const courseSublist of courseSublists) {
-            if (
-              courseSublist in requirementsNeeded &&
-              requirementsNeeded[courseSublist] > 0
-            ) {
-              // add to recs, remove
-              for (const optionRequirement of newOptionRequirements) {
-                if (optionRequirement.name == courseSublist) {
-                  optionRequirement.recommendedCourses.push({
-                    name: course.courseName,
-                    description:
-                      course.courseName in courseNameMap
-                        ? courseNameMap[course.courseName]
-                        : "Missing course name",
-                  });
-                  break;
+            for (const courseSublist of courseSublists) {
+              if (
+                courseSublist in requirementsNeeded &&
+                requirementsNeeded[courseSublist] > 0
+              ) {
+                // add to recs, remove
+                for (const optionRequirement of newOptionRequirements) {
+                  if (optionRequirement.name == courseSublist) {
+                    optionRequirement.recommendedCourses.push({
+                      name: course.courseName,
+                      description:
+                        course.courseName in courseNameMap
+                          ? courseNameMap[course.courseName]
+                          : "Missing course name",
+                    });
+                    break;
+                  }
                 }
-              }
 
-              requirementsNeeded[courseSublist] -= 1;
-              break;
+                requirementsNeeded[courseSublist] -= 1;
+                break;
+              }
             }
           }
+          setOptionRequirementsRecommendation(newOptionRequirements);
         }
-        setOptionRequirementsRecommendation(newOptionRequirements);
         setShowRecommendations(!showRecommendations);
       } catch (e) {
         console.error("failed", e);
