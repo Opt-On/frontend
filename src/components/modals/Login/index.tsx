@@ -45,7 +45,6 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
-      console.error("Login error:", err);
     }
   };
 
@@ -152,7 +151,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
       <Box className={styles.toggleSignUp}>
         <Text as='p' className={styles.toggleText}>
           Don't have an account?{" "}
-          <span onClick={handleToggleSignUp} className={styles.toggleLink}>
+          <span onClick={handleToggleSignUp} className={styles.link}>
             Sign up
           </span>
         </Text>
