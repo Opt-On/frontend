@@ -9,9 +9,16 @@ import {
   GithubAuthProvider
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
+import {courseTermMap} from "./courseTermMap"
 
 interface AuthContextType {
   user: User | null;
@@ -21,6 +28,10 @@ interface AuthContextType {
   signUpWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
   logout: () => Promise<void>;
   userInfo: UserInfo | null;
+  transcriptIndex: number;
+  updateTranscript: () => void;
+  courseTerms: { [key: string]: string };
+  courseNameMap: {[key: string]: string}
 }
 
 interface UserInfo {
@@ -35,7 +46,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [courseTerms, setCourseTerms] = useState<{ [key: string]: string }>({});
+  const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
+  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>(
+    {}
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,6 +60,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchCourseMapping = async () => {
+      setCourseNameMap(courseTermMap)
+    };
+    fetchCourseMapping();
   }, []);
 
   useEffect(() => {
@@ -66,6 +89,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             uploadDate: data.uploadDate,
           };
           setUserInfo(userData);
+
+          const newCourseTerms: { [key: string]: string } = {};
+
+          for (const term of data.termSummaries) {
+            const level = term.level;
+            for (const course of term.courses) {
+              newCourseTerms[`${Object.keys(course)[0]}`] = level;
+            }
+          }
+          setCourseTerms(newCourseTerms);
         } catch {
           console.error("Missing user data field");
         }
@@ -75,7 +108,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     if (user) fetchData();
-  }, [user]);
+  }, [user, transcriptIndex]);
+
+  const updateTranscript = () => {
+    setTranscriptIndex(transcriptIndex + 1);
+  };
 
   const loginWithGitHub = async () => {
     const provider = new GithubAuthProvider();
@@ -114,15 +151,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loginWithGoogle, 
-      loginWithGitHub, 
-      loginWithEmail, 
-      signUpWithEmail, 
-      logout, 
-      userInfo 
-    }}>
+
+    <AuthContext.Provider
+      value={{
+        user,
+        loginWithGoogle, 
+        loginWithGitHub, 
+        loginWithEmail, 
+        signUpWithEmail, 
+        logout,
+        userInfo,
+        transcriptIndex,
+        updateTranscript,
+        courseTerms,
+        courseNameMap
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

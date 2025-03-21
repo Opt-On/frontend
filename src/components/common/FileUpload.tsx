@@ -5,7 +5,7 @@ import { Box, Button, Text } from "@primer/react";
 import React, { useState } from "react";
 
 export default function FileUpload() {
-  const { user } = useAuth();
+  const { user, updateTranscript } = useAuth();
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -50,6 +50,7 @@ export default function FileUpload() {
         return;
       }
       const response = await submitTranscript(file, user!.email);
+      updateTranscript();
       console.log(`Success: ${response}`);
     } catch (error) {
       console.log("Upload failed");

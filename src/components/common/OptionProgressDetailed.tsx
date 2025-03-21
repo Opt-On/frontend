@@ -1,10 +1,14 @@
+import { auditWhatIf } from "@/api/audit";
+import { getRecommendations } from "@/api/recommendation";
+import { useAuth } from "@/context";
 import {
   ArrowUpRightIcon,
   SparkleFillIcon,
   UndoIcon,
 } from "@primer/octicons-react";
 import { Box, Button, ProgressBar, Text } from "@primer/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { optionMap } from "../option/OptionProgressOverview";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
 import RecommendedCourseCard from "./RecommendedCourseCard";
@@ -27,7 +31,7 @@ export type OptionRequirement = {
   courseCount: number;
   completionStatus: RequirementStatus;
   completedCourses: completedCourseInfo[];
-  recommendedCourses?: recommendedCourseInfo[];
+  recommendedCourses: recommendedCourseInfo[];
 };
 
 export const getColor = (status: string) => {
@@ -43,77 +47,134 @@ export const getColor = (status: string) => {
   }
 };
 
-export default function OptionProgressDetailed() {
+export default function OptionProgressDetailed({ option }: { option: string }) {
+  const { user, courseTerms, courseNameMap } = useAuth();
+
   const [showRecommendations, setShowRecommendations] = useState(false);
+  const [optionRequirements, setOptionRequirements] = useState<
+    OptionRequirement[]
+  >([]);
+  const [
+    optionRequirementsRecommendation,
+    setOptionRequirementsRecommendation,
+  ] = useState<OptionRequirement[]>([]);
+  const [completedRequirements, setCompletedRequirements] = useState<number>(3);
+  const [totalRequirements, setTotalRequirements] = useState<number>(6);
 
-  // from db/ model
-  const completedRequirements = 3;
-  const totalRequirements = 6;
-  const optionRequirements: OptionRequirement[] = [
-    {
-      name: "List 1",
-      courseCount: 1,
-      completionStatus: RequirementStatus.COMPLETE,
-      completedCourses: [
-        {
-          name: "MSE 121",
-          term: "1A",
-          description: "intro to programming",
-          status: RequirementStatus.COMPLETE,
-        },
-      ],
-      recommendedCourses: [
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-      ],
-    },
-    {
-      name: "List 2",
-      courseCount: 1,
-      completionStatus: RequirementStatus.COMPLETE,
-      completedCourses: [
-        {
-          name: "MSE 240",
-          term: "2A",
-          description: "dsa",
-          status: RequirementStatus.COMPLETE,
-        },
-      ],
-    },
-    {
-      name: "List 3",
-      courseCount: 4,
-      completionStatus: RequirementStatus.INCOMPLETE,
-      completedCourses: [
-        {
-          name: "MSE 343",
-          term: "3B",
-          description: "human-computer interaction",
-          status: RequirementStatus.PROVISIONALLY_COMPLETE,
-        },
-      ],
-      recommendedCourses: [
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-      ],
-    },
-  ];
+  // cache this value i forgot the hook name
+  useEffect(() => {
+    const getOptionProgress = async () => {
+      if (user && user.email) {
+        try {
+          const data = await auditWhatIf(user.email, option);
+          const formattedData = [];
+          let currCompletedRequirements = 0;
+          let currTotalRequirements = 0;
+          for (const key of Object.keys(data)) {
+            const optionRequirement = data[key];
 
-  const toggleShowRecommendations = () => {
-    // api call here to run model maybe ? depends on a bunch of stuff
-    setShowRecommendations(!showRecommendations);
+            const formattedRequirementInfo: OptionRequirement = {
+              name: optionRequirement.name,
+              courseCount: optionRequirement.required,
+              completionStatus:
+                optionRequirement.completedCourses.length ==
+                optionRequirement.required
+                  ? RequirementStatus.COMPLETE
+                  : RequirementStatus.INCOMPLETE,
+              completedCourses: [],
+              recommendedCourses: [],
+            };
+
+            for (const courseName of optionRequirement.completedCourses) {
+              formattedRequirementInfo.completedCourses.push({
+                name: courseName,
+                term: courseName in courseTerms ? courseTerms[courseName] : "",
+                description:
+                  courseName in courseNameMap
+                    ? courseNameMap[courseName]
+                    : "Missing course name",
+                status: RequirementStatus.COMPLETE,
+              });
+            }
+
+            currCompletedRequirements +=
+              optionRequirement.completedCourses.length;
+            currTotalRequirements += optionRequirement.required;
+            formattedData.push(formattedRequirementInfo);
+          }
+          setCompletedRequirements(currCompletedRequirements);
+          setTotalRequirements(currTotalRequirements);
+          setOptionRequirements(formattedData);
+        } catch (e: unknown) {
+          console.log(e);
+        }
+      }
+    };
+    getOptionProgress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [option, user]); // updating user updates course terms
+
+  const toggleShowRecommendations = async () => {
+    if (user && user.email) {
+      const optionName =
+        option in optionMap ? `${optionMap[option]} Option` : "womp womp";
+      try {
+        if (!showRecommendations) {
+          const recommendations = await getRecommendations(
+            user?.email,
+            optionName
+          );
+
+          const newOptionRequirements = [...optionRequirements];
+
+          const requirementsNeeded: { [key: string]: number } = {};
+
+          // calc number of requirements we need
+          for (const optionRequirement of optionRequirements) {
+            const listRequirementsNeeded =
+              optionRequirement.courseCount -
+              optionRequirement.completedCourses.length;
+            requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
+          }
+
+          for (const course of recommendations) {
+            const courseSublists = JSON.parse(
+              course.option_sublist.replace(/'/g, '"')
+            ); // json str to array
+
+            for (const courseSublist of courseSublists) {
+              if (
+                courseSublist in requirementsNeeded &&
+                requirementsNeeded[courseSublist] > 0
+              ) {
+                // add to recs, remove
+                for (const optionRequirement of newOptionRequirements) {
+                  if (optionRequirement.name == courseSublist) {
+                    optionRequirement.recommendedCourses.push({
+                      name: course.courseName,
+                      description:
+                        course.courseName in courseNameMap
+                          ? courseNameMap[course.courseName]
+                          : "Missing course name",
+                    });
+                    break;
+                  }
+                }
+
+                requirementsNeeded[courseSublist] -= 1;
+                break;
+              }
+            }
+          }
+          setOptionRequirementsRecommendation(newOptionRequirements);
+        }
+        setShowRecommendations(!showRecommendations);
+      } catch (e) {
+        console.error("failed", e);
+      }
+    } else {
+      console.error("missing user");
+    }
   };
 
   return (
@@ -229,7 +290,10 @@ export default function OptionProgressDetailed() {
         width="100%"
         sx={{ gap: "2rem" }}
       >
-        {optionRequirements.map((optionRequirement, index) => {
+        {(showRecommendations
+          ? optionRequirementsRecommendation
+          : optionRequirements
+        ).map((optionRequirement, index) => {
           return (
             <Box
               key={`optionRequirement${index}`}
@@ -275,7 +339,6 @@ export default function OptionProgressDetailed() {
                   }
                 )}
                 {showRecommendations &&
-                  optionRequirement.recommendedCourses &&
                   optionRequirement.recommendedCourses
                     .slice(
                       0,
