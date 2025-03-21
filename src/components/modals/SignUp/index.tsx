@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useAuth } from "@/context";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
 import { EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
-import Link from "next/link";
 
 type SignUpProps = {
+  toggleLogin: () => void;
   handleClose: (gesture: "close-button" | "escape") => void;
 };
 
-export const SignUp: React.FC<SignUpProps> = ({ handleClose }) => {
+export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
   const { loginWithGoogle, loginWithGitHub, signUpWithEmail } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +17,11 @@ export const SignUp: React.FC<SignUpProps> = ({ handleClose }) => {
   const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  const handleToggleLogin = () => {
+    handleClose("escape");
+    toggleLogin();
+  };
 
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
@@ -200,6 +205,14 @@ export const SignUp: React.FC<SignUpProps> = ({ handleClose }) => {
             },
           }}
         />
+      </Box>
+      <Box style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
+        <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
+          Don't have an account?{" "}
+          <span onClick={handleToggleLogin} style={{ cursor: "pointer" }}>
+            Log in
+          </span>
+        </Text>
       </Box>
     </Box>
   );

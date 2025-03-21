@@ -85,9 +85,9 @@ export default function NavBar() {
           }}
         >
           <Button onClick={toggleLogin}>Log in</Button>
-          {displayLogin && <Login handleClose={hideLogin} />}
+          {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
           <Button variant="primary" onClick={toggleSignUp}>Sign up</Button>
-          {displaySignUp && <SignUp handleClose={hideSignUp} />}
+          {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
         </div>
       )}
     </nav>
