@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/context";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
-import { EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
+import { CheckIcon, EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
 
 type SignUpProps = {
   toggleLogin: () => void;
@@ -17,6 +17,46 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
   const [confirmPasswordVisibility, setconfirmPasswordVisibility] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  const validateLength = (): boolean => {
+    const lengthRegex = /^.{8,16}$/;
+    return lengthRegex.test(password);
+  };
+
+  const validateUppercase = (): boolean => {
+    const uppercaseRegex = /[A-Z]/;
+    return uppercaseRegex.test(password);
+  };
+
+  const validateLowercase = (): boolean => {
+    const lowercaseRegex = /[a-z]/;
+    return lowercaseRegex.test(password);
+  };
+
+  const validateNumber = (): boolean => {
+    const numberRegex = /\d/;
+    return numberRegex.test(password);
+  };
+
+  const validateSpecialChar = (): boolean => {
+    const specialCharRegex = /[!@#$%^&*()_+\-=]/;
+    return specialCharRegex.test(password);
+  };
+
+  const validatePassword = (): boolean => {
+    return (
+      validateLength() &&
+      validateUppercase() &&
+      validateLowercase() &&
+      validateNumber() &&
+      validateSpecialChar()
+    );
+  };
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
 
   const handleToggleLogin = () => {
     handleClose("escape");
@@ -84,12 +124,13 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
   const Body = () => (
     <Box
       style={{
-        paddingBottom: "64px",
+        paddingBottom: "32px",
         paddingLeft: "32px",
         paddingRight: "32px",
         display: "flex",
         flexDirection: "column",
-        gap: "32px",
+        height: "75vh",
+        justifyContent: "space-between"
       }}
     >
       {error && (
@@ -143,7 +184,49 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
         {submitted && password !== confirmPassword && (
           <FormControl.Validation variant='error'>Passwords must match</FormControl.Validation>
         )}
+        {submitted && !validatePassword() && (
+          <FormControl.Validation variant='error'>
+            Password must must meet all requirements
+          </FormControl.Validation>
+        )}
       </FormControl>
+      <Box style={{ fontSize: "12px", fontWeight: 500 }}>
+        <Text
+          as='p'
+          style={{ color: validateLength() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+        >
+          {validateLength() ? <CheckIcon /> : <XIcon />}
+          Length (8-16 characters)
+        </Text>
+        <Text
+          as='p'
+          style={{ color: validateUppercase() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+        >
+          {validateUppercase() ? <CheckIcon /> : <XIcon />}
+          At least one uppercase letter
+        </Text>
+        <Text
+          as='p'
+          style={{ color: validateLowercase() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+        >
+          {validateLowercase() ? <CheckIcon /> : <XIcon />}
+          At least one lowercase letter
+        </Text>
+        <Text
+          as='p'
+          style={{ color: validateNumber() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+        >
+          {validateNumber() ? <CheckIcon /> : <XIcon />}
+          At least one number
+        </Text>
+        <Text
+          as='p'
+          style={{ color: validateSpecialChar() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+        >
+          {validateSpecialChar() ? <CheckIcon /> : <XIcon />}
+          At least one special character
+        </Text>
+      </Box>
       <FormControl required>
         <FormControl.Label>Confirm Password</FormControl.Label>
         <TextInput
@@ -208,8 +291,8 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
       </Box>
       <Box style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
         <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
-          Don't have an account?{" "}
-          <span onClick={handleToggleLogin} style={{ cursor: "pointer" }}>
+          Already have an account?{" "}
+          <span onClick={handleToggleLogin} style={{ borderBottom: "solid 1px #656d76", cursor: "pointer" }}>
             Log in
           </span>
         </Text>
