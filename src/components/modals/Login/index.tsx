@@ -175,7 +175,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
       <Box style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
         <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
           Don't have an account?{" "}
-          <span onClick={handleToggleSignUp} style={{ textDecoration: "underline", cursor: "pointer" }}>
+          <span onClick={handleToggleSignUp} style={{ borderBottom: "solid 1px #656d76", cursor: "pointer" }}>
             Sign up
           </span>
         </Text>
