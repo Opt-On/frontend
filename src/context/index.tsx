@@ -1,5 +1,13 @@
 "use client";
-import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
+import { 
+  onAuthStateChanged, 
+  User, 
+  UserCredential, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signInWithPopup, 
+  GithubAuthProvider 
+} from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
@@ -8,6 +16,8 @@ import { loginWithGoogle, logout } from "../services/authService";
 interface AuthContextType {
   user: User | null;
   loginWithGoogle: () => Promise<UserCredential | null>;
+  loginWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
+  signUpWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
   logout: () => Promise<void>;
   userInfo: UserInfo | null;
 }
@@ -66,12 +76,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (user) fetchData();
   }, [user]);
 
+  const loginWithEmail = async (email: string, password: string) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result;
+    } catch (error) {
+      console.error("Email login error:", error);
+      return null;
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      return result;
+    } catch (error) {
+      console.error("Email signup error:", error);
+      return null;
+    }
+  };
+
   if (!isAuthResolved) {
     return null;
   }
 
   return (
-    <AuthContext.Provider value={{ user, loginWithGoogle, logout, userInfo }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      loginWithGoogle, 
+      loginWithEmail, 
+      signUpWithEmail, 
+      logout, 
+      userInfo 
+    }}>
       {children}
     </AuthContext.Provider>
   );
