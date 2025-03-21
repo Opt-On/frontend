@@ -208,7 +208,7 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
       <FormControl required>
         <FormControl.Label>Confirm Password</FormControl.Label>
         <TextInput
-          type={passwordVisibility ? "text" : "password"}
+          type={confirmPasswordVisibility ? "text" : "password"}
           value={confirmPassword}
           block
           onChange={(e) => setConfirmPassword(e.target.value)}
