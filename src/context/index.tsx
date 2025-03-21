@@ -1,5 +1,4 @@
 "use client";
-// src/context/AuthContext.tsx
 import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import {
@@ -26,11 +25,9 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   program: string;
-  graduationYear: number;
   uploadDate: string;
 }
 
-// Create Context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -38,9 +35,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [courseTerms, setCourseTerms] = useState<{ [key: string]: string }>({});
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
+  const [isAuthResolved, setIsAuthResolved] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => setUser(user));
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setIsAuthResolved(true);
+    });
+
     return () => unsubscribe();
   }, []);
 
@@ -61,7 +63,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             program: data.programName,
-            graduationYear: 2069,
             uploadDate: data.uploadDate,
           };
           setUserInfo(userData);
@@ -76,20 +77,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           }
           setCourseTerms(newCourseTerms);
         } catch {
-          console.error("missing user data field :I");
+          console.error("Missing user data field");
         }
       } else {
-        // handle maybe
-        console.log("No such user!");
+        console.error("Missing user");
       }
     };
 
-    fetchData();
+    if (user) fetchData();
   }, [user, transcriptIndex]);
-
+        
   const updateTranscript = () => {
     setTranscriptIndex(transcriptIndex + 1);
   };
+
+  if (!isAuthResolved) {
+    return null;
+  }
 
   return (
     <AuthContext.Provider
