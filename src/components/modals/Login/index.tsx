@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@/context";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
 import { EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
+import styles from "./Login.module.scss";
 
 type LoginProps = {
   toggleSignUp: () => void;
@@ -49,16 +50,9 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
   };
 
   const Header = () => (
-    <Box
-      style={{
-        paddingTop: "32px",
-        paddingLeft: "32px",
-        paddingRight: "32px",
-        paddingBottom: "16px",
-      }}
-    >
+    <Box className={styles.header}>
       <Box style={{ display: "flex", justifyContent: "space-between" }}>
-        <Text as='h1' style={{ fontWeight: 600, fontSize: 32, lineHeight: "160%" }}>
+        <Text as='h1' className={styles.title}>
           Log in
         </Text>
         <IconButton
@@ -69,34 +63,17 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
           aria-labelledby='close'
         />
       </Box>
-      <Text as='p' style={{ fontSize: 20, color: "#656d76" }}>
+      <Text as='p' className={styles.subtitle}>
         Welcome back!
       </Text>
     </Box>
   );
 
   const Body = () => (
-    <Box
-      style={{
-        paddingBottom: "64px",
-        paddingLeft: "32px",
-        paddingRight: "32px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "32px",
-      }}
-    >
+    <Box className={styles.body}>
       {error && (
-        <Box
-          style={{
-            padding: "12px 16px 4px 16px",
-            backgroundColor: "#ffebe9",
-            border: "1px solid #ff7b72",
-            borderRadius: "6px",
-            textAlign: "center",
-          }}
-        >
-          <Text as='p' style={{ color: "#cf222e", fontSize: "14px" }}>
+        <Box className={styles.errorBox}>
+          <Text as='p' className={styles.errorText}>
             {error}
           </Text>
         </Box>
@@ -140,15 +117,15 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
         Log in
       </Button>
 
-      <Box style={{ display: "flex", alignItems: "center", gap: "16px", width: "100%" }}>
-        <hr style={{ flex: 1, borderWidth: "2px", borderColor: "#d0d7d3", marginTop: "8px" }} />
-        <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
+      <Box className={styles.divider}>
+        <hr />
+        <Text as='p' className={styles.dividerText}>
           or continue with
         </Text>
-        <hr style={{ flex: 1, borderWidth: "2px", borderColor: "#d0d7d3", marginTop: "8px" }} />
+        <hr />
       </Box>
 
-      <Box style={{ display: "flex", justifyContent: "center", gap: "32px" }}>
+      <Box className={styles.socialButtons}>
         <IconButton
           aria-labelledby=''
           onClick={loginWithGoogle}
@@ -172,10 +149,10 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
           }}
         />
       </Box>
-      <Box style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
-        <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
+      <Box className={styles.toggleSignUp}>
+        <Text as='p' className={styles.toggleText}>
           Don't have an account?{" "}
-          <span onClick={handleToggleSignUp} style={{ borderBottom: "solid 1px #656d76", cursor: "pointer" }}>
+          <span onClick={handleToggleSignUp} className={styles.toggleLink}>
             Sign up
           </span>
         </Text>
