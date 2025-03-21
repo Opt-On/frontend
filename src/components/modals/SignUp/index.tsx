@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@/context";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
 import { CheckIcon, EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
+import styles from "./SignUp.module.scss";
 
 type SignUpProps = {
   toggleLogin: () => void;
@@ -53,7 +54,7 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
     );
   };
 
-  const validateEmail = (email: string): boolean => {
+  const validateEmail = (): boolean => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   };
@@ -75,7 +76,7 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
     setSubmitted(true);
     setError("");
 
-    if (!email || !password || confirmPassword !== password) {
+    if (!email || validatePassword() || validateEmail() || confirmPassword !== password) {
       return;
     }
 
@@ -95,16 +96,9 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
   };
 
   const Header = () => (
-    <Box
-      style={{
-        paddingTop: "32px",
-        paddingLeft: "32px",
-        paddingRight: "32px",
-        paddingBottom: "16px",
-      }}
-    >
+    <Box className={styles.header}>
       <Box style={{ display: "flex", justifyContent: "space-between" }}>
-        <Text as='h1' style={{ fontWeight: 600, fontSize: 32, lineHeight: "160%" }}>
+        <Text as='h1' className={styles.title}>
           Create an account
         </Text>
         <IconButton
@@ -115,35 +109,17 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
           aria-labelledby='close'
         />
       </Box>
-      <Text as='p' style={{ fontSize: 20, color: "#656d76" }}>
+      <Text as='p' className={styles.subtitle}>
         Make your life easier next time.
       </Text>
     </Box>
   );
 
   const Body = () => (
-    <Box
-      style={{
-        paddingBottom: "32px",
-        paddingLeft: "32px",
-        paddingRight: "32px",
-        display: "flex",
-        flexDirection: "column",
-        height: "75vh",
-        justifyContent: "space-between"
-      }}
-    >
+    <Box className={styles.body}>
       {error && (
-        <Box
-          style={{
-            padding: "12px 16px 4px 16px",
-            backgroundColor: "#ffebe9",
-            border: "1px solid #ff7b72",
-            borderRadius: "6px",
-            textAlign: "center",
-          }}
-        >
-          <Text as='p' style={{ color: "#cf222e", fontSize: "14px" }}>
+        <Box className={styles.errorBox}>
+          <Text as='p' className={styles.errorText}>
             {error}
           </Text>
         </Box>
@@ -160,6 +136,9 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
         />
         {submitted && !email && (
           <FormControl.Validation variant='error'>Email is required</FormControl.Validation>
+        )}
+        {submitted && !validateEmail() && (
+          <FormControl.Validation variant='error'>Please input an email</FormControl.Validation>
         )}
       </FormControl>
       <FormControl required>
@@ -190,38 +169,38 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
           </FormControl.Validation>
         )}
       </FormControl>
-      <Box style={{ fontSize: "12px", fontWeight: 500 }}>
+      <Box className={styles.passwordRequirements}>
         <Text
           as='p'
-          style={{ color: validateLength() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+          className={validateLength() ? styles.valid : submitted && !validatePassword() ? styles.invalid : ""}
         >
           {validateLength() ? <CheckIcon /> : <XIcon />}
           Length (8-16 characters)
         </Text>
         <Text
           as='p'
-          style={{ color: validateUppercase() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+          className={validateUppercase() ? styles.valid : submitted && !validatePassword() ? styles.invalid : ""}
         >
           {validateUppercase() ? <CheckIcon /> : <XIcon />}
           At least one uppercase letter
         </Text>
         <Text
           as='p'
-          style={{ color: validateLowercase() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+          className={validateLowercase() ? styles.valid : submitted && !validatePassword() ? styles.invalid : ""}
         >
           {validateLowercase() ? <CheckIcon /> : <XIcon />}
           At least one lowercase letter
         </Text>
         <Text
           as='p'
-          style={{ color: validateNumber() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+          className={validateNumber() ? styles.valid : submitted && !validatePassword() ? styles.invalid : ""}
         >
           {validateNumber() ? <CheckIcon /> : <XIcon />}
           At least one number
         </Text>
         <Text
           as='p'
-          style={{ color: validateSpecialChar() ? "#4caf50" : submitted && !validatePassword() ? "#d1242f" : "" }}
+          className={validateSpecialChar() ? styles.valid : submitted && !validatePassword() ? styles.invalid : ""}
         >
           {validateSpecialChar() ? <CheckIcon /> : <XIcon />}
           At least one special character
@@ -257,15 +236,15 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
         Sign up
       </Button>
 
-      <Box style={{ display: "flex", alignItems: "center", gap: "16px", width: "100%" }}>
-        <hr style={{ flex: 1, borderWidth: "2px", borderColor: "#d0d7d3", marginTop: "8px" }} />
-        <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
+      <Box className={styles.divider}>
+        <hr />
+        <Text as='p' className={styles.dividerText}>
           or continue with
         </Text>
-        <hr style={{ flex: 1, borderWidth: "2px", borderColor: "#d0d7d3", marginTop: "8px" }} />
+        <hr />
       </Box>
 
-      <Box style={{ display: "flex", justifyContent: "center", gap: "32px" }}>
+      <Box className={styles.socialButtons}>
         <IconButton
           aria-labelledby=''
           onClick={loginWithGoogle}
@@ -289,10 +268,10 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
           }}
         />
       </Box>
-      <Box style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
-        <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
+      <Box className={styles.toggleLogin}>
+        <Text as='p' className={styles.toggleText}>
           Already have an account?{" "}
-          <span onClick={handleToggleLogin} style={{ borderBottom: "solid 1px #656d76", cursor: "pointer" }}>
+          <span onClick={handleToggleLogin} className={styles.toggleLink}>
             Log in
           </span>
         </Text>
