@@ -1,5 +1,13 @@
 "use client";
-import { onAuthStateChanged, User, UserCredential } from "firebase/auth";
+import { 
+  onAuthStateChanged, 
+  User, 
+  UserCredential, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signInWithPopup, 
+  GithubAuthProvider
+} from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import {
   createContext,
@@ -15,6 +23,9 @@ import {courseTermMap} from "./courseTermMap"
 interface AuthContextType {
   user: User | null;
   loginWithGoogle: () => Promise<UserCredential | null>;
+  loginWithGitHub: () => Promise<UserCredential | null>;
+  loginWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
+  signUpWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
   logout: () => Promise<void>;
   userInfo: UserInfo | null;
   transcriptIndex: number;
@@ -103,15 +114,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setTranscriptIndex(transcriptIndex + 1);
   };
 
+  const loginWithGitHub = async () => {
+    const provider = new GithubAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error("GitHub login error:", error);
+      return null;
+    }
+  };
+
+  const loginWithEmail = async (email: string, password: string) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result;
+    } catch (error) {
+      console.error("Email login error:", error);
+      return null;
+    }
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      return result;
+    } catch (error) {
+      console.error("Email signup error:", error);
+      return null;
+    }
+  };
+
   if (!isAuthResolved) {
     return null;
   }
 
   return (
+
     <AuthContext.Provider
       value={{
         user,
-        loginWithGoogle,
+        loginWithGoogle, 
+        loginWithGitHub, 
+        loginWithEmail, 
+        signUpWithEmail, 
         logout,
         userInfo,
         transcriptIndex,
