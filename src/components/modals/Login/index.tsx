@@ -4,24 +4,30 @@ import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@
 import { EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
 
 type LoginProps = {
+  toggleSignUp: () => void;
   handleClose: (gesture: "close-button" | "escape") => void;
 };
 
-export const Login: React.FC<LoginProps> = ({ handleClose }) => {
+export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
   const { loginWithGoogle, loginWithGitHub, loginWithEmail } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [submitted, setSubmitted] = useState(false); 
-  const [error, setError] = useState(""); 
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleToggleSignUp = () => {
+    handleClose("escape");
+    toggleSignUp();
+  };
 
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   };
 
   const handleEmailLogin = async () => {
-    setSubmitted(true); 
-    setError(""); 
+    setSubmitted(true);
+    setError("");
 
     if (!email || !password) {
       return;
@@ -87,7 +93,7 @@ export const Login: React.FC<LoginProps> = ({ handleClose }) => {
             backgroundColor: "#ffebe9",
             border: "1px solid #ff7b72",
             borderRadius: "6px",
-            textAlign: "center"
+            textAlign: "center",
           }}
         >
           <Text as='p' style={{ color: "#cf222e", fontSize: "14px" }}>
@@ -165,6 +171,14 @@ export const Login: React.FC<LoginProps> = ({ handleClose }) => {
             },
           }}
         />
+      </Box>
+      <Box style={{ display: "flex", justifyContent: "center", textAlign: "center" }}>
+        <Text as='p' style={{ color: "#656d76", fontSize: "14px" }}>
+          Don't have an account?{" "}
+          <span onClick={handleToggleSignUp} style={{ textDecoration: "underline", cursor: "pointer" }}>
+            Sign up
+          </span>
+        </Text>
       </Box>
     </Box>
   );
