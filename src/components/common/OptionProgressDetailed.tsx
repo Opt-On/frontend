@@ -46,7 +46,7 @@ export const getColor = (status: string) => {
 };
 
 export default function OptionProgressDetailed({ option }: { option: string }) {
-  const { user, courseTerms } = useAuth();
+  const { user, courseTerms, courseNameMap } = useAuth();
 
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [optionRequirements, setOptionRequirements] = useState<
@@ -83,7 +83,10 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
               formattedRequirementInfo.completedCourses.push({
                 name: courseName,
                 term: courseName in courseTerms ? courseTerms[courseName] : "",
-                description: "dsa",
+                description:
+                  courseName in courseNameMap
+                    ? courseNameMap[courseName]
+                    : "Missing course name",
                 status: RequirementStatus.COMPLETE,
               });
             }

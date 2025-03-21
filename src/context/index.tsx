@@ -10,6 +10,7 @@ import {
 } from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
+import {courseTermMap} from "./courseTermMap"
 
 interface AuthContextType {
   user: User | null;
@@ -19,6 +20,7 @@ interface AuthContextType {
   transcriptIndex: number;
   updateTranscript: () => void;
   courseTerms: { [key: string]: string };
+  courseNameMap: {[key: string]: string}
 }
 
 interface UserInfo {
@@ -36,6 +38,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [courseTerms, setCourseTerms] = useState<{ [key: string]: string }>({});
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
+  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>(
+    {}
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,6 +49,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchCourseMapping = async () => {
+      setCourseNameMap(courseTermMap)
+    };
+    fetchCourseMapping();
   }, []);
 
   useEffect(() => {
@@ -86,7 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (user) fetchData();
   }, [user, transcriptIndex]);
-        
+
   const updateTranscript = () => {
     setTranscriptIndex(transcriptIndex + 1);
   };
@@ -105,6 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         transcriptIndex,
         updateTranscript,
         courseTerms,
+        courseNameMap
       }}
     >
       {children}
