@@ -1,57 +1,51 @@
+import { useState } from "react";
 import { useAuth } from "@/context";
 import { Dialog } from "@primer/react";
-import { useState } from "react";
 
 type LogInModalProps = {
   handleClose: (gesture: "close-button" | "escape") => void;
 };
 
 export const LogInModal: React.FC<LogInModalProps> = ({ handleClose }) => {
-  const { loginWithGoogle, loginWithEmail, signUpWithEmail } = useAuth();
+  const { loginWithGoogle, loginWithGitHub, loginWithEmail, signUpWithEmail } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
 
-  const handleEmailAuth = async () => {
-    if (!email || !password) {
-      alert("Please enter both email and password");
-      return;
-    }
-    if (isSignUp) {
-      await signUpWithEmail(email, password);
-    } else {
+  const handleEmailLogin = async () => {
+    if (email && password) {
       await loginWithEmail(email, password);
+      handleClose("close-button");
+    }
+  };
+
+  const handleEmailSignUp = async () => {
+    if (email && password) {
+      await signUpWithEmail(email, password);
+      handleClose("close-button");
     }
   };
 
   return (
-    <Dialog onClose={handleClose} title="Log in or sign up">
+    <Dialog onClose={handleClose} title="Log in or Sign up">
       <button onClick={loginWithGoogle}>Log in with Google</button>
+      <button onClick={loginWithGitHub}>Log in with GitHub</button>
+      
+      <hr />
 
-      <div>
-        <input 
-          type="email" 
-          placeholder="Email" 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-        />
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={password} 
-          onChange={(e) => setPassword(e.target.value)} 
-        />
-        <button onClick={handleEmailAuth}>
-          {isSignUp ? "Sign Up" : "Log In"} with Email
-        </button>
-      </div>
-
-      <p>
-        {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-        <button onClick={() => setIsSignUp(!isSignUp)}>
-          {isSignUp ? "Log In" : "Sign Up"}
-        </button>
-      </p>
+      <input 
+        type="email" 
+        placeholder="Email" 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+      />
+      <input 
+        type="password" 
+        placeholder="Password" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)} 
+      />
+      <button onClick={handleEmailLogin}>Log in with Email</button>
+      <button onClick={handleEmailSignUp}>Sign up with Email</button>
     </Dialog>
   );
 };

@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signInWithPopup, 
-  GithubAuthProvider 
+  GithubAuthProvider
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
@@ -16,6 +16,7 @@ import { loginWithGoogle, logout } from "../services/authService";
 interface AuthContextType {
   user: User | null;
   loginWithGoogle: () => Promise<UserCredential | null>;
+  loginWithGitHub: () => Promise<UserCredential | null>;
   loginWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
   signUpWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
   logout: () => Promise<void>;
@@ -76,6 +77,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (user) fetchData();
   }, [user]);
 
+  const loginWithGitHub = async () => {
+    const provider = new GithubAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error("GitHub login error:", error);
+      return null;
+    }
+  };
+
   const loginWithEmail = async (email: string, password: string) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
@@ -104,6 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider value={{ 
       user, 
       loginWithGoogle, 
+      loginWithGitHub, 
       loginWithEmail, 
       signUpWithEmail, 
       logout, 
