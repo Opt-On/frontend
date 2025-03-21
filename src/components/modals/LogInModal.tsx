@@ -14,6 +14,8 @@ export const LogInModal: React.FC<LogInModalProps> = ({ handleClose }) => {
   const handleEmailLogin = async () => {
     if (email && password) {
       await loginWithEmail(email, password);
+      setEmail("");
+      setPassword("");
       handleClose("close-button");
     }
   };
@@ -21,6 +23,8 @@ export const LogInModal: React.FC<LogInModalProps> = ({ handleClose }) => {
   const handleEmailSignUp = async () => {
     if (email && password) {
       await signUpWithEmail(email, password);
+      setEmail("");
+      setPassword("");
       handleClose("close-button");
     }
   };
