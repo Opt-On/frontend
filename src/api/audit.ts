@@ -54,8 +54,8 @@ export const auditWhatIf = async (email: string, plan: string) => {
   const listRequirements: { [key: string]: ListRequirement } = {};
 
   for (const listRequirement of json.plan.categoryIterator) {
+    // removing this gives a webpack error lmao im not debuggin ts
     if (true) {
-      // removing this gives a webpack error lmao
       for (const requirement of listRequirement["requirementList"]) {
         if (requirement.cnbr_name in listRequirements) {
           listRequirements[requirement.cnbr_name].required += 1;
@@ -80,8 +80,6 @@ export const auditWhatIf = async (email: string, plan: string) => {
       listRequirements[formattedKey].completedCourses.push(courseCode);
     }
   }
-
-  console.log(listRequirements);
 
   return listRequirements;
 };
