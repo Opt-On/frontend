@@ -49,13 +49,55 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
   const { user } = useAuth();
 
   const [showRecommendations, setShowRecommendations] = useState(false);
+  const [optionRequirements, setOptionRequirements] = useState<
+    OptionRequirement[]
+  >([]);
+  const [completedRequirements, setCompletedRequirements] = useState<number>(3);
+  const [totalRequirements, setTotalRequirements] = useState<number>(6);
 
+  // cache this value i forgot the hook name
   useEffect(() => {
     const getOptionProgress = async () => {
       if (user && user.email) {
         try {
-          const a = await auditWhatIf(user.email, option);
-          console.log("a", a);
+          const data = await auditWhatIf(user.email, option);
+          const formattedData = [];
+          let currCompletedRequirements = 0;
+          let currTotalRequirements = 0;
+          for (const key of Object.keys(data)) {
+            const optionRequirement = data[key];
+
+            const formattedRequirementInfo: OptionRequirement = {
+              name: optionRequirement.name,
+              courseCount: optionRequirement.required,
+              completionStatus:
+                optionRequirement.completedCourses.length ==
+                optionRequirement.required
+                  ? RequirementStatus.COMPLETE
+                  : RequirementStatus.INCOMPLETE,
+              completedCourses: [],
+              recommendedCourses: [],
+            };
+
+            for (const courseName of optionRequirement.completedCourses) {
+              formattedRequirementInfo.completedCourses.push({
+                name: courseName,
+                term: "2A",
+                description: "dsa",
+                status: RequirementStatus.COMPLETE,
+              });
+            }
+
+            currCompletedRequirements +=
+              optionRequirement.completedCourses.length;
+            currTotalRequirements += optionRequirement.required;
+            formattedData.push(formattedRequirementInfo);
+          }
+          // enrich course info
+          // calculate completion status
+          setCompletedRequirements(currCompletedRequirements);
+          setTotalRequirements(currTotalRequirements);
+          setOptionRequirements(formattedData);
         } catch (e: unknown) {
           console.log(e);
         }
@@ -63,71 +105,6 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
     };
     getOptionProgress();
   }, [option, user]);
-
-  // from db/ model
-  const completedRequirements = 3;
-  const totalRequirements = 6;
-  const optionRequirements: OptionRequirement[] = [
-    {
-      name: "List 1",
-      courseCount: 1,
-      completionStatus: RequirementStatus.COMPLETE,
-      completedCourses: [
-        {
-          name: "MSE 121",
-          term: "1A",
-          description: "intro to programming",
-          status: RequirementStatus.COMPLETE,
-        },
-      ],
-      recommendedCourses: [
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-      ],
-    },
-    {
-      name: "List 2",
-      courseCount: 1,
-      completionStatus: RequirementStatus.COMPLETE,
-      completedCourses: [
-        {
-          name: "MSE 240",
-          term: "2A",
-          description: "dsa",
-          status: RequirementStatus.COMPLETE,
-        },
-      ],
-    },
-    {
-      name: "List 3",
-      courseCount: 4,
-      completionStatus: RequirementStatus.INCOMPLETE,
-      completedCourses: [
-        {
-          name: "MSE 343",
-          term: "3B",
-          description: "human-computer interaction",
-          status: RequirementStatus.PROVISIONALLY_COMPLETE,
-        },
-      ],
-      recommendedCourses: [
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-        {
-          name: "MSE 121",
-          description: "intro to programming",
-        },
-      ],
-    },
-  ];
 
   const toggleShowRecommendations = () => {
     // api call here to run model maybe ? depends on a bunch of stuff

@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import OptionProgressPreview from "../OptionProgressPreview";
 
 export const optionMap: { [key: string]: string } = {
-  COGSCOPT: "Cognitive Science",
+  // COGSCOPT: "Cognitive Science", this shit aint real
   COMPENGOPT: "Computer Engineering",
   MSCIOPT: "Management Science",
   BIOMECHOPT: "Biomechanics",
