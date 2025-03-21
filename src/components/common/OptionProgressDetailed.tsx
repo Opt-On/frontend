@@ -46,7 +46,7 @@ export const getColor = (status: string) => {
 };
 
 export default function OptionProgressDetailed({ option }: { option: string }) {
-  const { user } = useAuth();
+  const { user, courseTerms } = useAuth();
 
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [optionRequirements, setOptionRequirements] = useState<
@@ -82,7 +82,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
             for (const courseName of optionRequirement.completedCourses) {
               formattedRequirementInfo.completedCourses.push({
                 name: courseName,
-                term: "2A",
+                term: courseName in courseTerms ? courseTerms[courseName] : "",
                 description: "dsa",
                 status: RequirementStatus.COMPLETE,
               });
@@ -104,7 +104,8 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       }
     };
     getOptionProgress();
-  }, [option, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [option, user]); // updating user updates course terms
 
   const toggleShowRecommendations = () => {
     // api call here to run model maybe ? depends on a bunch of stuff
