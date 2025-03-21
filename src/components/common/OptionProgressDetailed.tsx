@@ -93,8 +93,6 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
             currTotalRequirements += optionRequirement.required;
             formattedData.push(formattedRequirementInfo);
           }
-          // enrich course info
-          // calculate completion status
           setCompletedRequirements(currCompletedRequirements);
           setTotalRequirements(currTotalRequirements);
           setOptionRequirements(formattedData);
