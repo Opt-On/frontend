@@ -14,28 +14,8 @@ const BASE_URL = "http://localhost:8080";
 //   return response.text();
 // };
 
-// const parseCategoryMap = (input: string) => {
-//   const match = input.match(/^\{([^,]+),\[(.+)]\}$/);
-
-//   if (match) {
-//     const key = match[1]; // "Optn"
-//     const values = match[2].split(",").map((item) => item.trim()); // Split values
-
-//     return {
-//       listName: key,
-//       lists: values,
-//     };
-//   } else {
-//     console.log("Invalid format");
-//   }
-// };
-
 function processString(str: string) {
-  return str
-    .split(" ") // Split by space
-    .slice(0, -1) // Remove last element
-    .join("_") // Join with "_"
-    .toLowerCase(); // Convert to lowercase
+  return str.split(" ").slice(0, -1).join("_").toLowerCase();
 }
 
 export type ListRequirement = {
@@ -44,12 +24,6 @@ export type ListRequirement = {
   completedCourses: string[];
   completionStatus: "Incomplete";
 };
-
-// type ListInfo = {
-//   totalRequired: number;
-//   completedCourses: string[];
-//   completionStatus: string;
-// };
 
 // Audit an option
 export const auditWhatIf = async (email: string, plan: string) => {
