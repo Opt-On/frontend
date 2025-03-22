@@ -110,23 +110,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [user, transcriptIndex]);
 
   useEffect(() => {
+    const updateAvatar = async () => {
+      if (user?.email && avatar.length === 2) {
+        try {
+          const userRef = doc(db, "user", user.email);
+          await setDoc(userRef, { avatar }, { merge: true });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
     updateAvatar();
   }, [avatar])
 
-  const updateAvatar = async () => {
-    if (user?.email && avatar.length === 2) {
-      try {
-        const userRef = doc(db, "user", user.email);
-        await setDoc(userRef, { avatar }, { merge: true });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+  
 
   const updateAvatarState = (emoji: number, color: number) => {
     setAvatar([emoji, color]);
-    updateAvatar();
   };
 
   const updateTranscript = () => {

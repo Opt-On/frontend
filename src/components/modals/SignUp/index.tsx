@@ -3,6 +3,7 @@ import { useAuth } from "@/context";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
 import { CheckIcon, EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
 import styles from "./SignUp.module.scss";
+import Image from "next/image";
 
 type SignUpProps = {
   toggleLogin: () => void;
@@ -89,7 +90,7 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
       } else {
         setError("Incorrect email or password. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred. Please try again.");
     }
   };
@@ -248,7 +249,7 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
           aria-labelledby=''
           onClick={loginWithGoogle}
           variant='invisible'
-          icon={() => <img src='/google.svg' alt='Google Icon' width={40} height={40} />}
+          icon={() => <Image src='/google.svg' alt='Google Icon' width={40} height={40} />}
           sx={{
             "&:hover": {
               backgroundColor: "transparent",
@@ -259,7 +260,7 @@ export const SignUp: React.FC<SignUpProps> = ({ toggleLogin, handleClose }) => {
           aria-labelledby=''
           onClick={loginWithGitHub}
           variant='invisible'
-          icon={() => <img src='/github.svg' alt='Github Icon' width={38} height={38} />}
+          icon={() => <Image src='/github.svg' alt='Github Icon' width={38} height={38} />}
           sx={{
             "&:hover": {
               backgroundColor: "transparent",

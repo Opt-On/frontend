@@ -3,6 +3,7 @@ import { useAuth } from "@/context";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
 import { EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
 import styles from "./Login.module.scss";
+import Image from "next/image";
 
 type LoginProps = {
   toggleSignUp: () => void;
@@ -43,7 +44,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
       } else {
         setError("Incorrect email or password. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred. Please try again.");
     }
   };
@@ -129,7 +130,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
           aria-labelledby=''
           onClick={loginWithGoogle}
           variant='invisible'
-          icon={() => <img src='/google.svg' alt='Google Icon' width={40} height={40} />}
+          icon={() => <Image src='/google.svg' alt='Google Icon' width={40} height={40} />}
           sx={{
             "&:hover": {
               backgroundColor: "transparent",
@@ -140,7 +141,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
           aria-labelledby=''
           onClick={loginWithGitHub}
           variant='invisible'
-          icon={() => <img src='/github.svg' alt='Github Icon' width={38} height={38} />}
+          icon={() => <Image src='/github.svg' alt='Github Icon' width={38} height={38} />}
           sx={{
             "&:hover": {
               backgroundColor: "transparent",
@@ -150,7 +151,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
       </Box>
       <Box className={styles.toggleSignUp}>
         <Text as='p' className={styles.toggleText}>
-          Don't have an account?{" "}
+          Don&#39;t have an account?{" "}
           <span onClick={handleToggleSignUp} className={styles.link}>
             Sign up
           </span>
