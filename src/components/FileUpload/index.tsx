@@ -1,116 +1,111 @@
-import { submitTranscript } from "@/api/transcript";
-import { useAuth } from "@/context";
-import { FileDirectoryIcon } from "@primer/octicons-react";
-import { Box, Button, Text } from "@primer/react";
+import { Box, IconButton, Text } from "@primer/react";
 import React, { useState } from "react";
+import styles from "@/components/FileUpload/FileUpload.module.scss";
+import { SmileyIcon, XIcon } from "@primer/octicons-react";
 
-export default function FileUpload() {
-  const { user, updateTranscript } = useAuth();
-  const [file, setFile] = useState<File | null>(null);
+const MAX_FILE_SIZE = 200 * 1024; // 200KB
+
+interface FileUploadProps {
+  file: File | null;
+  setFile: (file: File | null) => void;
+  submitTranscript: () => void;
+}
+
+export default function FileUpload({ file, setFile }: FileUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
 
-  const MAX_FILE_SIZE = 200 * 1024; // 200KB in bytes
-
   const handleFile = (file: File | undefined) => {
-    if (file?.size && file?.size > MAX_FILE_SIZE) {
-      alert("File size exceeds 200KB. Please upload a smaller file.");
-      return;
-    }
-
-    if (file?.type === "application/pdf") {
+    if (file && file.size <= MAX_FILE_SIZE && file.type === "application/pdf") {
       setFile(file);
-    } else {
-      alert("Please upload a valid PDF file.");
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleFile(event.target.files?.[0]);
+  const handleClose = () => {
+    setFile(null);
   };
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleFile(e.target.files?.[0]);
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    handleFile(e.dataTransfer.files?.[0]);
     setIsDragging(false);
-    handleFile(event.dataTransfer.files?.[0]);
   };
-
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
     setIsDragging(true);
   };
-
   const handleDragLeave = () => setIsDragging(false);
 
-  const handleSubmitTranscript = async () => {
-    if (!file) return alert("Please select a file");
-
-    try {
-      if (!user!.email) {
-        console.error("missing email");
-        return;
-      }
-      const response = await submitTranscript(file, user!.email);
-      updateTranscript();
-      console.log(`Success: ${response}`);
-    } catch (error) {
-      console.log("Upload failed");
-      console.error(error);
-    }
-  };
+  const handleDivClick = () => document.getElementById("file-upload")?.click();
 
   return (
     <Box sx={{ py: 3 }}>
       <Box
-        as='div'
-        p={6}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-around",
-          border: "2px dashed",
-          borderColor: isDragging ? "#91a1b2" : "#d0d7de",
-          borderRadius: 16,
-          textAlign: "center",
-          cursor: "pointer",
-          backgroundColor: isDragging ? "#f6f7f8" : "#ffffff",
-        }}
+        onClick={handleDivClick}
+        style={{ cursor: file ? "auto" : "pointer" }}
+        className={`${styles.container} ${isDragging ? styles.dragging : ""}`}
       >
-        <Text as='h4'>Drag and drop a file to upload</Text>
-        <Text as='p'>or</Text>
+        {!isDragging && !file && (
+          <>
+            <Text as='h4' className={styles.text}>
+              Drag and drop files or <span>Choose file</span>
+            </Text>
 
-        <input
-          type='file'
-          accept='application/pdf'
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-          id='file-upload'
-        />
-        <Button
-          leadingVisual={FileDirectoryIcon}
-          style={{ fontWeight: 600, margin: "auto" }}
-          as='label'
-          htmlFor='file-upload'
-        >
-          Browse Files
-        </Button>
-
-        <Text as='p' sx={{ pt: "1rem", color: "#656d76" }}>
-          Max file size: 200KB | PDF file type only
-        </Text>
+            <input
+              type='file'
+              accept='application/pdf'
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              id='file-upload'
+            />
+            <Text as='p' className={styles.info}>
+              Max file size: 200KB | PDF only
+            </Text>
+          </>
+        )}
+        {isDragging && (
+          <>
+            <Text as='h4' className={styles.dropText}>
+              Drop here \^o^/
+            </Text>
+          </>
+        )}
+        {file && (
+          <>
+            <Box
+              style={{
+                display: "flex",
+                borderRadius: "8px",
+                padding: "16px",
+                margin: "8px auto",
+                border: "1px solid #d0d7de",
+                gap: "16px",
+                alignItems: "center",
+                fontWeight: 600,
+              }}
+            >
+              <IconButton
+                icon={SmileyIcon}
+                style={{ cursor: "auto", color: "#1f883d", background: "#dafbe1" }}
+                disabled
+                aria-labelledby='smile'
+              />
+              {file.name}
+              <IconButton
+                onClick={handleClose}
+                icon={XIcon}
+                variant='invisible'
+                aria-labelledby='close'
+              />
+            </Box>
+            <Text as='p'>We'll use this upload!</Text>
+          </>
+        )}
       </Box>
-
-      {file && (
-        <Box mt={3} display='flex' flexDirection='row' justifyContent='space-between'>
-          <Text as='p'>
-            <strong>Uploaded File:</strong> {file.name}
-          </Text>
-          {/* maybe temp */}
-          <Button onClick={handleSubmitTranscript}>Save</Button>
-        </Box>
-      )}
     </Box>
   );
 }

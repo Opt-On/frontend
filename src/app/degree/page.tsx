@@ -8,7 +8,7 @@ import {
   RequirementStatus,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
 
 export default function Degree() {
