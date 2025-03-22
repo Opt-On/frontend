@@ -1,12 +1,12 @@
 "use client";
 
-import { Login } from "../modals/Login";
 import SliderButton from "@/components/SliderButton";
 import { useAuth } from "@/context";
 import { Avatar, Box, Button } from "@primer/react";
 import { useState } from "react";
-import { SignUp } from "../modals/SignUp";
+import { Login } from "../modals/Login";
 import { Profile } from "../modals/Profile";
+import { SignUp } from "../modals/SignUp";
 
 export default function NavBar() {
   const { user, avatar } = useAuth();
@@ -15,6 +15,7 @@ export default function NavBar() {
   const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
   const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
+
   const bgColors = ["#fbefff", "#ffeff7", "#ddf4ff", "#dafbe1", "#fff8c5", "#fff1e5", "#ffebe9"];
 
   const toggleProfile = () => {
@@ -54,7 +55,9 @@ export default function NavBar() {
         height: "6rem",
       }}
     >
-      <h1 style={{ fontWeight: 600, fontSize: "20px", lineHeight: "160%" }}>OPT&apos;ON</h1>
+      <h1 style={{ fontWeight: 600, fontSize: "20px", lineHeight: "160%" }}>
+        OPT&apos;ON
+      </h1>
       {user ? (
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
