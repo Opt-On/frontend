@@ -27,7 +27,7 @@ export default function Footer({ currentQuestionIndex, setCurrentQuestionIndex, 
             aria-labelledby='next'
             size='large'
             className={styles.next}
-            // disabled={!hasAnswered}
+            disabled={!hasAnswered}
             onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
           >
             Back
