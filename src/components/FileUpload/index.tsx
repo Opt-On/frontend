@@ -83,7 +83,7 @@ export default function FileUpload({ file, setFile }: FileUploadProps) {
                 aria-labelledby='close'
               />
             </Box>
-            <Text as='p'>We'll use this upload!</Text>
+            <Text as='p'>We&#39;ll use this upload!</Text>
           </>
         ) : (
           <>

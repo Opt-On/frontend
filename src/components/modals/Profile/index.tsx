@@ -4,7 +4,7 @@ import styles from "./Profile.module.scss";
 import FileUpload from "@/components/FileUpload";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFile } from "@/context/FileContext";
 
 type ProfileProps = {
