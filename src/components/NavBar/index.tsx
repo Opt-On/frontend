@@ -1,15 +1,17 @@
 "use client";
 
-import { LogInModal } from "@/components/modals/LogInModal";
+import { Login } from "../modals/Login";
 import SliderButton from "@/components/SliderButton";
 import { useAuth } from "@/context";
 import { Avatar, Box, Button } from "@primer/react";
 import { useState } from "react";
+import { SignUp } from "../modals/SignUp";
 import { Profile } from "../modals/Profile";
 
 export default function NavBar() {
   const { user, avatar } = useAuth();
-  const [displayLogInModal, setDisplayLogInModal] = useState<boolean>(false);
+  const [displayLogin, setDisplayLogin] = useState<boolean>(false);
+  const [displaySignUp, setDisplaySignUp] = useState<boolean>(false);
   const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
   const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
@@ -23,12 +25,20 @@ export default function NavBar() {
     setDisplayProfile(false);
   };
 
-  const toggleLogInModal = () => {
-    setDisplayLogInModal(!displayLogInModal && !user);
+  const toggleLogin = () => {
+    setDisplayLogin(!displayLogin && !user);
   };
 
-  const hideLogInModal = () => {
-    setDisplayLogInModal(false);
+  const hideLogin = () => {
+    setDisplayLogin(false);
+  };
+
+  const toggleSignUp = () => {
+    setDisplaySignUp(!displaySignUp && !user);
+  };
+
+  const hideSignUp = () => {
+    setDisplaySignUp(false);
   };
 
   return (
@@ -93,10 +103,13 @@ export default function NavBar() {
             width: "100%",
             height: "100%",
             alignItems: "center",
+            gap: "16px"
           }}
         >
-          <Button onClick={toggleLogInModal}>Log in</Button>
-          {displayLogInModal && <LogInModal handleClose={hideLogInModal} />}
+          <Button onClick={toggleLogin}>Log in</Button>
+          {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
+          <Button variant="primary" onClick={toggleSignUp}>Sign up</Button>
+          {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
         </div>
       )}
     </nav>
