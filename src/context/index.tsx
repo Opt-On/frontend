@@ -8,7 +8,7 @@ import {
   User,
   UserCredential,
 } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import {
   createContext,
   ReactNode,
@@ -35,7 +35,9 @@ interface AuthContextType {
   logout: () => Promise<void>;
   userInfo: UserInfo | null;
   transcriptIndex: number;
+  avatar: number[];
   updateTranscript: () => void;
+  updateAvatar: (emoji: number, color: number) => void;
   courseTerms: { [key: string]: string };
   courseResultMap: { [key: string]: string | number };
   courseNameMap: { [key: string]: string };
@@ -59,6 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     [key: string]: string;
   }>({});
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
+  const [avatar, setAvatar] = useState<number[]>([-1, -1]);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
   const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>(
     {}
@@ -100,6 +103,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             uploadDate: data.uploadDate,
             declaredOptions: data.optionNames,
           };
+          setUserInfo(userData);
+
+          if (
+            data.avatar &&
+            Array.isArray(data.avatar) &&
+            data.avatar.length === 2
+          ) {
+            setAvatar(data.avatar);
+          }
 
           const newCourseTerms: { [key: string]: string } = {};
           const newCourseResults: { [key: string]: string } = {};
@@ -127,6 +139,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (user) fetchData();
   }, [user, transcriptIndex]);
 
+  useEffect(() => {
+    updateAvatar();
+  }, [avatar]);
+
+  const updateAvatar = async () => {
+    if (user?.email && avatar.length === 2) {
+      try {
+        const userRef = doc(db, "user", user.email);
+        await setDoc(userRef, { avatar }, { merge: true });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const updateAvatarState = (emoji: number, color: number) => {
+    setAvatar([emoji, color]);
+    updateAvatar();
+  };
+
   const updateTranscript = () => {
     setTranscriptIndex(transcriptIndex + 1);
   };
@@ -138,7 +170,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log(result);
       return result;
     } catch (error) {
-      console.error("GitHub login error:", error);
+      console.error(error);
       return null;
     }
   };
@@ -148,7 +180,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       return result;
     } catch (error) {
-      console.error("Email login error:", error);
+      console.error(error);
       return null;
     }
   };
@@ -162,7 +194,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
       return result;
     } catch (error) {
-      console.error("Email signup error:", error);
+      console.error(error);
       return null;
     }
   };
@@ -182,7 +214,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout,
         userInfo,
         transcriptIndex,
+        avatar,
         updateTranscript,
+        updateAvatar: updateAvatarState,
         courseTerms,
         courseResultMap,
         courseNameMap,

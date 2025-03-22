@@ -11,26 +11,36 @@ type ProfileProps = {
 };
 
 export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
-  const { user, userInfo, logout } = useAuth();
+  const { user, userInfo, logout, avatar, updateAvatar } = useAuth();
 
-  const [indexA, setIndexA] = useState(-1);
-  const [indexB, setIndexB] = useState(-1);
+  const [indexA, setIndexA] = useState(avatar[0]);
+  const [indexB, setIndexB] = useState(avatar[1]);
 
   const handleSetA = (index: number) => {
-    setIndexA(index);
-    if (indexB === -1) {
-      setIndexB(0);
+    if (indexA === index) {
+      setIndexA(-1);
+      setIndexB(-1);
+    } else {
+      setIndexA(index);
+      if (indexB === -1) {
+        setIndexB(0);
+      }
     }
   };
 
   const handleSetB = (index: number) => {
-    setIndexB(index);
-    if (indexA === -1) {
-      setIndexA(0);
+    if (indexB === index) {
+      setIndexA(-1);
+      setIndexB(-1);
+    } else {
+      setIndexB(index);
+      if (indexA === -1) {
+        setIndexA(0);
+      }
     }
   };
 
-  const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🐐", "🐮"];
+  const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
   const bgColors = ["#fbefff", "#ffeff7", "#ddf4ff", "#dafbe1", "#fff8c5", "#fff1e5", "#ffebe9"];
   const inactiveColors = [
     "rgba(130, 80, 223, 0.5)",
@@ -50,6 +60,11 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
     "#bc4c00",
     "#cf222e",
   ];
+
+  const handleSave = () => {
+    updateAvatar(indexA, indexB);
+    handleClose("escape");
+  };
 
   const handleLogout = () => {
     handleClose("escape");
@@ -198,9 +213,14 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
         )}
         <FileUpload />
       </Box>
-      <Button onClick={handleLogout} variant='danger' sx={{ width: 76 }}>
-        Log out
-      </Button>
+      <Box style={{ display: "flex", justifyContent: "space-between" }}>
+        <Button onClick={handleLogout} variant='danger' sx={{ width: 76 }}>
+          Logout
+        </Button>
+        <Button onClick={handleSave} variant='primary' sx={{ width: 76 }}>
+          Save
+        </Button>
+      </Box>
     </Box>
   );
 
