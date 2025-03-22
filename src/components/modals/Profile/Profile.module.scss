@@ -1,4 +1,5 @@
-$spacing-large: 32px;
+$spacing-xl: 32px;
+$spacing-large: 24px;
 $spacing-medium: 16px;
 $spacing-small: 4px;
 $font-size-large: 24px;
@@ -9,7 +10,7 @@ $line-height: 160%;
 $color-text: #656d76;
 
 .header {
-  padding: $spacing-large $spacing-large $spacing-medium $spacing-large;
+  padding: $spacing-large $spacing-xl $spacing-medium $spacing-xl;
 
   .title {
     font-weight: $font-weight-semibold;
@@ -19,8 +20,14 @@ $color-text: #656d76;
 }
 
 .body {
-  padding: 0 $spacing-large $spacing-large $spacing-large;
+  padding: 0 $spacing-xl $spacing-xl $spacing-xl;
   display: flex;
   flex-direction: column;
   gap: $spacing-large;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-small;
 }
