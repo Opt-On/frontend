@@ -15,15 +15,8 @@ export default function NavBar() {
   const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
   const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
-  const bgColors = [
-    "#fbefff",
-    "#ffeff7",
-    "#ddf4ff",
-    "#dafbe1",
-    "#fff8c5",
-    "#fff1e5",
-    "#ffebe9",
-  ];
+
+  const bgColors = ["#fbefff", "#ffeff7", "#ddf4ff", "#dafbe1", "#fff8c5", "#fff1e5", "#ffebe9"];
 
   const toggleProfile = () => {
     setDisplayProfile(!displayProfile && !!user);
@@ -82,23 +75,20 @@ export default function NavBar() {
             {avatar[0] === -1 ? (
               <Avatar
                 size={32}
-                src={
-                  user.photoURL ||
-                  "https://avatars.githubusercontent.com/u/7143434?v=4"
-                }
+                src={user.photoURL || "https://avatars.githubusercontent.com/u/7143434?v=4"}
                 onClick={toggleProfile}
               />
             ) : (
               <Box
                 width={36}
                 height={36}
-                borderRadius="50%"
+                borderRadius='50%'
                 bg={bgColors[avatar[1]]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                fontSize="20px"
-                paddingTop="2px"
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                fontSize='20px'
+                paddingTop='2px'
                 style={{ cursor: "pointer" }}
                 onClick={toggleProfile}
               >
@@ -116,19 +106,13 @@ export default function NavBar() {
             width: "100%",
             height: "100%",
             alignItems: "center",
-            gap: "16px",
+            gap: "16px"
           }}
         >
           <Button onClick={toggleLogin}>Log in</Button>
-          {displayLogin && (
-            <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />
-          )}
-          <Button variant="primary" onClick={toggleSignUp}>
-            Sign up
-          </Button>
-          {displaySignUp && (
-            <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />
-          )}
+          {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
+          <Button variant="primary" onClick={toggleSignUp}>Sign up</Button>
+          {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
         </div>
       )}
     </nav>

@@ -1,21 +1,16 @@
 "use client";
-import {
-  createUserWithEmailAndPassword,
-  GithubAuthProvider,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  User,
-  UserCredential,
-} from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+  onAuthStateChanged,
+  User,
+  UserCredential,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GithubAuthProvider,
+} from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
 import { courseTermMap } from "./courseTermMap";
@@ -40,8 +35,6 @@ interface AuthContextType {
   updateAvatar: (emoji: number, color: number) => void;
   courseTerms: { [key: string]: string };
   courseResultMap: { [key: string]: string | number };
-  courseNameMap: { [key: string]: string };
-}
 
 interface UserInfo {
   firstName: string;
@@ -63,9 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
   const [avatar, setAvatar] = useState<number[]>([-1, -1]);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
-  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>(
-    {}
-  );
+  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -152,6 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     updateAvatar();
   }, [avatar]);
+
 
   
 
