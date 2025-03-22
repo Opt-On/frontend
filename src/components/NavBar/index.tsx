@@ -5,19 +5,19 @@ import SliderButton from "@/components/SliderButton";
 import { useAuth } from "@/context";
 import { Avatar, Button } from "@primer/react";
 import { useState } from "react";
-import { ProfileModal } from "../modals/ProfileModal";
+import { Profile } from "../modals/Profile";
 
 export default function NavBar() {
   const { user } = useAuth();
   const [displayLogInModal, setDisplayLogInModal] = useState<boolean>(false);
-  const [displayProfileModal, setDisplayProfileModal] = useState<boolean>(false);
+  const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
-  const toggleProfileModal = () => {
-    setDisplayProfileModal(!displayProfileModal && !!user);
+  const toggleProfile = () => {
+    setDisplayProfile(!displayProfile && !!user);
   };
 
-  const hideProfileModal = () => {
-    setDisplayProfileModal(false);
+  const hideProfile = () => {
+    setDisplayProfile(false);
   };
 
   const toggleLogInModal = () => {
@@ -53,15 +53,16 @@ export default function NavBar() {
               justifyContent: "flex-end",
               alignItems: "center",
               height: "100%",
+              cursor: "pointer",
             }}
           >
             <Avatar
               size={32}
               src={user.photoURL || "https://avatars.githubusercontent.com/u/7143434?v=4"}
-              onClick={toggleProfileModal}
+              onClick={toggleProfile}
             />
           </div>
-          {displayProfileModal && <ProfileModal handleClose={hideProfileModal} />}
+          {displayProfile && <Profile handleClose={hideProfile} />}
         </>
       ) : (
         <div

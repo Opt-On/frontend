@@ -60,9 +60,9 @@ export default function FileUpload() {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ py: 3 }}>
       <Box
-        as="div"
+        as='div'
         p={6}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -79,38 +79,33 @@ export default function FileUpload() {
           backgroundColor: isDragging ? "#f6f7f8" : "#ffffff",
         }}
       >
-        <Text as="h4">Drag and drop a file to upload</Text>
-        <Text as="p">or</Text>
+        <Text as='h4'>Drag and drop a file to upload</Text>
+        <Text as='p'>or</Text>
 
         <input
-          type="file"
-          accept="application/pdf"
+          type='file'
+          accept='application/pdf'
           onChange={handleFileChange}
           style={{ display: "none" }}
-          id="file-upload"
+          id='file-upload'
         />
         <Button
           leadingVisual={FileDirectoryIcon}
           style={{ fontWeight: 600, margin: "auto" }}
-          as="label"
-          htmlFor="file-upload"
+          as='label'
+          htmlFor='file-upload'
         >
           Browse Files
         </Button>
 
-        <Text as="p" sx={{ pt: "1rem", color: "#656d76" }}>
+        <Text as='p' sx={{ pt: "1rem", color: "#656d76" }}>
           Max file size: 200KB | PDF file type only
         </Text>
       </Box>
 
       {file && (
-        <Box
-          mt={3}
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-        >
-          <Text as="p">
+        <Box mt={3} display='flex' flexDirection='row' justifyContent='space-between'>
+          <Text as='p'>
             <strong>Uploaded File:</strong> {file.name}
           </Text>
           {/* maybe temp */}
