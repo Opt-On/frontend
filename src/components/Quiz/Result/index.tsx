@@ -11,7 +11,7 @@ export default function Result({ program, handleClose }: ResultProps) {
     <div className={styles.container}>
       <div>
         <Text as='p' className={styles.text}>
-          Oh wow! You'd be a great fit for the
+          Oh wow! You&#39;d be a great fit for the
         </Text>
         <Text as='h1' className={styles.heading}>
           {program} Option
@@ -19,7 +19,7 @@ export default function Result({ program, handleClose }: ResultProps) {
       </div>
       <div className={styles.imagePlaceholder} />
       <Button className={styles.button} onClick={handleClose} variant='primary'>
-        Nice, that's all :&#41;
+        Nice, that&#39;s all :&#41;
       </Button>
     </div>
   );

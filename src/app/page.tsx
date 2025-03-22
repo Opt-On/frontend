@@ -3,8 +3,7 @@ import { OptionInfoCard } from "@/components/common/OptionInfoCard";
 import NavBar from "@/components/NavBar";
 import Quiz from "@/components/Quiz";
 // import { useAuth } from "@/context";
-import { PlayIcon } from "@primer/octicons-react";
-import { Box, Button, Text } from "@primer/react";
+import { Box, Text } from "@primer/react";
 
 export default function Home() {
   // const { user } = useAuth();
