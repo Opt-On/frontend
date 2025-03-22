@@ -15,7 +15,6 @@ export default function Degree() {
   const { userInfo } = useAuth();
   const degreeType = "Bachelors of BOFA"; // need to parse this field
   const degreeName = userInfo?.program || "NUTS Engineering";
-  const graduationYear = userInfo?.graduationYear || "2025";
 
   const degreeRequirementList: RequirementInfo[] = [
     {
@@ -106,7 +105,7 @@ export default function Degree() {
           <h1>Track your degree</h1>
           <Text>See how you&apos;re tracking towards a {degreeType}</Text>
           <Text weight="semibold" marginTop="2rem">
-            {degreeName} {graduationYear}
+            {degreeName}
           </Text>
           <RequirementDisplay requirementDisplayInfo={degreeRequirements} />
           {optionsRequirements.map((optionRequirements, index) => (
