@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import { Dialog, Box, IconButton, Text, TextInput, FormControl, Button } from "@primer/react";
 import { EyeClosedIcon, EyeIcon, XIcon } from "@primer/octicons-react";
 import styles from "./Login.module.scss";
