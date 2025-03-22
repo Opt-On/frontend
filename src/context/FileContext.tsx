@@ -21,6 +21,7 @@ export const FileProvider = ({ children }: { children: ReactNode }) => {
     try {
       await submitTranscript(file, user?.email); 
       setFile(null);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

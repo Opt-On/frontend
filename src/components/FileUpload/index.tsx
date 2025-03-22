@@ -49,32 +49,13 @@ export default function FileUpload({ file, setFile }: FileUploadProps) {
         style={{ cursor: file ? "auto" : "pointer" }}
         className={`${styles.container} ${isDragging ? styles.dragging : ""}`}
       >
-        {!isDragging && !file && (
-          <>
-            <Text as='h4' className={styles.text}>
-              Drag and drop files or <span>Choose file</span>
-            </Text>
-
-            <input
-              type='file'
-              accept='application/pdf'
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              id='file-upload'
-            />
-            <Text as='p' className={styles.info}>
-              Max file size: 200KB | PDF only
-            </Text>
-          </>
-        )}
-        {isDragging && (
+        {isDragging ? (
           <>
             <Text as='h4' className={styles.dropText}>
               Drop here \^o^/
             </Text>
           </>
-        )}
-        {file && (
+        ) : file ? (
           <>
             <Box
               style={{
@@ -103,6 +84,23 @@ export default function FileUpload({ file, setFile }: FileUploadProps) {
               />
             </Box>
             <Text as='p'>We'll use this upload!</Text>
+          </>
+        ) : (
+          <>
+            <Text as='h4' className={styles.text}>
+              Drag and drop files or <span>Choose file</span>
+            </Text>
+
+            <input
+              type='file'
+              accept='application/pdf'
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+              id='file-upload'
+            />
+            <Text as='p' className={styles.info}>
+              Max file size: 200KB | PDF only
+            </Text>
           </>
         )}
       </Box>
