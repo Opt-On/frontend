@@ -111,7 +111,6 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       }
     };
     getOptionProgress();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [option, user]); // updating user updates course terms
 
   const toggleShowRecommendations = async () => {
