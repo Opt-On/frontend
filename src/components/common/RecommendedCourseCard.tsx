@@ -1,12 +1,36 @@
-import { SyncIcon } from "@primer/octicons-react";
-import { Box, Button, Text } from "@primer/react";
-import { recommendedCourseInfo } from "./OptionProgressDetailed";
+import { Box, Text } from "@primer/react";
+import {
+  RecommendedCourse,
+  recommendedCourseInfo,
+} from "./OptionProgressDetailed";
+import SwitchCourseSelect from "./SwitchCourseSelect";
 
 export default function RecommendedCourseCard({
   courseInfo,
+  altCourses,
+  altCourseInfo,
+  handleSwitchCourse,
 }: {
   courseInfo: recommendedCourseInfo;
+  altCourses: string[];
+  altCourseInfo: { [key: string]: RecommendedCourse };
+  handleSwitchCourse: (a: string, b: string) => void;
 }) {
+  const filteredAltCourses = altCourses.filter(
+    (altCourse) => altCourseInfo[altCourse].isUsed === false
+  );
+
+  const enrichedAltCourses = filteredAltCourses.map(
+    (altCourse) => altCourseInfo[altCourse]
+  );
+
+  enrichedAltCourses.sort((a, b) => -a.score + b.score);
+  const courses = enrichedAltCourses;
+
+  const handleSetSelected = (switchCourse: string) => {
+    handleSwitchCourse(courseInfo.name, switchCourse);
+  };
+
   return (
     <Box
       display="flex"
@@ -33,7 +57,11 @@ export default function RecommendedCourseCard({
         </Text>
       </Box>
       {/* TODO: replace this shit with a select menu */}
-      <Button leadingVisual={SyncIcon}>Change</Button>
+      {/* <Button leadingVisual={SyncIcon}>Change</Button> */}
+      <SwitchCourseSelect
+        courseList={courses}
+        handleSetSelected={handleSetSelected}
+      />
     </Box>
   );
 }
