@@ -32,8 +32,6 @@ export const auditDeclared = async (email: string) => {
   const formData = new FormData();
   formData.append("email", email);
 
-  console.log("querying with ", email);
-
   const response = await fetch(`${BASE_URL}/audit/declared`, {
     method: "POST",
     headers: {
@@ -50,8 +48,9 @@ export const auditDeclared = async (email: string) => {
   }
 
   const json = await response.json();
-  const requirementListKeys = Object.keys(json.categoryStatusMap);
-  console.log(json);
+  const allRequirementLists = [];
+  const degreeAuditResult = json[0];
+  const requirementListKeys = Object.keys(degreeAuditResult.categoryStatusMap);
   const requirementLists: ListRequirement[] = [];
   for (const key of requirementListKeys) {
     const parsedList = parseKeyValue(key);
@@ -59,11 +58,60 @@ export const auditDeclared = async (email: string) => {
       name: parsedList?.name || "List",
       completedCourses: parsedList?.courses || [],
       required: 0,
-      completionStatus: json.categoryStatusMap[key],
+      completionStatus: degreeAuditResult.categoryStatusMap[key],
+    });
+  }
+  allRequirementLists.push({
+    requirementLists: requirementLists,
+    name: degreeAuditResult.plan.name,
+    overallStatus: degreeAuditResult.overallStatus,
+  });
+
+  for (const auditResult of json.splice(1)) {
+    const requirementListKeys = Object.keys(auditResult.categoryStatusMap);
+    const courseMap: { [key: string]: string[] } = {};
+
+    const listCourseKeys = Object.keys(auditResult.requirementCourseListMap);
+    for (const key of listCourseKeys) {
+      const list = auditResult.requirementCourseListMap[key];
+      for (const courseInfo of list) {
+        const courseCode = courseInfo.sbj_list + " " + courseInfo.cnbr_name;
+        if (key in courseMap) {
+          courseMap[key].push(courseCode);
+        } else {
+          courseMap[key] = [courseCode];
+        }
+      }
+    }
+
+    const requirementLists: ListRequirement[] = [];
+    for (const key of requirementListKeys) {
+      const parsedList = parseKeyValue(key);
+
+      const courseList = parsedList?.courses || [];
+      for (const i in courseList) {
+        const requirement = courseList[i];
+        if (requirement in courseMap && courseMap[requirement].length > 0) {
+          courseList[i] = courseMap[requirement][0];
+          courseMap[requirement].shift();
+        }
+      }
+
+      requirementLists.push({
+        name: parsedList?.name || "List",
+        completedCourses: courseList,
+        required: 0,
+        completionStatus: auditResult.categoryStatusMap[key],
+      });
+    }
+    allRequirementLists.push({
+      requirementLists: requirementLists,
+      name: auditResult.plan.name,
+      overallStatus: auditResult.overallStatus,
     });
   }
 
-  return requirementLists;
+  return allRequirementLists;
 };
 
 // Audit an option

@@ -46,6 +46,7 @@ interface UserInfo {
   lastName: string;
   program: string;
   uploadDate: string;
+  declaredOptions: string[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -97,8 +98,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             lastName: data.lastName,
             program: data.programName,
             uploadDate: data.uploadDate,
+            declaredOptions: data.optionNames,
           };
-          setUserInfo(userData);
 
           const newCourseTerms: { [key: string]: string } = {};
           const newCourseResults: { [key: string]: string } = {};
@@ -112,6 +113,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             }
           }
 
+          setUserInfo(userData);
           setCourseTerms(newCourseTerms);
           setCourseResultMap(newCourseResults);
         } catch {

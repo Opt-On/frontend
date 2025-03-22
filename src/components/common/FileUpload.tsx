@@ -50,7 +50,8 @@ export default function FileUpload() {
         return;
       }
       const response = await submitTranscript(file, user!.email);
-      updateTranscript();
+      await submitTranscript(file, user!.email);
+      updateTranscript(); // this is insane but it rerenders with correct userInfo, might be next dev issue
       console.log(`Success: ${response}`);
     } catch (error) {
       console.log("Upload failed");

@@ -14,7 +14,7 @@ export type RequirementDisplayInfo = {
 
 // todo: consolidate colors
 export const getVariant = (status: string) => {
-  switch (status) {
+  switch (status.toLowerCase()) {
     case RequirementStatus.COMPLETE:
       return "#1a7f37";
     case RequirementStatus.PROVISIONALLY_COMPLETE:
@@ -41,7 +41,7 @@ export function RequirementDisplay({
     >
       <Box display="flex" flexDirection="column" marginTop="0.5rem">
         <h3>{requirementDisplayInfo.name}</h3>
-        <Text weight="light">{"penis 420"}</Text>
+        <Text weight="light">{requirementDisplayInfo.date || ""}</Text>
         <Text
           marginTop="1.5rem"
           color={getVariant(requirementDisplayInfo.completionStatus)}

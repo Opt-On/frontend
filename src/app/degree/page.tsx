@@ -7,7 +7,6 @@ import {
 import {
   CourseResult,
   RequirementInfo,
-  RequirementStatus,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context";
@@ -20,21 +19,25 @@ function splitAtFirstNumber(str: string) {
 
 export default function Degree() {
   const { userInfo, user, courseResultMap, courseNameMap } = useAuth();
-  const [degreeRequirementList, setDegreeRequirementList] = useState<
-    RequirementInfo[]
+  const [degreeRequirementInfo, setDegreeRequirementInfo] =
+    useState<RequirementDisplayInfo>();
+  const [optionsRequirementInfo, setOptionsRequirementInfo] = useState<
+    RequirementDisplayInfo[]
   >([]);
-  const degreeType = "Bachelors of BOFA"; // need to parse this field
+  const degreeType = "Bachelors of BOFA"; // need to parse this field or some shit idk
   const degreeName = userInfo?.program || "NUTS Engineering";
-  const graduationYear = userInfo?.graduationYear || "2025";
+  const graduationYear = userInfo?.graduationYear || "20-NOT A YEAR BOZO"; // we can prob calculate with last term + date
 
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
       try {
         if (user && user.email) {
+          // degree audit
           const data = await auditDeclared(user.email);
-          const newDegreeRequirementInfo: RequirementInfo[] = [];
+          const degreeRequirementList: RequirementInfo[] = [];
 
-          for (const requirement of data) {
+          const degreeRequirement = data[0];
+          for (const requirement of degreeRequirement.requirementLists) {
             // ignore coops
             if (requirement.name == "WKTRM") {
               continue;
@@ -42,9 +45,6 @@ export default function Degree() {
             const courseResults: CourseResult[] = [];
             for (const courseName of requirement.completedCourses) {
               const formattedCourseName = splitAtFirstNumber(courseName);
-              if (courseName.split(" ")[-1] == "list") {
-                console.log(formattedCourseName, "is a list");
-              }
               courseResults.push({
                 courseCode: formattedCourseName,
                 courseName:
@@ -57,52 +57,66 @@ export default function Degree() {
                     : "Not taken",
               });
             }
-            newDegreeRequirementInfo.push({
+            degreeRequirementList.push({
               requirementName: requirement.name,
               status: requirement.completionStatus,
               courses: courseResults,
             });
           }
-          console.log(newDegreeRequirementInfo);
-          console.log(courseResultMap);
-          console.log(userInfo?.firstName);
-          setDegreeRequirementList(newDegreeRequirementInfo);
+
+          const degreeRequirements: RequirementDisplayInfo = {
+            requirementInfo: degreeRequirementList,
+            name: degreeRequirement.name || "fix me bozo",
+            date: "Parse me daddy", // PARSE THIS
+            completionStatus: degreeRequirement.overallStatus,
+          };
+
+          setDegreeRequirementInfo(degreeRequirements);
+
+          // options audit
+          const optionRequirements: RequirementDisplayInfo[] = [];
+          for (const optionRequirement of data.slice(1)) {
+            const optionRequirementList: RequirementInfo[] = [];
+            console.log("option requirements", optionRequirement);
+            for (const requirement of optionRequirement.requirementLists) {
+              const courseResults: CourseResult[] = [];
+              for (const courseName of requirement.completedCourses) {
+                courseResults.push({
+                  courseCode: courseName,
+                  courseName:
+                    courseName in courseNameMap
+                      ? courseNameMap[courseName]
+                      : "",
+                  grade:
+                    courseName in courseResultMap
+                      ? courseResultMap[courseName]
+                      : "Not taken",
+                });
+              }
+              optionRequirementList.push({
+                requirementName: requirement.name,
+                status: requirement.completionStatus,
+                courses: courseResults,
+              });
+            }
+            const optionRequirementInfo: RequirementDisplayInfo = {
+              requirementInfo: optionRequirementList,
+              name: optionRequirement.name,
+              completionStatus: optionRequirement.overallStatus,
+            };
+            optionRequirements.push(optionRequirementInfo);
+          }
+          setOptionsRequirementInfo(optionRequirements);
+
+          console.log("courseResultMap", courseResultMap);
         }
-      } catch {
-        console.error("failed to get declared audit result");
+      } catch (e) {
+        console.error("failed to get declared audit result", e);
       }
     };
 
     getDeclaredAuditResult();
   }, [courseResultMap, courseNameMap, userInfo]); // courseResultMap is updated when user is updated so we dont need an extra rerender
-
-  const degreeRequirements: RequirementDisplayInfo = {
-    requirementInfo: degreeRequirementList,
-    name: userInfo?.program || "A",
-    date: "Winter 2025",
-    completionStatus: RequirementStatus.PROVISIONALLY_COMPLETE,
-  };
-
-  const optionsRequirements: RequirementDisplayInfo[] = [
-    {
-      requirementInfo: [
-        {
-          requirementName: "List 1",
-          status: RequirementStatus.PROVISIONALLY_COMPLETE,
-        },
-        {
-          requirementName: "List 2",
-          status: RequirementStatus.INCOMPLETE,
-        },
-        {
-          requirementName: "List 3",
-          status: RequirementStatus.COMPLETE,
-        },
-      ],
-      name: "computing option",
-      completionStatus: RequirementStatus.INCOMPLETE,
-    },
-  ];
 
   return (
     <main>
@@ -120,13 +134,17 @@ export default function Degree() {
           <Text weight="semibold" marginTop="2rem">
             {degreeName} {graduationYear}
           </Text>
-          <RequirementDisplay requirementDisplayInfo={degreeRequirements} />
-          {/* {optionsRequirements.map((optionRequirements, index) => (
+          {degreeRequirementInfo && (
+            <RequirementDisplay
+              requirementDisplayInfo={degreeRequirementInfo}
+            />
+          )}
+          {optionsRequirementInfo.map((optionRequirements, index) => (
             <RequirementDisplay
               requirementDisplayInfo={optionRequirements}
               key={`optionRequirement${index}`}
             />
-          ))} */}
+          ))}
         </Box>
       </section>
     </main>
