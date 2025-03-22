@@ -1,72 +1,84 @@
-"use client"
+"use client";
+import { auditDeclared } from "@/api/audit";
 import {
   RequirementDisplay,
   RequirementDisplayInfo,
 } from "@/components/common/RequirementDisplay";
 import {
+  CourseResult,
   RequirementInfo,
   RequirementStatus,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context";
 import { Box, Text } from "@primer/react";
+import { useEffect, useState } from "react";
+
+function splitAtFirstNumber(str: string) {
+  return str.replace(/(\D+)(\d+)/, "$1 $2");
+}
 
 export default function Degree() {
-  const { userInfo } = useAuth();
+  const { userInfo, user, courseResultMap, courseNameMap } = useAuth();
+  const [degreeRequirementList, setDegreeRequirementList] = useState<
+    RequirementInfo[]
+  >([]);
   const degreeType = "Bachelors of BOFA"; // need to parse this field
   const degreeName = userInfo?.program || "NUTS Engineering";
   const graduationYear = userInfo?.graduationYear || "2025";
 
-  const degreeRequirementList: RequirementInfo[] = [
-    {
-      requirementName: "1A",
-      date: "Fall 2020",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "1B",
-      date: "Winter 2021",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "2A",
-      date: "Fall 2021",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "2B",
-      date: "Spring 2022",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "3A",
-      date: "Winter 2023",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "3B",
-      date: "Fall 2023",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "4A",
-      date: "Spring 2024",
-      status: RequirementStatus.PROVISIONALLY_COMPLETE,
-    },
-    {
-      requirementName: "4B",
-      date: "Winter 2025",
-      status: RequirementStatus.PROVISIONALLY_COMPLETE,
-    },
-    {
-      requirementName: "Free Elective",
-      status: RequirementStatus.PROVISIONALLY_COMPLETE,
-    },
-  ];
+  useEffect(() => {
+    const getDeclaredAuditResult = async () => {
+      try {
+        if (user && user.email) {
+          const data = await auditDeclared(user.email);
+          const newDegreeRequirementInfo: RequirementInfo[] = [];
+
+          for (const requirement of data) {
+            // ignore coops
+            if (requirement.name == "WKTRM") {
+              continue;
+            }
+            const courseResults: CourseResult[] = [];
+            for (const courseName of requirement.completedCourses) {
+              const formattedCourseName = splitAtFirstNumber(courseName);
+              if (courseName.split(" ")[-1] == "list") {
+                console.log(formattedCourseName, "is a list");
+              }
+              courseResults.push({
+                courseCode: formattedCourseName,
+                courseName:
+                  formattedCourseName in courseNameMap
+                    ? courseNameMap[formattedCourseName]
+                    : "",
+                grade:
+                  formattedCourseName in courseResultMap
+                    ? courseResultMap[formattedCourseName]
+                    : "Not taken",
+              });
+            }
+            newDegreeRequirementInfo.push({
+              requirementName: requirement.name,
+              status: requirement.completionStatus,
+              courses: courseResults,
+            });
+          }
+          console.log(newDegreeRequirementInfo);
+          console.log(courseResultMap);
+          console.log(userInfo?.firstName);
+          setDegreeRequirementList(newDegreeRequirementInfo);
+        }
+      } catch {
+        console.error("failed to get declared audit result");
+      }
+    };
+
+    getDeclaredAuditResult();
+  }, [courseResultMap, courseNameMap, userInfo]); // courseResultMap is updated when user is updated so we dont need an extra rerender
 
   const degreeRequirements: RequirementDisplayInfo = {
     requirementInfo: degreeRequirementList,
-    name: "MGTE",
+    name: userInfo?.program || "A",
     date: "Winter 2025",
     completionStatus: RequirementStatus.PROVISIONALLY_COMPLETE,
   };
@@ -109,12 +121,12 @@ export default function Degree() {
             {degreeName} {graduationYear}
           </Text>
           <RequirementDisplay requirementDisplayInfo={degreeRequirements} />
-          {optionsRequirements.map((optionRequirements, index) => (
+          {/* {optionsRequirements.map((optionRequirements, index) => (
             <RequirementDisplay
               requirementDisplayInfo={optionRequirements}
               key={`optionRequirement${index}`}
             />
-          ))}
+          ))} */}
         </Box>
       </section>
     </main>

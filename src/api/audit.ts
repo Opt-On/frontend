@@ -1,28 +1,69 @@
 const BASE_URL = "http://localhost:8080";
 
-// export const auditDeclared = async (email: string) => {
-//   const formData = new FormData();
-//   formData.append("email", email);
-
-//   const response = await fetch(`${BASE_URL}/transcript/upload`, {
-//     method: "POST",
-//     body: formData,
-//   });
-
-//   if (!response.ok) throw new Error("File upload failed");
-
-//   return response.text();
-// };
-
 function processString(str: string) {
   return str.split(" ").slice(0, -1).join("_").toLowerCase();
+}
+
+function parseKeyValue(str: string) {
+  const match = str.match(/^\{([^,]+),\[(.+)\]\}$/);
+  if (!match) return null; // Invalid format
+
+  const key = match[1]; // Extract the key (e.g., "1A")
+  const values = match[2].split(","); // Split courses into an array
+
+  return { name: key, courses: values };
 }
 
 export type ListRequirement = {
   name: string;
   required: number;
   completedCourses: string[];
-  completionStatus: "Incomplete";
+  completionStatus: string;
+};
+
+export interface OptionProgress {
+  name: string;
+  completedRequirements: number;
+  totalRequirements: number;
+}
+
+// degree audit
+export const auditDeclared = async (email: string) => {
+  const formData = new FormData();
+  formData.append("email", email);
+
+  console.log("querying with ", email);
+
+  const response = await fetch(`${BASE_URL}/audit/declared`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      email: email,
+    },
+    body: JSON.stringify({}),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Request failed");
+  }
+
+  const json = await response.json();
+  const requirementListKeys = Object.keys(json.categoryStatusMap);
+  console.log(json);
+  const requirementLists: ListRequirement[] = [];
+  for (const key of requirementListKeys) {
+    const parsedList = parseKeyValue(key);
+    requirementLists.push({
+      name: parsedList?.name || "List",
+      completedCourses: parsedList?.courses || [],
+      required: 0,
+      completionStatus: json.categoryStatusMap[key],
+    });
+  }
+
+  return requirementLists;
 };
 
 // Audit an option
@@ -83,12 +124,6 @@ export const auditWhatIf = async (email: string, plan: string) => {
 
   return listRequirements;
 };
-
-export interface OptionProgress {
-  name: string;
-  completedRequirements: number;
-  totalRequirements: number;
-}
 
 export const auditOptions = async (email: string) => {
   const response = await fetch(`${BASE_URL}/audit/options`, {

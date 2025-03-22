@@ -10,7 +10,8 @@ export enum RequirementStatus {
 export type RequirementInfo = {
   requirementName: string;
   date?: string;
-  status: RequirementStatus;
+  status: RequirementStatus | string;
+  courses: CourseResult[];
 };
 
 export type CourseResult = {
