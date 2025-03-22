@@ -31,7 +31,22 @@ export default function Question({ question, answers, onSelect, selectedAnswer }
               onClick={() => onSelect(index)}
               className={`${styles.button} ${selectedAnswer === index ? styles.selected : ""}`}
             >
-              <Image src={answer.src!} alt='answer' width={140} height={140} />
+              <div
+                style={{
+                  padding: "10px",
+                  overflow: "hidden",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={answer.src!}
+                  alt='answer'
+                  width={180}
+                  height={180}
+                />
+              </div>
               <span className={styles.text}>{answer.label}</span>
             </div>
           ))}
