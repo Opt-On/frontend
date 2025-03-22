@@ -25,8 +25,9 @@ export default function SwitchCourseSelect({
                 onClick={() => handleSetSelected(course.name)}
               >
                 <span>
-                  {course.name} - {course.description}
+                  <b>{course.name} </b>
                 </span>
+                - {course.description}
               </ActionList.LinkItem>
             ))}
           </ActionList>
