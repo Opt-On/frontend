@@ -3,23 +3,26 @@
 import { Login } from "../modals/Login";
 import SliderButton from "@/components/SliderButton";
 import { useAuth } from "@/context";
-import { Avatar, Button } from "@primer/react";
+import { Avatar, Box, Button } from "@primer/react";
 import { useState } from "react";
-import { ProfileModal } from "../modals/ProfileModal";
 import { SignUp } from "../modals/SignUp";
+import { Profile } from "../modals/Profile";
 
 export default function NavBar() {
-  const { user } = useAuth();
+  const { user, avatar } = useAuth();
   const [displayLogin, setDisplayLogin] = useState<boolean>(false);
   const [displaySignUp, setDisplaySignUp] = useState<boolean>(false);
-  const [displayProfileModal, setDisplayProfileModal] = useState<boolean>(false);
+  const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
-  const toggleProfileModal = () => {
-    setDisplayProfileModal(!displayProfileModal && !!user);
+  const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
+  const bgColors = ["#fbefff", "#ffeff7", "#ddf4ff", "#dafbe1", "#fff8c5", "#fff1e5", "#ffebe9"];
+
+  const toggleProfile = () => {
+    setDisplayProfile(!displayProfile && !!user);
   };
 
-  const hideProfileModal = () => {
-    setDisplayProfileModal(false);
+  const hideProfile = () => {
+    setDisplayProfile(false);
   };
 
   const toggleLogin = () => {
@@ -63,15 +66,34 @@ export default function NavBar() {
               justifyContent: "flex-end",
               alignItems: "center",
               height: "100%",
+              cursor: "pointer",
             }}
           >
-            <Avatar
-              size={32}
-              src={user.photoURL || "https://avatars.githubusercontent.com/u/7143434?v=4"}
-              onClick={toggleProfileModal}
-            />
+            {avatar[0] === -1 ? (
+              <Avatar
+                size={32}
+                src={user.photoURL || "https://avatars.githubusercontent.com/u/7143434?v=4"}
+                onClick={toggleProfile}
+              />
+            ) : (
+              <Box
+                width={36}
+                height={36}
+                borderRadius='50%'
+                bg={bgColors[avatar[1]]}
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                fontSize='20px'
+                paddingTop='2px'
+                style={{ cursor: "pointer" }}
+                onClick={toggleProfile}
+              >
+                {emojis[avatar[0]]}
+              </Box>
+            )}
           </div>
-          {displayProfileModal && <ProfileModal handleClose={hideProfileModal} />}
+          {displayProfile && <Profile handleClose={hideProfile} />}
         </>
       ) : (
         <div

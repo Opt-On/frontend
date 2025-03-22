@@ -1,0 +1,33 @@
+$spacing-xl: 32px;
+$spacing-large: 24px;
+$spacing-medium: 16px;
+$spacing-small: 4px;
+$font-size-large: 24px;
+$font-size-medium: 16px;
+$font-size-small: 14px;
+$font-weight-semibold: 600;
+$line-height: 160%;
+$color-text: #656d76;
+
+.header {
+  padding: $spacing-large $spacing-xl $spacing-medium $spacing-xl;
+
+  .title {
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-large;
+    line-height: $line-height;
+  }
+}
+
+.body {
+  padding: 0 $spacing-xl $spacing-xl $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-large;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-small;
+}

@@ -1,24 +1,18 @@
 "use client";
-import { 
-  onAuthStateChanged, 
-  User, 
-  UserCredential, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signInWithPopup, 
-  GithubAuthProvider
-} from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+  onAuthStateChanged,
+  User,
+  UserCredential,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GithubAuthProvider,
+} from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
-import {courseTermMap} from "./courseTermMap"
+import { courseTermMap } from "./courseTermMap";
 
 interface AuthContextType {
   user: User | null;
@@ -29,9 +23,11 @@ interface AuthContextType {
   logout: () => Promise<void>;
   userInfo: UserInfo | null;
   transcriptIndex: number;
+  avatar: number[];
   updateTranscript: () => void;
+  updateAvatar: (emoji: number, color: number) => void;
   courseTerms: { [key: string]: string };
-  courseNameMap: {[key: string]: string}
+  courseNameMap: { [key: string]: string };
 }
 
 interface UserInfo {
@@ -48,10 +44,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [courseTerms, setCourseTerms] = useState<{ [key: string]: string }>({});
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
+  const [avatar, setAvatar] = useState<number[]>([-1, -1]);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
-  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>(
-    {}
-  );
+  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -64,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchCourseMapping = async () => {
-      setCourseNameMap(courseTermMap)
+      setCourseNameMap(courseTermMap);
     };
     fetchCourseMapping();
   }, []);
@@ -90,6 +85,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           };
           setUserInfo(userData);
 
+          if (data.avatar && Array.isArray(data.avatar) && data.avatar.length === 2) {
+            setAvatar(data.avatar);
+          }
+
           const newCourseTerms: { [key: string]: string } = {};
 
           for (const term of data.termSummaries) {
@@ -110,6 +109,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (user) fetchData();
   }, [user, transcriptIndex]);
 
+  useEffect(() => {
+    updateAvatar();
+  }, [avatar])
+
+  const updateAvatar = async () => {
+    if (user?.email && avatar.length === 2) {
+      try {
+        const userRef = doc(db, "user", user.email);
+        await setDoc(userRef, { avatar }, { merge: true });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const updateAvatarState = (emoji: number, color: number) => {
+    setAvatar([emoji, color]);
+    updateAvatar();
+  };
+
   const updateTranscript = () => {
     setTranscriptIndex(transcriptIndex + 1);
   };
@@ -121,7 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log(result);
       return result;
     } catch (error) {
-      console.error("GitHub login error:", error);
+      console.error(error);
       return null;
     }
   };
@@ -131,7 +150,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       return result;
     } catch (error) {
-      console.error("Email login error:", error);
+      console.error(error);
       return null;
     }
   };
@@ -141,7 +160,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       return result;
     } catch (error) {
-      console.error("Email signup error:", error);
+      console.error(error);
       return null;
     }
   };
@@ -151,20 +170,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-
     <AuthContext.Provider
       value={{
         user,
-        loginWithGoogle, 
-        loginWithGitHub, 
-        loginWithEmail, 
-        signUpWithEmail, 
+        loginWithGoogle,
+        loginWithGitHub,
+        loginWithEmail,
+        signUpWithEmail,
         logout,
         userInfo,
         transcriptIndex,
+        avatar,
         updateTranscript,
+        updateAvatar: updateAvatarState,
         courseTerms,
-        courseNameMap
+        courseNameMap,
       }}
     >
       {children}
