@@ -64,10 +64,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  // const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  // const [courseDataMap, setCourseData] = useState<{
-  //   [key: string]: CourseData;
-  // }>({});
   const [userCourseInfo, setUserCourseInfo] = useState<UserCourseInfo>();
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
   const [avatar, setAvatar] = useState<number[]>([-1, -1]);
