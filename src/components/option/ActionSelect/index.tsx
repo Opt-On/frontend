@@ -1,4 +1,4 @@
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import { CheckIcon } from "@primer/octicons-react";
 import { ActionList, ActionMenu, Box } from "@primer/react";
 import { useMemo } from "react";
