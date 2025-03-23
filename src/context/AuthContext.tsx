@@ -120,7 +120,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
           // batch setStates
           flushSync(() => {
-            // don't update from non-empty to empty state if it shouldnt be empty (mostly for dev)
             setUserCourseInfo({
               userInfo: userData,
               courseData: newCourseData,
