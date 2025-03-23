@@ -1,5 +1,7 @@
+import { useAuth } from "@/context";
 import { CheckIcon } from "@primer/octicons-react";
 import { ActionList, ActionMenu, Box } from "@primer/react";
+import { useMemo } from "react";
 import styles from "./ActionSelect.module.scss";
 
 export default function ActionSelect({
@@ -11,6 +13,40 @@ export default function ActionSelect({
   handleSetSelected: (index: number) => void;
   optionList: string[];
 }) {
+  const { userInfo } = useAuth();
+  const filteredOptionList = useMemo(() => {
+    const optionBlacklist = new Map(
+      Object.entries({
+        "Artificial Intelligence": ["Artificial Intelligence Specialization"],
+        Biomechanics: [],
+        "Computer Engineering": [
+          "Computing Option",
+          "Software Engineering Option",
+        ],
+        Computing: [
+          "Computer Engineering",
+          "Computer Engineering Option",
+          "Software Engineering",
+          "Software Engineering Option",
+        ],
+        Entrepreneurship: [],
+        "Management Science": ["Management Engineering"],
+        Mechatronics: [],
+        "Software Engineering": [],
+        Statistics: [],
+      })
+    );
+
+    if (!userInfo?.program) {
+      return optionList;
+    }
+
+    const filtered = optionList.filter((option) => {
+      return !(optionBlacklist.get(option) || []).includes(userInfo.program);
+    });
+    return filtered;
+  }, [optionList, userInfo]);
+
   return (
     <ActionMenu>
       <ActionMenu.Button>
@@ -18,10 +54,10 @@ export default function ActionSelect({
           {selected === -1 ? "Choose an option" : optionList[selected]}
         </Box>
       </ActionMenu.Button>
-      <ActionMenu.Overlay side='inside-center'>
+      <ActionMenu.Overlay side="inside-center">
         <Box className={styles.overlay}>
           <ActionList>
-            {optionList.map((option, index) => (
+            {filteredOptionList.map((option, index) => (
               <ActionList.LinkItem
                 key={`courseList-${index}`}
                 className={styles.linkItem}
