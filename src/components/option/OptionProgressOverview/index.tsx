@@ -9,9 +9,8 @@ import { useCallback, useEffect, useState } from "react";
 import OptionProgressPreview from "../OptionProgressPreview";
 
 export const optionMap: { [key: string]: string } = {
-  // COGSCOPT: "Cognitive Science", this shit aint real
   COMPENGOPT: "Computer Engineering",
-  MSCIOPT: "Management Science",
+  MSCIOPT: "Management Sciences",
   BIOMECHOPT: "Biomechanics",
   BUSOPT: "Business",
   SWENGOPT: "Software Engineering",
@@ -51,23 +50,18 @@ export default function OptionProgressOverview() {
 
   const fetchAudit = async (email: string) => {
     try {
-      const plans: { [key: string]: [number, number] }[] = await auditOptions(
-        email
-      );
+      const plans: { [key: string]: [number, number] }[] = await auditOptions(email);
       if (!plans) return;
 
-      const progress: OptionProgress[] = plans.map(
-        (item: { [key: string]: [number, number] }) => {
-          const name = Object.keys(item)[0];
-          const [completedRequirements, totalRequirements] =
-            Object.values(item)[0];
-          return {
-            name,
-            completedRequirements,
-            totalRequirements,
-          };
-        }
-      );
+      const progress: OptionProgress[] = plans.map((item: { [key: string]: [number, number] }) => {
+        const name = Object.keys(item)[0];
+        const [completedRequirements, totalRequirements] = Object.values(item)[0];
+        return {
+          name,
+          completedRequirements,
+          totalRequirements,
+        };
+      });
       setOptionProgress(progress);
     } catch (error) {
       console.error(error);
@@ -82,13 +76,10 @@ export default function OptionProgressOverview() {
 
   return (
     <Box className={styles.wrapper}>
-      <Text
-        as="h1"
-        className={`${styles.header} ${selected !== -1 ? styles.selected : ""}`}
-      >
+      <Text as='h1' className={`${styles.header} ${selected !== -1 ? styles.selected : ""}`}>
         What option are you interested in?
       </Text>
-      <Text as="h3" className={styles.subtitle}>
+      <Text as='h3' className={styles.subtitle}>
         Select from available options to see more details
       </Text>
       <Box className={styles.actionSelectContainer}>
@@ -103,13 +94,12 @@ export default function OptionProgressOverview() {
         <OptionProgressDetailed option={optionSelected} />
       ) : (
         <>
-          <Text as="h4" className={styles.text}>
+          <Text as='h4' className={styles.text}>
             Options you&lsquo;ve made progress towards
           </Text>
           <Box className={styles.progressPreviewContainer}>
             <OptionProgressPreview
               optionProgress={optionProgress[0]}
-              isDeclared
               onClick={() => handlePreviewClick(optionProgress[0].name)}
             />
             <OptionProgressPreview

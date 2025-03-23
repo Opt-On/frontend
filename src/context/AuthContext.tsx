@@ -47,8 +47,8 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   program: string;
+  optionNames: string[];
   uploadDate: string;
-  declaredOptions: string[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             lastName: data.lastName,
             program: data.programName,
             uploadDate: data.uploadDate,
-            declaredOptions: data.optionNames,
+            optionNames: data.optionNames,
           };
           setUserInfo(userData);
 
