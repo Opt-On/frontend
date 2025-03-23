@@ -13,7 +13,7 @@ export default function ActionSelect({
   handleSetSelected: (index: number) => void;
   optionList: string[];
 }) {
-  const { userInfo } = useAuth();
+  const { userCourseInfo } = useAuth();
   const filteredOptionList = useMemo(() => {
     const optionBlacklist = new Map(
       Object.entries({
@@ -37,15 +37,17 @@ export default function ActionSelect({
       })
     );
 
-    if (!userInfo?.program) {
+    if (!userCourseInfo?.userInfo?.program) {
       return optionList;
     }
 
     const filtered = optionList.filter((option) => {
-      return !(optionBlacklist.get(option) || []).includes(userInfo.program);
+      return !(optionBlacklist.get(option) || []).includes(
+        userCourseInfo!.userInfo.program
+      );
     });
     return filtered;
-  }, [optionList, userInfo]);
+  }, [optionList, userCourseInfo]);
 
   return (
     <ActionMenu>

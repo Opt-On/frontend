@@ -12,20 +12,21 @@ import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 
 function splitAtFirstNumber(str: string) {
   return str.replace(/(\D+)(\d+)/, "$1 $2");
 }
 
 export default function Degree() {
-  const { userInfo, user, courseResultMap, courseNameMap } = useAuth();
+  const { userCourseInfo, user, courseNameMap } = useAuth();
   const [degreeRequirementInfo, setDegreeRequirementInfo] =
     useState<RequirementDisplayInfo>();
   const [optionsRequirementInfo, setOptionsRequirementInfo] = useState<
     RequirementDisplayInfo[]
   >([]);
   const degreeType = "Bachelors of BOFA"; // need to parse this field or some shit idk
-  const degreeName = userInfo?.program || "NUTS Engineering";
+  const degreeName = userCourseInfo?.userInfo?.program || "NUTS Engineering";
 
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
@@ -51,8 +52,8 @@ export default function Degree() {
                     ? courseNameMap[formattedCourseName]
                     : "",
                 grade:
-                  formattedCourseName in courseResultMap
-                    ? courseResultMap[formattedCourseName]
+                  formattedCourseName in (userCourseInfo?.courseData || {})
+                    ? userCourseInfo!.courseData[formattedCourseName]["result"]
                     : "Not taken",
               });
             }
@@ -70,13 +71,10 @@ export default function Degree() {
             completionStatus: degreeRequirement.overallStatus,
           };
 
-          setDegreeRequirementInfo(degreeRequirements);
-
           // options audit
           const optionRequirements: RequirementDisplayInfo[] = [];
           for (const optionRequirement of data.slice(1)) {
             const optionRequirementList: RequirementInfo[] = [];
-            console.log("option requirements", optionRequirement);
             for (const requirement of optionRequirement.requirementLists) {
               const courseResults: CourseResult[] = [];
               for (const courseName of requirement.completedCourses) {
@@ -87,8 +85,8 @@ export default function Degree() {
                       ? courseNameMap[courseName]
                       : "",
                   grade:
-                    courseName in courseResultMap
-                      ? courseResultMap[courseName]
+                    courseName in (userCourseInfo?.courseData || {})
+                      ? userCourseInfo!.courseData[courseName]["result"]
                       : "Not taken",
                 });
               }
@@ -105,9 +103,12 @@ export default function Degree() {
             };
             optionRequirements.push(optionRequirementInfo);
           }
-          setOptionsRequirementInfo(optionRequirements);
 
-          console.log("courseResultMap", courseResultMap);
+          flushSync(() => {
+            setDegreeRequirementInfo(degreeRequirements);
+            setOptionsRequirementInfo(optionRequirements);
+          });
+          console.log(userCourseInfo?.courseData);
         }
       } catch (e) {
         console.error("failed to get declared audit result", e);
@@ -115,7 +116,7 @@ export default function Degree() {
     };
 
     getDeclaredAuditResult();
-  }, [courseResultMap, courseNameMap, userInfo]); // courseResultMap is updated when user is updated so we dont need an extra rerender
+  }, [userCourseInfo]); // courseDataMap is updated when user is updated so we dont need an extra rerender
 
   return (
     <main>

@@ -6,6 +6,7 @@ import styles from "@/components/option/OptionProgressOverview/OptionProgressOve
 import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
 import { useCallback, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import OptionProgressPreview from "../OptionProgressPreview";
 
 export const optionMap: { [key: string]: string } = {
@@ -24,16 +25,21 @@ export const optionMap: { [key: string]: string } = {
 };
 
 export default function OptionProgressOverview() {
+  const { user } = useAuth();
+
   const [selected, setSelected] = useState(-1);
   const [optionSelected, setOptionSelected] = useState<string | null>(null);
+  const [optionProgress, setOptionProgress] = useState<OptionProgress[]>([]);
 
   const optionIds = Object.keys(optionMap);
   const optionNames = Object.values(optionMap);
 
   const handleSelectChange = useCallback(
     (index: number) => {
-      setSelected(index);
-      setOptionSelected(optionIds[index]);
+      flushSync(() => {
+        setSelected(index);
+        setOptionSelected(optionIds[index]);
+      });
     },
     [optionIds]
   );
@@ -41,13 +47,12 @@ export default function OptionProgressOverview() {
   const handlePreviewClick = (optionName: string) => {
     const index = optionNames.indexOf(optionMap[optionName]);
     if (index !== -1) {
-      setSelected(index);
-      setOptionSelected(optionIds[index]);
+      flushSync(() => {
+        setSelected(index);
+        setOptionSelected(optionIds[index]);
+      });
     }
   };
-
-  const { user } = useAuth();
-  const [optionProgress, setOptionProgress] = useState<OptionProgress[]>([]);
 
   const fetchAudit = async (email: string) => {
     try {
