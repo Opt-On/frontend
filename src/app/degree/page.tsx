@@ -53,7 +53,7 @@ export default function Degree() {
                 grade:
                   formattedCourseName in courseResultMap
                     ? courseResultMap[formattedCourseName]
-                    : "Not taken",
+                    : "-",
               });
             }
             degreeRequirementList.push({
@@ -74,9 +74,11 @@ export default function Degree() {
 
           // options audit
           const optionRequirements: RequirementDisplayInfo[] = [];
-          for (const optionRequirement of data.slice(1)) {
+
+          const rawOptionData = data.slice(1);
+          for (const optionRequirementIndex in rawOptionData) {
+            const optionRequirement = rawOptionData[optionRequirementIndex];
             const optionRequirementList: RequirementInfo[] = [];
-            console.log("option requirements", optionRequirement);
             for (const requirement of optionRequirement.requirementLists) {
               const courseResults: CourseResult[] = [];
               for (const courseName of requirement.completedCourses) {
@@ -89,7 +91,7 @@ export default function Degree() {
                   grade:
                     courseName in courseResultMap
                       ? courseResultMap[courseName]
-                      : "Not taken",
+                      : "-",
                 });
               }
               optionRequirementList.push({
@@ -100,14 +102,13 @@ export default function Degree() {
             }
             const optionRequirementInfo: RequirementDisplayInfo = {
               requirementInfo: optionRequirementList,
-              name: optionRequirement.name,
+              // name: optionRequirement.name,
+              name: `List ${parseInt(optionRequirementIndex) + 1}`,
               completionStatus: optionRequirement.overallStatus,
             };
             optionRequirements.push(optionRequirementInfo);
           }
           setOptionsRequirementInfo(optionRequirements);
-
-          console.log("courseResultMap", courseResultMap);
         }
       } catch (e) {
         console.error("failed to get declared audit result", e);
