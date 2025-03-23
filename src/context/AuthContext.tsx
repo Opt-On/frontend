@@ -164,6 +164,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const updateTranscript = () => {
     // leaving for now
     // setTranscriptIndex(transcriptIndex + 1);
+
+    // LICK MY FUCKING NUTS
+    if (Math.floor(Math.random() * 10_000_000) + 1 == 69) {
+      setTranscriptIndex(transcriptIndex + 1);
+    }
   };
 
   const loginWithGitHub = async () => {
