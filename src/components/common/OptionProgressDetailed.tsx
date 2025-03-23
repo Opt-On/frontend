@@ -6,13 +6,21 @@ import {
   SparkleFillIcon,
   UndoIcon,
 } from "@primer/octicons-react";
-import { Box, Button, ProgressBar, Text } from "@primer/react";
+import {
+  Box,
+  Button,
+  ProgressBar,
+  Stack,
+  Text,
+  ToggleSwitch,
+} from "@primer/react";
 import { useEffect, useState } from "react";
 import { optionMap } from "../option/OptionProgressOverview";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
 import RecommendedCourseCard from "./RecommendedCourseCard";
 import { RequirementStatus } from "./RequirementDisplayList";
+import "./styles.css";
 
 export type completedCourseInfo = {
   name: string;
@@ -54,6 +62,7 @@ export type RecommendedCourse = {
   prereqFlag: number;
   programFlag: [number, number];
   termFlag: number;
+  missingPrereq: boolean;
   isUsed: boolean;
   description: string;
 };
@@ -79,6 +88,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
   const [recommendationCourses, setRecommendationCourses] = useState<{
     [key: string]: RecommendedCourse;
   }>({});
+  const [filterPrereqs, setFilterPrereqs] = useState<boolean>(false);
 
   // cache this value i forgot the hook name
   useEffect(() => {
@@ -132,110 +142,126 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
     getOptionProgress();
   }, [option, user]); // updating user updates course terms
 
-  const toggleShowRecommendations = async () => {
+  const updateRecommendationData = async () => {
     if (user && user.email) {
       const optionName =
         option in optionMap ? `${optionMap[option]} Option` : "womp womp";
       try {
-        if (!showRecommendations) {
-          const recommendations = await getRecommendations(
-            user?.email,
-            optionName
-          );
+        const recommendations = await getRecommendations(
+          user?.email,
+          optionName
+        );
 
-          console.log(recommendations);
-          // programFlag: [1, 0] - NEVER, [0, 1] - missing prereq, [0, 0] - chilling
+        // programFlag: [1, 0] - NEVER, [0, 1] - missing prereq, [0, 0] - chilling
 
-          const newOptionRequirements = [...optionRequirements];
+        const newOptionRequirements = [...optionRequirements];
 
-          const requirementsNeeded: { [key: string]: number } = {};
-          const totalRequirementsNeeded: { [key: string]: number } = {};
+        const requirementsNeeded: { [key: string]: number } = {};
+        const totalRequirementsNeeded: { [key: string]: number } = {};
 
-          // calc number of requirements we need
-          for (const optionRequirement of optionRequirements) {
-            const listRequirementsNeeded =
-              optionRequirement.courseCount -
-              optionRequirement.completedCourses.length;
-            requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
-            totalRequirementsNeeded[optionRequirement.name] =
-              optionRequirement.courseCount;
-          }
-
-          const newRecommendationCourseLists: { [key: string]: string[] } = {};
-          const newRecommendationCourses: { [key: string]: RecommendedCourse } =
-            {};
-
-          for (const course of recommendations) {
-            const courseSublists = JSON.parse(
-              course.option_sublist.replace(/'/g, '"')
-            ); // json str to array
-
-            let courseUsed = false;
-
-            // keep track of all rec courses
-            for (const courseSublist of courseSublists) {
-              if (courseSublist in newRecommendationCourseLists) {
-                newRecommendationCourseLists[courseSublist].push(
-                  course.courseName
-                );
-              } else {
-                newRecommendationCourseLists[courseSublist] = [
-                  course.courseName,
-                ];
-              }
-            }
-
-            for (const courseSublist of courseSublists) {
-              if (
-                courseSublist in requirementsNeeded &&
-                requirementsNeeded[courseSublist] > 0
-              ) {
-                // add to recs, decrement counter
-                for (const optionRequirement of newOptionRequirements) {
-                  if (
-                    optionRequirement.name == courseSublist &&
-                    optionRequirement.recommendedCourses.length <
-                      totalRequirementsNeeded[courseSublist]
-                  ) {
-                    optionRequirement.recommendedCourses.push({
-                      name: course.courseName,
-                      description:
-                        course.courseName in courseNameMap
-                          ? courseNameMap[course.courseName]
-                          : "Missing course name",
-                      sublistName: courseSublist, // sublist that this course is counted towards
-                    });
-                    courseUsed = true;
-                    break;
-                  }
-                }
-
-                requirementsNeeded[courseSublist] -= 1;
-                break; // only use courses once
-              }
-            }
-
-            newRecommendationCourses[course.courseName] = {
-              name: course.courseName,
-              score: course.Score,
-              prereqFlag: course.prereqFlag,
-              programFlag: course.programFlag, // i think object ref but its ok since we dont change
-              termFlag: course.termFlag,
-              isUsed: courseUsed,
-              description: courseNameMap[course.courseName],
-            };
-          }
-          setOptionRequirementsRecommendation(newOptionRequirements);
-          setRecommendationCourses(newRecommendationCourses);
-          setRecommendationCourseLists(newRecommendationCourseLists);
+        // calc number of requirements we need
+        for (const optionRequirement of optionRequirements) {
+          const listRequirementsNeeded =
+            optionRequirement.courseCount -
+            optionRequirement.completedCourses.length;
+          requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
+          totalRequirementsNeeded[optionRequirement.name] =
+            optionRequirement.courseCount;
         }
-        setShowRecommendations(!showRecommendations);
+
+        const newRecommendationCourseLists: { [key: string]: string[] } = {};
+        const newRecommendationCourses: { [key: string]: RecommendedCourse } =
+          {};
+
+        for (const course of recommendations) {
+          const courseSublists = JSON.parse(
+            course.option_sublist.replace(/'/g, '"')
+          ); // json str to array
+
+          let courseUsed = false;
+
+          // keep track of all rec courses
+          for (const courseSublist of courseSublists) {
+            if (courseSublist in newRecommendationCourseLists) {
+              newRecommendationCourseLists[courseSublist].push(
+                course.courseName
+              );
+            } else {
+              newRecommendationCourseLists[courseSublist] = [course.courseName];
+            }
+          }
+
+          const isMissingPrereq =
+            course.prereqFlag +
+              course.programFlag[0] +
+              course.programFlag[1] +
+              course.termFlag >
+            0;
+
+          for (const courseSublist of courseSublists) {
+            if (
+              courseSublist in requirementsNeeded &&
+              requirementsNeeded[courseSublist] > 0
+            ) {
+              // add to recs, decrement counter
+              for (const optionRequirement of newOptionRequirements) {
+                if (
+                  optionRequirement.name == courseSublist &&
+                  optionRequirement.recommendedCourses.length <
+                    totalRequirementsNeeded[courseSublist] &&
+                  (!filterPrereqs || !isMissingPrereq)
+                ) {
+                  optionRequirement.recommendedCourses.push({
+                    name: course.courseName,
+                    description:
+                      course.courseName in courseNameMap
+                        ? courseNameMap[course.courseName]
+                        : "Missing course name",
+                    sublistName: courseSublist, // sublist that this course is counted towards
+                  });
+                  courseUsed = true;
+                  requirementsNeeded[courseSublist] -= 1;
+
+                  break;
+                }
+              }
+
+              break; // only use courses once
+            }
+          }
+
+          newRecommendationCourses[course.courseName] = {
+            name: course.courseName,
+            score: course.Score,
+            prereqFlag: course.prereqFlag,
+            programFlag: course.programFlag, // i think object ref but its ok since we dont change
+            termFlag: course.termFlag,
+            missingPrereq: isMissingPrereq,
+            isUsed: courseUsed,
+            description: courseNameMap[course.courseName],
+          };
+        }
+        setOptionRequirementsRecommendation(newOptionRequirements);
+        setRecommendationCourses(newRecommendationCourses);
+        setRecommendationCourseLists(newRecommendationCourseLists);
       } catch (e) {
         console.error("failed", e);
       }
     } else {
       console.error("missing user");
     }
+  };
+
+  const togglePrereq = async () => {
+    await updateRecommendationData();
+    setFilterPrereqs(!filterPrereqs);
+  };
+
+  const toggleShowRecommendations = async () => {
+    if (!showRecommendations) {
+      updateRecommendationData();
+    }
+    setShowRecommendations(!showRecommendations);
   };
 
   const switchCourse = (originalCourse: string, switchCourse: string) => {
@@ -287,7 +313,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       flexDirection="column"
       marginTop="1rem"
       alignItems="center"
-      width="45rem"
+      width="50rem"
     >
       <Box
         padding="0.5rem"
@@ -302,7 +328,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
         }}
       >
-        <Box padding="0.5rem">
+        <Box padding="0.5rem" minWidth="12rem">
           <Text as="h1" weight="medium" style={{ fontSize: "2.5rem" }}>
             {completedRequirements}/{totalRequirements}
           </Text>
@@ -332,11 +358,31 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
         >
           <Box display="flex" flexDirection="column">
             <Text weight="semibold">TLDR;</Text>
-            <Text whiteSpace="nowrap">
+            <Text>
               You need to complete 1 course from List 2, and 2 courses from List
-              3
+              3 You need to complete 1 course from List 2, and 2 courses from
+              List 3 {/*TODO FIX THIS TEXT */}
             </Text>
           </Box>
+          <Stack
+            direction="horizontal"
+            align="center"
+            marginTop="0.5rem"
+            marginBottom="2.75rem"
+            justify="space-between"
+            width="100%"
+            minHeight="2rem"
+          >
+            <Text as="p" weight="light" marginBottom="0">
+              Recommend only courses with fulfiled prerequisites
+            </Text>
+            <ToggleSwitch
+              size="small"
+              className="hide-text"
+              checked={filterPrereqs}
+              onClick={togglePrereq}
+            />
+          </Stack>
           {!showRecommendations ? (
             <Button
               variant="primary"
@@ -463,6 +509,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
                               : []
                           }
                           altCourseInfo={recommendationCourses}
+                          filterPrereqs={filterPrereqs}
                           handleSwitchCourse={switchCourse}
                         />
                       );
@@ -480,8 +527,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
                         index={
                           optionRequirement.courseCount -
                           optionRequirement.completedCourses.length +
-                          incompleteIndex -
-                          1
+                          incompleteIndex
                         }
                       />
                     );

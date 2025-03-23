@@ -13,11 +13,13 @@ export default function RecommendedCourseCard({
   altCourses,
   altCourseInfo,
   handleSwitchCourse,
+  filterPrereqs,
 }: {
   courseInfo: recommendedCourseInfo;
   altCourses: string[];
   altCourseInfo: { [key: string]: RecommendedCourse };
   handleSwitchCourse: (a: string, b: string) => void;
+  filterPrereqs: boolean;
 }) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -32,6 +34,10 @@ export default function RecommendedCourseCard({
   );
 
   enrichedAltCourses.sort((a, b) => -a.score + b.score);
+
+  if (filterPrereqs) {
+    enrichedAltCourses.filter((a) => !a.missingPrereq);
+  }
   const courses = enrichedAltCourses;
 
   const handleSetSelected = (switchCourse: string) => {
@@ -88,7 +94,7 @@ export default function RecommendedCourseCard({
                 {courseInfo.name}
               </Text>
             </Link>
-            {missingPrereqs.length > 0 && (
+            {currCourseData.missingPrereq && (
               <Box
                 display="flex"
                 flexDirection="row"
