@@ -75,11 +75,11 @@ export default function Degree() {
           // options audit
           const optionRequirements: RequirementDisplayInfo[] = [];
 
-          const rawOptionData = data.slice(1);
-          for (const optionRequirementIndex in rawOptionData) {
-            const optionRequirement = rawOptionData[optionRequirementIndex];
+          for (const optionRequirement of data.slice(1)) {
             const optionRequirementList: RequirementInfo[] = [];
-            for (const requirement of optionRequirement.requirementLists) {
+            for (const requirementIndex in optionRequirement.requirementLists) {
+              const requirement =
+                optionRequirement.requirementLists[requirementIndex];
               const courseResults: CourseResult[] = [];
               for (const courseName of requirement.completedCourses) {
                 courseResults.push({
@@ -95,15 +95,14 @@ export default function Degree() {
                 });
               }
               optionRequirementList.push({
-                requirementName: requirement.name,
+                requirementName: `List ${parseInt(requirementIndex) + 1}`,
                 status: requirement.completionStatus,
                 courses: courseResults,
               });
             }
             const optionRequirementInfo: RequirementDisplayInfo = {
               requirementInfo: optionRequirementList,
-              // name: optionRequirement.name,
-              name: `List ${parseInt(optionRequirementIndex) + 1}`,
+              name: optionRequirement.name,
               completionStatus: optionRequirement.overallStatus,
             };
             optionRequirements.push(optionRequirementInfo);
