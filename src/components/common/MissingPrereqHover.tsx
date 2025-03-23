@@ -7,7 +7,7 @@ export default function MissingPrereqHover({
 }) {
   const missingPrereqText = missingPrereqs.join("/ ") + " requirement not met.";
   return (
-    <Box position="relative" background="red">
+    <Box position="relative">
       <Box
         top="-2.5rem"
         left="0.5rem"
