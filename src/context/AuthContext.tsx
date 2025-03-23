@@ -16,9 +16,10 @@ import {
   useEffect,
   useState,
 } from "react";
+import { flushSync } from "react-dom";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
-import { courseTermMap } from "./courseTermMap";
+import { courseNames } from "./courseTermMap";
 
 interface AuthContextType {
   user: User | null;
@@ -33,14 +34,12 @@ interface AuthContextType {
     password: string
   ) => Promise<UserCredential | null>;
   logout: () => Promise<void>;
-  userInfo: UserInfo | null;
   transcriptIndex: number;
   avatar: number[];
   updateTranscript: () => void;
   updateAvatar: (emoji: number, color: number) => void;
-  courseTerms: { [key: string]: string };
-  courseResultMap: { [key: string]: string | number };
   courseNameMap: { [key: string]: string };
+  userCourseInfo: UserCourseInfo | undefined;
 }
 
 interface UserInfo {
@@ -51,15 +50,21 @@ interface UserInfo {
   declaredOptions: string[];
 }
 
+interface CourseData {
+  term: string;
+  result: string;
+}
+
+interface UserCourseInfo {
+  userInfo: UserInfo;
+  courseData: { [key: string]: CourseData };
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [courseTerms, setCourseTerms] = useState<{ [key: string]: string }>({});
-  const [courseResultMap, setCourseResultMap] = useState<{
-    [key: string]: string;
-  }>({});
+  const [userCourseInfo, setUserCourseInfo] = useState<UserCourseInfo>();
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
   const [avatar, setAvatar] = useState<number[]>([-1, -1]);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
@@ -78,19 +83,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchCourseMapping = async () => {
-      setCourseNameMap(courseTermMap);
+      setCourseNameMap(courseNames);
     };
     fetchCourseMapping();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!user?.email) {
-        setUserInfo(null);
-        return;
-      }
-
-      const userRef = doc(db, "user", user.email);
+      const userRef = doc(db, "user", String(user!.email));
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
@@ -103,41 +103,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             uploadDate: data.uploadDate,
             declaredOptions: data.optionNames,
           };
-          setUserInfo(userData);
 
-          if (
-            data.avatar &&
-            Array.isArray(data.avatar) &&
-            data.avatar.length === 2
-          ) {
-            setAvatar(data.avatar);
-          }
+          const newCourseData: { [key: string]: CourseData } = {};
 
-          const newCourseTerms: { [key: string]: string } = {};
-          const newCourseResults: { [key: string]: string } = {};
-
-          for (const term of data.termSummaries) {
-            const level = term.level;
-            for (const course of term.courses) {
-              newCourseTerms[`${Object.keys(course)[0]}`] = level;
-              newCourseResults[`${Object.keys(course)[0]}`] =
-                course[Object.keys(course)[0]];
+          for (const term of data["termSummaries"]) {
+            const level = term["level"];
+            for (const course of term["courses"]) {
+              const courseName = Object.keys(course)[0];
+              const singleCourseData: CourseData = {
+                term: level,
+                result: course[courseName],
+              };
+              newCourseData[courseName] = singleCourseData;
             }
           }
 
-          setUserInfo(userData);
-          setCourseTerms(newCourseTerms);
-          setCourseResultMap(newCourseResults);
-        } catch {
-          console.error("Missing user data field");
+          // batch setStates
+          flushSync(() => {
+            setUserCourseInfo({
+              userInfo: userData,
+              courseData: newCourseData,
+            });
+            if (
+              data.avatar &&
+              Array.isArray(data.avatar) &&
+              data.avatar.length === 2
+            ) {
+              setAvatar(data.avatar);
+            }
+          });
+        } catch (e) {
+          console.error("Missing user data field", e);
         }
       } else {
         console.error("Missing user");
       }
     };
 
-    if (user) fetchData();
-  }, [user, transcriptIndex]);
+    if (user && user.email) fetchData();
+  }, [user]);
 
   useEffect(() => {
     const updateAvatar = async () => {
@@ -158,14 +162,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateTranscript = () => {
-    setTranscriptIndex(transcriptIndex + 1);
+    // leaving for now
+    // setTranscriptIndex(transcriptIndex + 1);
+
+    // LICK MY FUCKING NUTS
+    if (Math.floor(Math.random() * 10_000_000) + 1 == 69) {
+      setTranscriptIndex(transcriptIndex + 1);
+    }
   };
 
   const loginWithGitHub = async () => {
     const provider = new GithubAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log(result);
       return result;
     } catch (error) {
       console.error(error);
@@ -210,13 +219,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginWithEmail,
         signUpWithEmail,
         logout,
-        userInfo,
         transcriptIndex,
         avatar,
         updateTranscript,
         updateAvatar: updateAvatarState,
-        courseTerms,
-        courseResultMap,
+        userCourseInfo,
         courseNameMap,
       }}
     >

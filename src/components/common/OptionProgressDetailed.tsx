@@ -8,6 +8,7 @@ import {
 } from "@primer/octicons-react";
 import { Box, Button, ProgressBar, Text } from "@primer/react";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { optionMap } from "../option/OptionProgressOverview";
 import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
@@ -59,7 +60,7 @@ export type RecommendedCourse = {
 };
 
 export default function OptionProgressDetailed({ option }: { option: string }) {
-  const { user, courseTerms, courseNameMap } = useAuth();
+  const { user, userCourseInfo, courseNameMap } = useAuth();
 
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [optionRequirements, setOptionRequirements] = useState<
@@ -69,8 +70,8 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
     optionRequirementsRecommendation,
     setOptionRequirementsRecommendation,
   ] = useState<OptionRequirement[]>([]);
-  const [completedRequirements, setCompletedRequirements] = useState<number>(3);
-  const [totalRequirements, setTotalRequirements] = useState<number>(6);
+  const [completedRequirements, setCompletedRequirements] = useState<number>(0);
+  const [totalRequirements, setTotalRequirements] = useState<number>(1);
   // list -> courses
   const [recommendationCourseLists, setRecommendationCourseLists] = useState<{
     [key: string]: string[];
@@ -86,7 +87,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       if (user && user.email) {
         try {
           const data = await auditWhatIf(user.email, option);
-          const formattedData = [];
+          const formattedData: OptionRequirement[] = [];
           let currCompletedRequirements = 0;
           let currTotalRequirements = 0;
           for (const key of Object.keys(data)) {
@@ -107,7 +108,10 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
             for (const courseName of optionRequirement.completedCourses) {
               formattedRequirementInfo.completedCourses.push({
                 name: courseName,
-                term: courseName in courseTerms ? courseTerms[courseName] : "",
+                term:
+                  courseName in (userCourseInfo?.courseData || {})
+                    ? String(userCourseInfo?.courseData[courseName].term)
+                    : "",
                 description:
                   courseName in courseNameMap
                     ? courseNameMap[courseName]
@@ -121,9 +125,11 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
             currTotalRequirements += optionRequirement.required;
             formattedData.push(formattedRequirementInfo);
           }
-          setCompletedRequirements(currCompletedRequirements);
-          setTotalRequirements(currTotalRequirements);
-          setOptionRequirements(formattedData);
+          flushSync(() => {
+            setCompletedRequirements(currCompletedRequirements);
+            setTotalRequirements(currTotalRequirements);
+            setOptionRequirements(formattedData);
+          });
         } catch (e: unknown) {
           console.log(e);
         }
@@ -142,9 +148,6 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
             user?.email,
             optionName
           );
-
-          console.log(recommendations);
-          // programFlag: [1, 0] - NEVER, [0, 1] - missing prereq, [0, 0] - chilling
 
           const newOptionRequirements = [...optionRequirements];
 
@@ -225,9 +228,11 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
               description: courseNameMap[course.courseName],
             };
           }
-          setOptionRequirementsRecommendation(newOptionRequirements);
-          setRecommendationCourses(newRecommendationCourses);
-          setRecommendationCourseLists(newRecommendationCourseLists);
+          flushSync(() => {
+            setOptionRequirementsRecommendation(newOptionRequirements);
+            setRecommendationCourses(newRecommendationCourses);
+            setRecommendationCourseLists(newRecommendationCourseLists);
+          });
         }
         setShowRecommendations(!showRecommendations);
       } catch (e) {
@@ -261,8 +266,8 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       return;
     }
 
-    const newOptionRequirementsRecommendation = JSON.parse(
-      JSON.stringify(optionRequirementsRecommendation)
+    const newOptionRequirementsRecommendation = structuredClone(
+      optionRequirementsRecommendation
     );
 
     newOptionRequirementsRecommendation[listIndex].recommendedCourses[
@@ -272,13 +277,16 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       recIndex
     ].description = courseNameMap[switchCourse] || ""; // todo: use actual names
 
-    setOptionRequirementsRecommendation(newOptionRequirementsRecommendation);
-
     // update used
-    const newRecommendationCourses = { ...recommendationCourses };
+    const newRecommendationCourses = structuredClone(recommendationCourses);
     newRecommendationCourses[originalCourse].isUsed = false;
     newRecommendationCourses[switchCourse].isUsed = true;
     setRecommendationCourses(newRecommendationCourses);
+
+    flushSync(() => {
+      setOptionRequirementsRecommendation(newOptionRequirementsRecommendation);
+      setRecommendationCourses(newRecommendationCourses);
+    });
   };
 
   return (
