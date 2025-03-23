@@ -4,7 +4,6 @@ import Link from "next/link";
 import styles from "@/components/SliderButton/SliderButton.module.scss";
 import { usePathname } from "next/navigation";
 
-
 export default function SliderButton() {
   const pathname = usePathname();
 
@@ -19,13 +18,13 @@ export default function SliderButton() {
   return (
     <div className={styles.container}>
       <Link href='/option' className={isActive("/option")} style={{ textDecoration: "none" }}>
-        Option
+        Explore Options
       </Link>
       <Link href='/' className={isActive("/") + styles.iconLink}>
         <HomeIcon size={18} />
       </Link>
       <Link href='/degree' className={isActive("/degree")} style={{ textDecoration: "none" }}>
-        Degree
+        Track your Degree
       </Link>
     </div>
   );
