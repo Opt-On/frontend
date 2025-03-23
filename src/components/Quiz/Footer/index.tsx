@@ -9,6 +9,12 @@ interface FooterProps {
 }
 
 export default function Footer({ currentQuestionIndex, setCurrentQuestionIndex, hasAnswered }: FooterProps) {
+  
+  const handleNavigation = (index: number) => {
+    setCurrentQuestionIndex(index);
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
+  };
+
   return (
     <>
       {currentQuestionIndex < 10 && (
@@ -18,7 +24,7 @@ export default function Footer({ currentQuestionIndex, setCurrentQuestionIndex, 
             aria-labelledby='next'
             size='large'
             disabled={currentQuestionIndex < 1}
-            onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+            onClick={() => handleNavigation(currentQuestionIndex - 1)}
           >
             Back
           </IconButton>
@@ -28,7 +34,7 @@ export default function Footer({ currentQuestionIndex, setCurrentQuestionIndex, 
             size='large'
             className={styles.next}
             disabled={!hasAnswered}
-            onClick={() => setCurrentQuestionIndex(currentQuestionIndex + 1)}
+            onClick={() => handleNavigation(currentQuestionIndex + 1)}
           >
             Back
           </IconButton>
