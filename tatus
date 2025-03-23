@@ -1,0 +1,282 @@
+[33mcommit d3a79cc5a5d716f1b4764e7819240a3bc2cab3d2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mquiz_images[m[33m, [m[1;31morigin/quiz_images[m[33m, [m[1;32mmain[m[33m)[m
+Author: hoeddie <e52ho@uwaterloo.ca>
+Date:   Sat Mar 22 21:53:58 2025 -0400
+
+    added images
+
+[33mcommit e5aa645282b1c86c5c7f55adea7e70dd62f6716b[m
+Author: hoeddie <e52ho@uwaterloo.ca>
+Date:   Sat Mar 22 21:09:22 2025 -0400
+
+    removed images
+
+[33mcommit 257bbf61141912c53f0d0901b90f4b801c2be494[m
+Merge: 86336e2 9425d3a
+Author: Eric Zhang <46907515+ericzhang11101@users.noreply.github.com>
+Date:   Sat Mar 22 19:12:55 2025 -0400
+
+    Merge pull request #23 from Opt-On/change-rec
+    
+    Change rec
+
+[33mcommit 86336e2138d375079816a2b0d7ffcccd59257bc0[m
+Merge: 901bb96 0d5dff8
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 19:09:23 2025 -0400
+
+    Merge pull request #24 from Opt-On/404
+    
+    feat: add 404 redirect
+
+[33mcommit 0d5dff845600955d595dc88f4179cfa4fa11aa9b[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 19:06:47 2025 -0400
+
+    add 404
+
+[33mcommit 9425d3a121a169fefb3186139d95a2e3052041a2[m
+Author: ericzhang11101 <ericrenzhang321@gmail.com>
+Date:   Sat Mar 22 17:48:56 2025 -0400
+
+    bold
+
+[33mcommit 626b67e0a74e16cbcbd887948f51ddd5f624a819[m
+Author: ericzhang11101 <ericrenzhang321@gmail.com>
+Date:   Sat Mar 22 17:48:50 2025 -0400
+
+    yeet
+
+[33mcommit 901bb96ddb42642045b5698c86d95688deb32cd5[m
+Merge: 6615615 148e2f2
+Author: Eric Zhang <46907515+ericzhang11101@users.noreply.github.com>
+Date:   Sat Mar 22 13:40:03 2025 -0400
+
+    Merge pull request #21 from Opt-On/degree-data
+    
+    degree + option display
+
+[33mcommit 148e2f2a4680bf5e7cbfd306532d536d851fde9a[m
+Author: ericzhang11101 <ericrenzhang321@gmail.com>
+Date:   Sat Mar 22 02:31:58 2025 -0400
+
+    bad merge
+
+[33mcommit 8e25e40679dca8cd160c4dc4de78c45213f2d64d[m
+Merge: 4e52d88 6615615
+Author: Eric Zhang <46907515+ericzhang11101@users.noreply.github.com>
+Date:   Sat Mar 22 02:30:11 2025 -0400
+
+    Merge branch 'main' into degree-data
+
+[33mcommit 4e52d88208afaa773367c7d1f1a93a91ecb1c98c[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:54:06 2025 -0400
+
+    run lint
+
+[33mcommit 7639528bb969774ba4336458e3e2102d51a4b4be[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:52:06 2025 -0400
+
+    must answer
+
+[33mcommit f4de14838917e4c8efa39ff24d9fc99c685c4979[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:50:56 2025 -0400
+
+    add photos
+
+[33mcommit 2cb7e360a4d76e12a137211fb102164988b506a2[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Wed Mar 19 23:08:22 2025 -0400
+
+    improve button styles
+
+[33mcommit 93a5cb5d02c11284dd53ef145bb0c770eb5770e4[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Wed Mar 19 20:50:15 2025 -0400
+
+    add responsive styles to images
+
+[33mcommit 5f0ff9bb03861c9f2dbad1cd6b9f229234440c5e[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Wed Mar 19 20:25:38 2025 -0400
+
+    add text wrapping
+
+[33mcommit 0f8ff96b0a8ce4f3ec8f76e84595697bc2fb2e06[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Tue Mar 18 11:56:21 2025 -0400
+
+    add quiz
+
+[33mcommit acbb0338f8ff441161153d8375e92b652b99847f[m
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 00:21:44 2025 -0400
+
+    update node version in lint.yml
+
+[33mcommit 6e6433ab3662f9f594bfd557da02546e9c987895[m
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 00:20:05 2025 -0400
+
+    update lint.yml
+
+[33mcommit c240c7fb87e74da235517e6b3e5cbfc3573f5f07[m
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 00:17:13 2025 -0400
+
+    create lint.yml
+
+[33mcommit 91ab7cfb04cefaab8f51c23310a41443a2d31c07[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:09:39 2025 -0400
+
+    fix firestore error
+
+[33mcommit 1e7312d3f530e6e43a84825bff41de396f559412[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:05:46 2025 -0400
+
+    fix lint errors
+
+[33mcommit 3f40a43c06cb0e00ab499522e1fc46d3a0c3d3ab[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 23:30:11 2025 -0400
+
+    fix error colors
+
+[33mcommit bc8274a789105eb4fb755185c3ad73fb901cd26c[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 19:20:25 2025 -0400
+
+    fix password visibility toggle
+
+[33mcommit 3f98a460b0f9ecd7f09ad9a3b28150bf0335a4a4[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 19:13:59 2025 -0400
+
+    clean console logs
+
+[33mcommit 86efd0ae9b992585280712c14433261f237aabf9[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 19:12:29 2025 -0400
+
+    extract styles to scss
+
+[33mcommit 00856b40cf95d6fe25bd19ed7def7d62fd9cbe22[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 19:01:45 2025 -0400
+
+    add password validation
+
+[33mcommit 1e77717c6fb8df85ddf4c8dd3ce2681c64265728[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 18:31:57 2025 -0400
+
+    add connection link between login and signup
+
+[33mcommit c25b582ed69c70e2b4c1911c24ec2fb668986a17[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 18:21:47 2025 -0400
+
+    create modals
+
+[33mcommit 6b1dba6a62c6d2b9e58e555527a49d6ff56bac29[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 23:22:00 2025 -0400
+
+    add avatar to context
+
+[33mcommit b0a14ba23f148a480a832cd5c36eea377104ba3d[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 22:29:40 2025 -0400
+
+    add avatars
+
+[33mcommit 2420ab54b4cc4bc6299b70a79bb312c7743cefcb[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Fri Mar 21 20:29:11 2025 -0400
+
+    update profile styles
+
+[33mcommit f933b93d45e7c84b3365ae66e6a68c52dbb2de86[m
+Author: ericzhang11101 <ericrenzhang321@gmail.com>
+Date:   Sat Mar 22 02:16:51 2025 -0400
+
+    option
+
+[33mcommit 66156154dee939f4cb641669c2771215f125f790[m
+Merge: 78090f6 5005b24
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 01:51:45 2025 -0400
+
+    Merge pull request #14 from Opt-On/owen/quiz2
+    
+    feat: quiz
+
+[33mcommit 5005b241102c7e5cca27f97f834061c257c17f38[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:54:06 2025 -0400
+
+    run lint
+
+[33mcommit 271b1bcc2388a5578b2248c9553eb936370ea76e[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:52:06 2025 -0400
+
+    must answer
+
+[33mcommit 8c872f021914b749b68ae5e2b28cd1b029c8c136[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:50:56 2025 -0400
+
+    add photos
+
+[33mcommit 78090f64b1422fe4d335445a64a99edd0e10d680[m
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 00:21:44 2025 -0400
+
+    update node version in lint.yml
+
+[33mcommit d7e04f46a5aa9c5f29597dcc7f26dc239fd18234[m
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 00:20:05 2025 -0400
+
+    update lint.yml
+
+[33mcommit 80cc3a9c2e115ca929b9a0e280e268e1f5628559[m
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Sat Mar 22 00:17:13 2025 -0400
+
+    create lint.yml
+
+[33mcommit 1141b5192123149f2941cff0d2a7c191ea8a553c[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:09:39 2025 -0400
+
+    fix firestore error
+
+[33mcommit 6f354c65c12b76eca08ec1aa20aeda06ebbf56a8[m
+Author: owen-sellner <owen.sellner@gmail.com>
+Date:   Sat Mar 22 00:05:46 2025 -0400
+
+    fix lint errors
+
+[33mcommit 3130c0994d9f93e4588534ff7b9c4b40f5a31937[m
+Merge: 1da83b0 03dca62
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Fri Mar 21 23:45:51 2025 -0400
+
+    Merge pull request #20 from Opt-On/owen/profile
+    
+    feat: profile dialog
+
+[33mcommit 03dca62153218b33df172cf3cc572f8e4a978f8a[m
+Merge: 0f8189b 1da83b0
+Author: Owen Sellner <43042601+owen-sellner@users.noreply.github.com>
+Date:   Fri Mar 21 23:42:01 2025 -0400
+
+    Merge branch 'main' into owen/profile
+
+[33mcommit 1da83b08daaf811f26933ca0e257e571f7b5

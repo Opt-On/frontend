@@ -26,7 +26,6 @@ export default function Degree() {
   >([]);
   const degreeType = "Bachelors of BOFA"; // need to parse this field or some shit idk
   const degreeName = userInfo?.program || "NUTS Engineering";
-
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
       try {
@@ -132,6 +131,9 @@ export default function Degree() {
           <Text>See how you&apos;re tracking towards a {degreeType}</Text>
           <Text weight="semibold" marginTop="2rem">
             {degreeName}
+          </Text>
+          <Text fontStyle="italic" color="gray" marginTop="0.5rem">
+            *Approved course overrides are not shown in degree or option tracking
           </Text>
           {degreeRequirementInfo && (
             <RequirementDisplay

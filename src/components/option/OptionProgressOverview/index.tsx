@@ -97,6 +97,21 @@ export default function OptionProgressOverview() {
           selected={selected}
           handleSetSelected={handleSelectChange}
         />
+        {optionSelected === "SWENGOPT" && (
+          <Text fontStyle="italic" color="yellow" marginTop="0.5rem">
+            *Note: This option cannot be taken with the Computer Engineering or Computing option.
+          </Text>
+        )}
+        {optionSelected === "COMPENGOPT" && (
+          <Text fontStyle="italic" color="yellow" marginTop="0.5rem">
+            *Note: This option cannot be taken with the Software Engineering or Computing option.
+          </Text>
+        )}
+        {optionSelected === "COMPUOPT" && (
+          <Text fontStyle="italic" color="yellow" marginTop="0.5rem">
+            *Note: This option cannot be taken with the Software Engineering or Computer Engineering option.
+          </Text>
+        )}
       </Box>
 
       {optionSelected ? (
