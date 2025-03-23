@@ -31,6 +31,7 @@ export default function OptionHeader({
         borderColor: "border.default",
         borderRadius: "1rem",
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+        // height: 500,
       }}
     >
       <Box padding="0.5rem" minWidth="12rem">
@@ -69,25 +70,25 @@ export default function OptionHeader({
             {/*TODO FIX THIS TEXT */}
           </Text>
         </Box>
-        <Stack
-          direction="horizontal"
-          align="center"
-          marginTop="0.5rem"
-          marginBottom="2.75rem"
-          justify="space-between"
-          width="100%"
-          minHeight="2rem"
-        >
-          <Text as="p" weight="light" marginBottom="0">
-            Recommend only courses with fulfiled prerequisites
-          </Text>
-          <ToggleSwitch
-            size="small"
-            className="hide-text"
-            checked={filterPrereqs}
-            onClick={togglePrereq}
-          />
-        </Stack>
+        <Box padding="0.25rem 0">
+          <Stack
+            direction="horizontal"
+            align="center"
+            marginTop="0.5rem"
+            marginBottom="2.75rem"
+            justify="space-between"
+          >
+            <Text as="p" weight="light" marginBottom="0">
+              Recommend only courses with fulfiled prerequisites
+            </Text>
+            <ToggleSwitch
+              size="small"
+              className="hide-text"
+              checked={filterPrereqs}
+              onClick={togglePrereq}
+            />
+          </Stack>
+        </Box>
         {!showRecommendations ? (
           <Button
             variant="primary"

@@ -32,7 +32,7 @@ export default function OptionProgressNoRec({ optionRequirements }) {
                 whiteSpace="nowrap"
                 style={{ width: "7rem" }}
               >
-                {optionRequirement.name} <ArrowUpRightIcon size={24} />
+                {optionRequirement.displayName} <ArrowUpRightIcon size={24} />
               </Text>
               {/* we may want to map this to the exact copy, too lazy rn */}
               <Text

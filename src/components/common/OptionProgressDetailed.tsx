@@ -27,6 +27,7 @@ export type recommendedCourseInfo = {
 
 export type OptionRequirement = {
   name: string;
+  displayName: string;
   courseCount: number;
   completionStatus: RequirementStatus;
   completedCourses: completedCourseInfo[];
@@ -96,11 +97,14 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
           const formattedData = [];
           let currCompletedRequirements = 0;
           let currTotalRequirements = 0;
-          for (const key of Object.keys(data)) {
+          const keys = Object.keys(data);
+          for (const keyIndex in keys) {
+            const key = keys[keyIndex];
             const optionRequirement = data[key];
 
             const formattedRequirementInfo: OptionRequirement = {
               name: optionRequirement.name,
+              displayName: `List ${parseInt(keyIndex) + 1}`,
               courseCount: optionRequirement.required,
               completionStatus:
                 optionRequirement.completedCourses.length ==
