@@ -1,95 +1,121 @@
-"use client"
+"use client";
+import { auditDeclared } from "@/api/audit";
 import {
   RequirementDisplay,
   RequirementDisplayInfo,
 } from "@/components/common/RequirementDisplay";
 import {
+  CourseResult,
   RequirementInfo,
-  RequirementStatus,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
+import { useEffect, useState } from "react";
+
+function splitAtFirstNumber(str: string) {
+  return str.replace(/(\D+)(\d+)/, "$1 $2");
+}
 
 export default function Degree() {
-  const { userInfo } = useAuth();
-  const degreeType = "Bachelors of BOFA"; // need to parse this field
+  const { userInfo, user, courseResultMap, courseNameMap } = useAuth();
+  const [degreeRequirementInfo, setDegreeRequirementInfo] =
+    useState<RequirementDisplayInfo>();
+  const [optionsRequirementInfo, setOptionsRequirementInfo] = useState<
+    RequirementDisplayInfo[]
+  >([]);
+  const degreeType = "Bachelors of BOFA"; // need to parse this field or some shit idk
   const degreeName = userInfo?.program || "NUTS Engineering";
 
-  const degreeRequirementList: RequirementInfo[] = [
-    {
-      requirementName: "1A",
-      date: "Fall 2020",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "1B",
-      date: "Winter 2021",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "2A",
-      date: "Fall 2021",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "2B",
-      date: "Spring 2022",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "3A",
-      date: "Winter 2023",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "3B",
-      date: "Fall 2023",
-      status: RequirementStatus.COMPLETE,
-    },
-    {
-      requirementName: "4A",
-      date: "Spring 2024",
-      status: RequirementStatus.PROVISIONALLY_COMPLETE,
-    },
-    {
-      requirementName: "4B",
-      date: "Winter 2025",
-      status: RequirementStatus.PROVISIONALLY_COMPLETE,
-    },
-    {
-      requirementName: "Free Elective",
-      status: RequirementStatus.PROVISIONALLY_COMPLETE,
-    },
-  ];
+  useEffect(() => {
+    const getDeclaredAuditResult = async () => {
+      try {
+        if (user && user.email) {
+          // degree audit
+          const data = await auditDeclared(user.email);
+          const degreeRequirementList: RequirementInfo[] = [];
 
-  const degreeRequirements: RequirementDisplayInfo = {
-    requirementInfo: degreeRequirementList,
-    name: "MGTE",
-    date: "Winter 2025",
-    completionStatus: RequirementStatus.PROVISIONALLY_COMPLETE,
-  };
+          const degreeRequirement = data[0];
+          for (const requirement of degreeRequirement.requirementLists) {
+            // ignore coops
+            if (requirement.name == "WKTRM") {
+              continue;
+            }
+            const courseResults: CourseResult[] = [];
+            for (const courseName of requirement.completedCourses) {
+              const formattedCourseName = splitAtFirstNumber(courseName);
+              courseResults.push({
+                courseCode: formattedCourseName,
+                courseName:
+                  formattedCourseName in courseNameMap
+                    ? courseNameMap[formattedCourseName]
+                    : "",
+                grade:
+                  formattedCourseName in courseResultMap
+                    ? courseResultMap[formattedCourseName]
+                    : "Not taken",
+              });
+            }
+            degreeRequirementList.push({
+              requirementName: requirement.name,
+              status: requirement.completionStatus,
+              courses: courseResults,
+            });
+          }
 
-  const optionsRequirements: RequirementDisplayInfo[] = [
-    {
-      requirementInfo: [
-        {
-          requirementName: "List 1",
-          status: RequirementStatus.PROVISIONALLY_COMPLETE,
-        },
-        {
-          requirementName: "List 2",
-          status: RequirementStatus.INCOMPLETE,
-        },
-        {
-          requirementName: "List 3",
-          status: RequirementStatus.COMPLETE,
-        },
-      ],
-      name: "computing option",
-      completionStatus: RequirementStatus.INCOMPLETE,
-    },
-  ];
+          const degreeRequirements: RequirementDisplayInfo = {
+            requirementInfo: degreeRequirementList,
+            name: degreeRequirement.name || "fix me bozo",
+            date: "Parse me daddy", // PARSE THIS
+            completionStatus: degreeRequirement.overallStatus,
+          };
+
+          setDegreeRequirementInfo(degreeRequirements);
+
+          // options audit
+          const optionRequirements: RequirementDisplayInfo[] = [];
+          for (const optionRequirement of data.slice(1)) {
+            const optionRequirementList: RequirementInfo[] = [];
+            console.log("option requirements", optionRequirement);
+            for (const requirement of optionRequirement.requirementLists) {
+              const courseResults: CourseResult[] = [];
+              for (const courseName of requirement.completedCourses) {
+                courseResults.push({
+                  courseCode: courseName,
+                  courseName:
+                    courseName in courseNameMap
+                      ? courseNameMap[courseName]
+                      : "",
+                  grade:
+                    courseName in courseResultMap
+                      ? courseResultMap[courseName]
+                      : "Not taken",
+                });
+              }
+              optionRequirementList.push({
+                requirementName: requirement.name,
+                status: requirement.completionStatus,
+                courses: courseResults,
+              });
+            }
+            const optionRequirementInfo: RequirementDisplayInfo = {
+              requirementInfo: optionRequirementList,
+              name: optionRequirement.name,
+              completionStatus: optionRequirement.overallStatus,
+            };
+            optionRequirements.push(optionRequirementInfo);
+          }
+          setOptionsRequirementInfo(optionRequirements);
+
+          console.log("courseResultMap", courseResultMap);
+        }
+      } catch (e) {
+        console.error("failed to get declared audit result", e);
+      }
+    };
+
+    getDeclaredAuditResult();
+  }, [courseResultMap, courseNameMap, userInfo]); // courseResultMap is updated when user is updated so we dont need an extra rerender
 
   return (
     <main>
@@ -107,8 +133,12 @@ export default function Degree() {
           <Text weight="semibold" marginTop="2rem">
             {degreeName}
           </Text>
-          <RequirementDisplay requirementDisplayInfo={degreeRequirements} />
-          {optionsRequirements.map((optionRequirements, index) => (
+          {degreeRequirementInfo && (
+            <RequirementDisplay
+              requirementDisplayInfo={degreeRequirementInfo}
+            />
+          )}
+          {optionsRequirementInfo.map((optionRequirements, index) => (
             <RequirementDisplay
               requirementDisplayInfo={optionRequirements}
               key={`optionRequirement${index}`}

@@ -1,14 +1,10 @@
 import { Box, Text } from "@primer/react";
 import { IssueLabel } from "@primer/react/experimental";
 import { useState } from "react";
-import {
-  CourseResult,
-  RequirementInfo,
-  RequirementStatus,
-} from "./RequirementDisplayList";
+import { RequirementInfo, RequirementStatus } from "./RequirementDisplayList";
 
 export const getVariant = (status: string) => {
-  switch (status) {
+  switch (status.toLowerCase()) {
     case RequirementStatus.COMPLETE:
       return "green";
     case RequirementStatus.PROVISIONALLY_COMPLETE:
@@ -32,28 +28,6 @@ export default function RequirementToggleDisplay({
   const toggleShowCourses = () => {
     setShowCourses(!showCourses);
   };
-  const courses: CourseResult[] = [
-    {
-      courseCode: "MSE 121",
-      courseName: "intro to programming",
-      grade: 77,
-    },
-    {
-      courseCode: "MSE 212",
-      courseName: "intro to bfa",
-      grade: 69,
-    },
-    {
-      courseCode: "MATH 116",
-      courseName: "intro to calc",
-      grade: 90,
-    },
-    {
-      courseCode: "CHE 102",
-      courseName: "intro to breaking bad",
-      grade: 100,
-    },
-  ];
 
   return (
     <Box
@@ -124,7 +98,7 @@ export default function RequirementToggleDisplay({
             flex: 1,
           }}
         >
-          {courses.map((course, index) => {
+          {requirementInfo.courses.map((course, index) => {
             return (
               <Box
                 key={`${index}`}

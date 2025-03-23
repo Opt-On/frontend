@@ -1,15 +1,21 @@
 "use client";
 import {
+  createUserWithEmailAndPassword,
+  GithubAuthProvider,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
   User,
   UserCredential,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GithubAuthProvider,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { auth, db } from "../firebaseConfig";
 import { loginWithGoogle, logout } from "../services/authService";
 import { courseTermMap } from "./courseTermMap";
@@ -18,8 +24,14 @@ interface AuthContextType {
   user: User | null;
   loginWithGoogle: () => Promise<UserCredential | null>;
   loginWithGitHub: () => Promise<UserCredential | null>;
-  loginWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
-  signUpWithEmail: (email: string, password: string) => Promise<UserCredential | null>;
+  loginWithEmail: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential | null>;
+  signUpWithEmail: (
+    email: string,
+    password: string
+  ) => Promise<UserCredential | null>;
   logout: () => Promise<void>;
   userInfo: UserInfo | null;
   transcriptIndex: number;
@@ -27,6 +39,7 @@ interface AuthContextType {
   updateTranscript: () => void;
   updateAvatar: (emoji: number, color: number) => void;
   courseTerms: { [key: string]: string };
+  courseResultMap: { [key: string]: string | number };
   courseNameMap: { [key: string]: string };
 }
 
@@ -35,6 +48,7 @@ interface UserInfo {
   lastName: string;
   program: string;
   uploadDate: string;
+  declaredOptions: string[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,10 +57,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [courseTerms, setCourseTerms] = useState<{ [key: string]: string }>({});
+  const [courseResultMap, setCourseResultMap] = useState<{
+    [key: string]: string;
+  }>({});
   const [transcriptIndex, setTranscriptIndex] = useState<number>(0);
   const [avatar, setAvatar] = useState<number[]>([-1, -1]);
   const [isAuthResolved, setIsAuthResolved] = useState(false);
-  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>({});
+  const [courseNameMap, setCourseNameMap] = useState<{ [key: string]: string }>(
+    {}
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -82,22 +101,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             lastName: data.lastName,
             program: data.programName,
             uploadDate: data.uploadDate,
+            declaredOptions: data.optionNames,
           };
           setUserInfo(userData);
 
-          if (data.avatar && Array.isArray(data.avatar) && data.avatar.length === 2) {
+          if (
+            data.avatar &&
+            Array.isArray(data.avatar) &&
+            data.avatar.length === 2
+          ) {
             setAvatar(data.avatar);
           }
 
           const newCourseTerms: { [key: string]: string } = {};
+          const newCourseResults: { [key: string]: string } = {};
 
           for (const term of data.termSummaries) {
             const level = term.level;
             for (const course of term.courses) {
               newCourseTerms[`${Object.keys(course)[0]}`] = level;
+              newCourseResults[`${Object.keys(course)[0]}`] =
+                course[Object.keys(course)[0]];
             }
           }
+
+          setUserInfo(userData);
           setCourseTerms(newCourseTerms);
+          setCourseResultMap(newCourseResults);
         } catch {
           console.error("Missing user data field");
         }
@@ -121,9 +151,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     updateAvatar();
-  }, [avatar])
-
-  
+  }, [avatar]);
 
   const updateAvatarState = (emoji: number, color: number) => {
     setAvatar([emoji, color]);
@@ -157,7 +185,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUpWithEmail = async (email: string, password: string) => {
     try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       return result;
     } catch (error) {
       console.error(error);
@@ -184,6 +216,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         updateTranscript,
         updateAvatar: updateAvatarState,
         courseTerms,
+        courseResultMap,
         courseNameMap,
       }}
     >
