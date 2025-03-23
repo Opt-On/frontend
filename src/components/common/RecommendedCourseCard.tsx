@@ -1,4 +1,4 @@
-import { Box, Text } from "@primer/react";
+import { Box, Link, Text } from "@primer/react";
 import {
   RecommendedCourse,
   recommendedCourseInfo,
@@ -31,6 +31,13 @@ export default function RecommendedCourseCard({
     handleSwitchCourse(courseInfo.name, switchCourse);
   };
 
+  const uwFlowLink = () => {
+    return `https://uwflow.com/course/${courseInfo.name
+      .split(" ")
+      .join("")
+      .toLowerCase()}`;
+  };
+
   return (
     <Box
       display="flex"
@@ -49,9 +56,13 @@ export default function RecommendedCourseCard({
       }}
     >
       <Box>
-        <Text as="h3" weight="medium" color="#0969DA">
-          {courseInfo.name}
-        </Text>
+        <Link href={uwFlowLink()} target="_blank">
+          {" "}
+          <Text as="h3" weight="medium">
+            {courseInfo.name}
+          </Text>
+        </Link>
+
         <Text as="h5" weight="light">
           {courseInfo.description}
         </Text>
