@@ -1,3 +1,4 @@
+import { ArrowUpRightIcon } from "@primer/octicons-react";
 import { Box, Link, Text } from "@primer/react";
 import {
   RecommendedCourse,
@@ -57,9 +58,9 @@ export default function RecommendedCourseCard({
     >
       <Box>
         <Link href={uwFlowLink()} target="_blank">
-          {" "}
           <Text as="h3" weight="medium">
             {courseInfo.name}
+            <ArrowUpRightIcon size={24} />
           </Text>
         </Link>
 
