@@ -3,9 +3,10 @@ import "react-loading-skeleton/dist/skeleton.css";
 import "./global.css";
 import { ReactNode } from "react";
 import { BaseStyles, ThemeProvider } from "@primer/react";
-import { AuthProvider } from "@/context";
+import { AuthProvider } from "@/context/AuthContext";
 import { StyledComponentsRegistry } from "./registry";
 import { SkeletonTheme } from "react-loading-skeleton";
+import { FileProvider } from "@/context/FileContext";
 
 export const metadata = {
   title: "Opton",
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <ThemeProvider>
             <BaseStyles>
               <SkeletonTheme baseColor='#f6f8fa' highlightColor='#d3dadf'>
-                <AuthProvider>{children}</AuthProvider>
+                <AuthProvider>
+                  <FileProvider>{children}</FileProvider>
+                </AuthProvider>
               </SkeletonTheme>
             </BaseStyles>
           </ThemeProvider>

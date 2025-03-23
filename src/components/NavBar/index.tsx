@@ -1,7 +1,7 @@
 "use client";
 
 import SliderButton from "@/components/SliderButton";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import { Avatar, Box, Button } from "@primer/react";
 import { useState } from "react";
 import { Login } from "../modals/Login";

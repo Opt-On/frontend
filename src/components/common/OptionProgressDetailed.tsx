@@ -1,6 +1,6 @@
 import { auditWhatIf } from "@/api/audit";
 import { getRecommendations } from "@/api/recommendation";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import {
   ArrowUpRightIcon,
   SparkleFillIcon,

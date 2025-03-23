@@ -9,7 +9,7 @@ import {
   RequirementInfo,
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
 import { useEffect, useState } from "react";
 
