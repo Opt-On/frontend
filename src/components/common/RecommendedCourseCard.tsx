@@ -24,10 +24,16 @@ export default function RecommendedCourseCard({
   const [showDetails, setShowDetails] = useState(false);
 
   const filteredAltCourses = altCourses.filter(
-    (altCourse) => altCourseInfo[altCourse].isUsed === false
+    (altCourse) =>
+      altCourse in altCourseInfo && altCourseInfo[altCourse].isUsed === false
   );
 
-  const currCourseData = altCourseInfo[courseInfo.name];
+  const currCourseData =
+    courseInfo.name in altCourseInfo && altCourseInfo[courseInfo.name];
+
+  if (!currCourseData) {
+    return <>err</>;
+  }
 
   const enrichedAltCourses = filteredAltCourses.map(
     (altCourse) => altCourseInfo[altCourse]
