@@ -15,21 +15,29 @@ export default function SwitchCourseSelect({
       <ActionMenu.Button leadingVisual={SyncIcon}>
         <Box className={styles.button}>Switch</Box>
       </ActionMenu.Button>
-      <ActionMenu.Overlay side="inside-center">
+      <ActionMenu.Overlay side="outside-bottom">
         <Box className={styles.overlay}>
           <ActionList>
-            {courseList.map((course, index) => (
-              <ActionList.LinkItem
-                key={`courseList-${index}`}
-                className={styles.linkItem}
-                onClick={() => handleSetSelected(course.name)}
-              >
+            {courseList.length ? (
+              courseList.map((course, index) => (
+                <ActionList.LinkItem
+                  key={`courseList-${index}`}
+                  className={styles.linkItem}
+                  onClick={() => handleSetSelected(course.name)}
+                >
+                  <span>
+                    <b>{course.name} </b>
+                  </span>
+                  - {course.description}
+                </ActionList.LinkItem>
+              ))
+            ) : (
+              <ActionList.LinkItem className={styles.linkItem}>
                 <span>
-                  <b>{course.name} </b>
+                  <b>No alternative courses to recommend :{"("}</b>
                 </span>
-                - {course.description}
               </ActionList.LinkItem>
-            ))}
+            )}
           </ActionList>
         </Box>
       </ActionMenu.Overlay>

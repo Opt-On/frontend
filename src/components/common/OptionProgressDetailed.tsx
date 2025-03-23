@@ -36,7 +36,7 @@ export type OptionRequirement = {
 };
 
 export const getColor = (status: string) => {
-  switch (status) {
+  switch (status.split("_").join(" ").toLowerCase()) {
     case RequirementStatus.COMPLETE:
       return "green";
     case RequirementStatus.PROVISIONALLY_COMPLETE:
@@ -172,6 +172,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
 
             let courseUsed = false;
 
+            // keep track of all rec courses
             for (const courseSublist of courseSublists) {
               if (courseSublist in newRecommendationCourseLists) {
                 newRecommendationCourseLists[courseSublist].push(
@@ -195,10 +196,6 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
                     optionRequirement.name == courseSublist &&
                     optionRequirement.recommendedCourses.length <
                       totalRequirementsNeeded[courseSublist]
-                    //    &&
-                    // (!(course.courseName in newRecommendationCourses) ||
-                    //   newRecommendationCourses[course.courseName].isUsed ==
-                    //     false) // redundant check i think, keeping just in case
                   ) {
                     optionRequirement.recommendedCourses.push({
                       name: course.courseName,
@@ -275,7 +272,6 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
       recIndex
     ].description = courseNameMap[switchCourse] || ""; // todo: use actual names
 
-    console.log(newOptionRequirementsRecommendation);
     setOptionRequirementsRecommendation(newOptionRequirementsRecommendation);
 
     // update used
