@@ -25,7 +25,7 @@ export default function Degree() {
     RequirementDisplayInfo[]
   >([]);
   const degreeType = "Bachelors of Applied Science"; // need to parse this field or some shit idk
-  const degreeName = userInfo?.program || "NUTS Engineering";
+  const degreeName = userInfo?.program || "Engineering Degree";
 
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
@@ -66,8 +66,8 @@ export default function Degree() {
 
           const degreeRequirements: RequirementDisplayInfo = {
             requirementInfo: degreeRequirementList,
-            name: degreeRequirement.name || "fix me bozo",
-            date: "Parse me daddy", // PARSE THIS
+            name: degreeRequirement.name || "Degree",
+            date: "Not found", // PARSE THIS TODO
             completionStatus: degreeRequirement.overallStatus,
           };
 
