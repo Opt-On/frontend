@@ -1,10 +1,6 @@
 import { Box, Text } from "@primer/react";
 
-export default function IncompleteRequirementCard({
-  index,
-}: {
-  index: number;
-}) {
+export default function IncompleteRequirementCard() {
   return (
     <Box
       display="flex"
