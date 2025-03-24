@@ -11,8 +11,6 @@ import {
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
 import { Box, Stack, Text } from "@primer/react";
-import { color } from "motion/react";
-import { style } from "motion/react-client";
 import { useEffect, useState } from "react";
 
 function splitAtFirstNumber(str: string) {
