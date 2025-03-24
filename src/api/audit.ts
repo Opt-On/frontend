@@ -179,7 +179,7 @@ export const auditWhatIf = async (email: string, plan: string) => {
 };
 
 export const auditOptions = async (email: string) => {
-  const response = await fetch(`${AUDIT_URL}/audit/options`, {
+  const response = await fetch(AUDIT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
