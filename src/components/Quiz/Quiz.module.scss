@@ -5,15 +5,13 @@ $resultGradient: linear-gradient(90deg, #f5edff, #ffe8e8, #fdfee3);
   background: $quizGradient;
   border-radius: 10px;
   text-align: center;
-  height: 200%;
+  height: auto;
 }
 
 .inner {
   background: #fff;
   border-radius: 8px;
-  padding: 10px 20px;
-  height: 80%;
-  width: 99%;
+  padding: 8px;
   margin: auto;
   display: flex;
   align-items: center;

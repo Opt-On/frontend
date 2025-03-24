@@ -30,7 +30,6 @@ export default function Degree() {
 
   if (!user) {
     redirect("/");
-    return null; 
   }
 
   /* eslint-disable react-hooks/rules-of-hooks */
