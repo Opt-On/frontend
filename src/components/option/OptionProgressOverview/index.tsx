@@ -101,7 +101,7 @@ export default function OptionProgressOverview() {
 
       {optionSelected ? (
         <>
-          <Box>
+          <Box marginTop="2rem">
           {["SWENGOPT", "COMPENGOPT", "COMPUOPT"].includes(optionSelected) && (
             <Text fontStyle="italic" color="9a6700" marginTop="0.5rem">
               *Note: This option cannot be taken with the{" "}
@@ -146,3 +146,4 @@ export default function OptionProgressOverview() {
     </Box>
   );
 }
+
