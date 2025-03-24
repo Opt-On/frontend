@@ -1,15 +1,23 @@
-$color: #bf3989;
-$backgroundColor: #ffeff7;
-$borderColor: rgba(255, 128, 200, 0.25);
-
-.icon {
-  color: $color;
-}
+$quizGradient: linear-gradient(to right, #e1eaf8, #dbc4e9);
+$resultGradient: linear-gradient(90deg, #f5edff, #ffe8e8, #fdfee3);
 
 .button {
-  color: $color !important;
-  background: $backgroundColor !important;
-  border-color: $borderColor !important;
+  background: $quizGradient;
+  border-radius: 10px;
+  text-align: center;
+  height: auto;
+}
+
+.inner {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .dialog {
@@ -25,5 +33,5 @@ $borderColor: rgba(255, 128, 200, 0.25);
 }
 
 .result {
-  background: linear-gradient(90deg, #f5edff, #ffe8e8, #fdfee3) !important;
+  background: $resultGradient !important;
 }

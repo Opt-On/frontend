@@ -8,7 +8,6 @@ const MAX_FILE_SIZE = 200 * 1024; // 200KB
 interface FileUploadProps {
   file: File | null;
   setFile: (file: File | null) => void;
-  submitTranscript: () => void;
 }
 
 export default function FileUpload({ file, setFile }: FileUploadProps) {

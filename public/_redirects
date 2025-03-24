@@ -1,0 +1,3 @@
+/audit/* http://3.142.114.228:443/recommendation/:splat 200!
+/recommendation/* http://3.142.114.228:443/recommendation/:splat 200!
+/transcript/* http://3.142.114.228:443/:splat 200!

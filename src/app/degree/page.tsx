@@ -11,6 +11,7 @@ import {
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
 import { Box, Stack, Text } from "@primer/react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function splitAtFirstNumber(str: string) {
@@ -27,6 +28,11 @@ export default function Degree() {
   const degreeType = "Bachelors of Applied Science"; // need to parse this field or some shit idk
   const degreeName = userInfo?.program || "Engineering Degree";
 
+  if (!user) {
+    redirect("/");
+  }
+
+  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
       try {
@@ -116,7 +122,7 @@ export default function Degree() {
     };
 
     getDeclaredAuditResult();
-  }, [courseResultMap, courseNameMap, userInfo]); // courseResultMap is updated when user is updated so we dont need an extra rerender
+  }, [courseResultMap, courseNameMap, userInfo]);
 
   return (
     <main>
