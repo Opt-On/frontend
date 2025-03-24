@@ -2,14 +2,7 @@
 // @ts-nocheck
 
 import { SparkleFillIcon, UndoIcon } from "@primer/octicons-react";
-import {
-  Box,
-  Button,
-  ProgressBar,
-  Stack,
-  Text,
-  ToggleSwitch,
-} from "@primer/react";
+import { Box, Button, ProgressBar, Stack, Text, ToggleSwitch } from "@primer/react";
 import { useEffect, useState } from "react";
 
 export default function OptionHeader({
@@ -50,10 +43,10 @@ export default function OptionHeader({
 
   return (
     <Box
-      padding="1.5rem"
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-between"
+      padding='1.5rem'
+      display='flex'
+      flexDirection='row'
+      justifyContent='space-between'
       sx={{
         border: "1px solid #656d76",
         borderWidth: 1,
@@ -62,11 +55,11 @@ export default function OptionHeader({
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Box minWidth="12rem" paddingRight={2}>
-        <Text as="h1" weight="medium" style={{ fontSize: "2.5rem" }}>
+      <Box minWidth='12rem' paddingRight={2}>
+        <Text as='h1' weight='medium' style={{ fontSize: "2.5rem" }}>
           {completedRequirements}/{totalRequirements}
         </Text>
-        <Text weight="light">option requirements met</Text>
+        <Text weight='light'>option requirements met</Text>
         <ProgressBar
           style={{
             marginTop: "3rem",
@@ -75,31 +68,26 @@ export default function OptionHeader({
             opacity: 0.8,
           }}
           // colors r fucked, have to use primers
-          bg="attention.emphasis"
-          barSize="large"
+          bg='attention.emphasis'
+          barSize='large'
           progress={(completedRequirements / totalRequirements) * 100}
         />
       </Box>
-      <div
-        style={{ width: "1px", background: "#dee3e8", margin: "0 0.5rem" }}
-      />
+      <div style={{ width: "1px", background: "#dee3e8", margin: "0 0.5rem" }} />
 
-      <Box
-        direction={"vertical"}
-        paddingX={16}
-      >
-        <Box display="flex" flexDirection="column">
-          <Text weight="semibold">TLDR;</Text>
+      <Box direction={"vertical"} paddingX={16}>
+        <Box display='flex' flexDirection='column'>
+          <Text weight='semibold'>TLDR;</Text>
           <Text>{courseReqStr}</Text>
         </Box>
-        <Box padding="1rem 0">
-          <Stack direction="horizontal" align="center" justify="space-between">
-            <Text as="p" weight="light" marginBottom="0">
+        <Box padding='1rem 0'>
+          <Stack direction='horizontal' align='center' justify='space-between'>
+            <Text as='p' weight='light' marginBottom='0'>
               Recommend only courses with fulfiled prerequisites
             </Text>
             <ToggleSwitch
-              size="small"
-              className="hide-text"
+              size='small'
+              className='hide-text'
               checked={filterPrereqs}
               onClick={togglePrereq}
             />
@@ -107,21 +95,16 @@ export default function OptionHeader({
         </Box>
         {!showRecommendations ? (
           <Button
-            variant="primary"
+            variant='primary'
+            style={{ background: "#8466b4", padding: "8px 16px" }}
             trailingVisual={SparkleFillIcon}
             block={false}
-            style={{ padding: '8px 16px' }}            
             onClick={toggleShowRecommendations}
-            background="6260AD"
           >
             Get Recommendations
           </Button>
         ) : (
-          <Button
-            trailingVisual={UndoIcon}
-            block={false}
-            onClick={toggleShowRecommendations}
-          >
+          <Button trailingVisual={UndoIcon} block={false} onClick={toggleShowRecommendations}>
             Reset Recommendations
           </Button>
         )}

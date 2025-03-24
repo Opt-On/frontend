@@ -124,6 +124,7 @@ export default function FileUploadModal() {
       <Button onClick={handleClose}>Cancel</Button>
       <Button
         variant="primary"
+        style={{ background: "#8466b4"}}
         onClick={() => {
           if (file) {
             console.log("Uploading file:", file.name);
@@ -138,7 +139,7 @@ export default function FileUploadModal() {
 
   return (
     <>
-      <Button variant="primary" onClick={() => setIsOpen(true)}>
+      <Button variant="primary" style={{ background: "#8466b4"}} onClick={() => setIsOpen(true)}>
         Upload
       </Button>
 

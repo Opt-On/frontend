@@ -55,7 +55,7 @@ export default function NavBar() {
           <Box className={styles.authButtons}>
             <Button onClick={toggleLogin}>Log in</Button>
             {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
-            <Button variant='primary' onClick={toggleSignUp} className={styles.signUpButton}>
+            <Button variant='primary' style={{ background: "#8466b4" }} onClick={toggleSignUp} className={styles.signUpButton}>
               Sign up
             </Button>
             {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
