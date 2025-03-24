@@ -10,6 +10,7 @@ import {
   Text,
   ToggleSwitch,
 } from "@primer/react";
+import { useEffect, useState } from "react";
 
 export default function OptionHeader({
   completedRequirements,
@@ -18,7 +19,35 @@ export default function OptionHeader({
   togglePrereq,
   showRecommendations,
   toggleShowRecommendations,
+  missingRequirementsList,
 }) {
+  const [courseReqStr, setCourseReqStr] = useState<string>("");
+
+  useEffect(() => {
+    let firstMissing = true;
+    let missingString = "You need to complete ";
+    for (const i in missingRequirementsList) {
+      if (missingRequirementsList[i] > 0) {
+        if (firstMissing) {
+          firstMissing = false;
+          missingString += `${missingRequirementsList[i]} course${
+            missingRequirementsList[i] > 1 ? "s" : ""
+          } from list ${parseInt(i) + 1}`;
+        } else {
+          missingString += `, ${missingRequirementsList[i]} course${
+            missingRequirementsList[i] > 1 ? "s" : ""
+          } from list ${parseInt(i) + 1}`;
+        }
+      }
+    }
+    const split = missingString.split(",");
+    if (split.length > 1) {
+      split[split.length - 1] = " and" + split[split.length - 1];
+      missingString = split.join(",");
+    }
+    setCourseReqStr(missingString);
+  }, [missingRequirementsList]);
+
   return (
     <Box
       padding="1.5rem"
@@ -60,12 +89,8 @@ export default function OptionHeader({
         paddingX={16}
       >
         <Box display="flex" flexDirection="column">
-          <Text weight="semibold" size="large">Management Science Option</Text>
-          <Text>
-            You need to complete 1 course from List 2, and 2 courses from List 3
-            You need to complete 1 course from List 2, and 2 courses from List 3{" "}
-            {/*TODO FIX THIS TEXT */}
-          </Text>
+          <Text weight="semibold">TLDR;</Text>
+          <Text>{courseReqStr}</Text>
         </Box>
         <Box padding="1rem 0">
           <Stack direction="horizontal" align="center" justify="space-between">
