@@ -12,13 +12,11 @@ export const optionMap: { [key: string]: string } = {
   COMPENGOPT: "Computer Engineering",
   MSCIOPT: "Management Sciences",
   BIOMECHOPT: "Biomechanics",
-  BUSOPT: "Business",
   SWENGOPT: "Software Engineering",
   ENTROPT: "Entrepreneurship",
   AIENGOPT: "Artificial Intelligence",
   COMPUOPT: "Computing",
   STATOPT: "Statistics",
-  MATHOPT: "Mathematics",
   MECTROPT: "Mechatronics",
 };
 
@@ -50,18 +48,23 @@ export default function OptionProgressOverview() {
 
   const fetchAudit = async (email: string) => {
     try {
-      const plans: { [key: string]: [number, number] }[] = await auditOptions(email);
+      const plans: { [key: string]: [number, number] }[] = await auditOptions(
+        email
+      );
       if (!plans) return;
 
-      const progress: OptionProgress[] = plans.map((item: { [key: string]: [number, number] }) => {
-        const name = Object.keys(item)[0];
-        const [completedRequirements, totalRequirements] = Object.values(item)[0];
-        return {
-          name,
-          completedRequirements,
-          totalRequirements,
-        };
-      });
+      const progress: OptionProgress[] = plans.map(
+        (item: { [key: string]: [number, number] }) => {
+          const name = Object.keys(item)[0];
+          const [completedRequirements, totalRequirements] =
+            Object.values(item)[0];
+          return {
+            name,
+            completedRequirements,
+            totalRequirements,
+          };
+        }
+      );
       setOptionProgress(progress);
     } catch (error) {
       console.error(error);
@@ -76,10 +79,13 @@ export default function OptionProgressOverview() {
 
   return (
     <Box className={styles.wrapper}>
-      <Text as='h1' className={`${styles.header} ${selected !== -1 ? styles.selected : ""}`}>
+      <Text
+        as="h1"
+        className={`${styles.header} ${selected !== -1 ? styles.selected : ""}`}
+      >
         What option are you interested in?
       </Text>
-      <Text as='h3' className={styles.subtitle}>
+      <Text as="h3" className={styles.subtitle}>
         Select from available options to see more details
       </Text>
       <Box className={styles.actionSelectContainer}>
@@ -91,10 +97,13 @@ export default function OptionProgressOverview() {
       </Box>
 
       {optionSelected ? (
-        <OptionProgressDetailed option={optionSelected} />
+        <OptionProgressDetailed
+          option={optionSelected}
+          optionName={optionMap[optionSelected]}
+        />
       ) : (
         <>
-          <Text as='h4' className={styles.text}>
+          <Text as="h4" className={styles.text}>
             Options you&lsquo;ve made progress towards
           </Text>
           <Box className={styles.progressPreviewContainer}>
