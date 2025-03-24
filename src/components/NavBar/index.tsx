@@ -1,15 +1,15 @@
 "use client";
 
-import styles from "./NavBar.module.scss";
 import SliderButton from "@/components/SliderButton";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, Box, Button } from "@primer/react";
+import Image from "next/image";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { Login } from "../modals/Login";
 import { Profile } from "../modals/Profile";
 import { SignUp } from "../modals/SignUp";
-import Image from "next/image";
-import { redirect } from "next/navigation";
+import styles from "./NavBar.module.scss";
 
 export default function NavBar() {
   const { user, avatar } = useAuth();
@@ -18,7 +18,15 @@ export default function NavBar() {
   const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
   const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
-  const bgColors = ["#fbefff", "#ffeff7", "#ddf4ff", "#dafbe1", "#fff8c5", "#fff1e5", "#ffebe9"];
+  const bgColors = [
+    "#fbefff",
+    "#ffeff7",
+    "#ddf4ff",
+    "#dafbe1",
+    "#fff8c5",
+    "#fff1e5",
+    "#ffebe9",
+  ];
 
   const toggleProfile = () => setDisplayProfile(!displayProfile && !!user);
   const hideProfile = () => setDisplayProfile(false);
@@ -30,7 +38,13 @@ export default function NavBar() {
   return (
     <nav className={styles.navBar}>
       <div className={styles.leftContent} onClick={() => redirect("/")}>
-        <Image src='/logo.svg' height={100} width={100} alt='logo' style={{ cursor: "pointer" }} />
+        <Image
+          src="/logo.svg"
+          height={100}
+          width={100}
+          alt="logo"
+          style={{ cursor: "pointer" }}
+        />
       </div>
 
       <div className={styles.centerContent}>{user && <SliderButton />}</div>
@@ -40,22 +54,40 @@ export default function NavBar() {
           avatar[0] === -1 ? (
             <Avatar
               size={32}
-              src={user.photoURL || "https://avatars.githubusercontent.com/u/7143434?v=4"}
+              src={
+                user.photoURL ||
+                "https://avatars.githubusercontent.com/u/7143434?v=4"
+              }
               onClick={toggleProfile}
             />
           ) : (
-            <Box className={styles.avatarBox} bg={bgColors[avatar[1]]} onClick={toggleProfile}>
-              {emojis[avatar[0]]}
+            <Box style={{ flex: 1 }}>
+              <Box
+                className={styles.avatarBox}
+                bg={bgColors[avatar[1]]}
+                onClick={toggleProfile}
+              >
+                {emojis[avatar[0]]}
+              </Box>
             </Box>
           )
         ) : (
           <Box className={styles.authButtons}>
             <Button onClick={toggleLogin}>Log in</Button>
-            {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
-            <Button variant='primary' style={{ background: "#8466b4" }} onClick={toggleSignUp} className={styles.signUpButton}>
+            {displayLogin && (
+              <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />
+            )}
+            <Button
+              variant="primary"
+              style={{ background: "#8466b4" }}
+              onClick={toggleSignUp}
+              className={styles.signUpButton}
+            >
               Sign up
             </Button>
-            {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
+            {displaySignUp && (
+              <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />
+            )}
           </Box>
         )}
       </div>
