@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
+// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
+const TRANSCRIPT_URL =
+  process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080";
 
 export default function UploadTranscript() {
   const [file, setFile] = useState<File>();
@@ -25,7 +27,8 @@ export default function UploadTranscript() {
     formData.append("file", file);
 
     try {
-      const response = await fetch(`${BASE_URL}/transcript/upload`, {
+      // const response = await fetch(`${BASE_URL}/transcript/upload`, {
+      const response = await fetch(TRANSCRIPT_URL, {
         method: "POST",
         body: formData,
       });
