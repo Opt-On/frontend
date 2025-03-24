@@ -10,7 +10,9 @@ import {
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
-import { Box, Text } from "@primer/react";
+import { Box, Stack, Text } from "@primer/react";
+import { color } from "motion/react";
+import { style } from "motion/react-client";
 import { useEffect, useState } from "react";
 
 function splitAtFirstNumber(str: string) {
@@ -130,9 +132,15 @@ export default function Degree() {
         >
           <h1>Track your degree</h1>
           <Text>See how you&apos;re tracking towards a {degreeType}</Text>
-          <Text weight="semibold" marginTop="2rem">
-            {degreeName}
-          </Text>
+          <Stack direction="vertical" align="center">
+            <Text weight="semibold" marginTop="2rem">
+              {degreeName}
+            </Text>
+            <Text size="small" color="6e7781">
+              *Approved course overrides are not shown in degree or option tracking
+            </Text>
+          </Stack>
+          
           {degreeRequirementInfo && (
             <RequirementDisplay
               requirementDisplayInfo={degreeRequirementInfo}
