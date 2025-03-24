@@ -1,16 +1,15 @@
 import { OptionProgress } from "@/api/audit";
-import { Box, Label, ProgressBar, Text } from "@primer/react";
 import styles from "@/components/option/OptionProgressPreview/OptionProgressPreview.module.scss";
-import { optionMap } from "../OptionProgressOverview";
-import Skeleton from "react-loading-skeleton";
 import { useAuth } from "@/context/AuthContext";
+import { Box, Label, ProgressBar, Text } from "@primer/react";
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+import { optionMap } from "../OptionProgressOverview";
 
 export type OptionProgressPreviewProps = {
   optionProgress: OptionProgress;
   onClick: () => void;
 };
-
 
 export default function OptionProgressPreview({
   optionProgress,
@@ -21,7 +20,12 @@ export default function OptionProgressPreview({
 
   useEffect(() => {
     if (userInfo && optionProgress) {
-      setIsDeclared(userInfo.optionNames.includes(optionMap[optionProgress.name] + " Option"));
+      setIsDeclared(
+        userInfo.optionNames &&
+          userInfo.optionNames.includes(
+            optionMap[optionProgress.name] + " Option"
+          )
+      );
     }
   }, [userInfo, optionProgress]);
 
@@ -30,12 +34,21 @@ export default function OptionProgressPreview({
   }
 
   return (
-    <Box className={styles.optionProgressPreview} onClick={onClick} role='button' tabIndex={0}>
+    <Box
+      className={styles.optionProgressPreview}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+    >
       <Box className={styles.header}>
         {optionProgress?.name ? (
           <>
-            <Text className={styles.title}>{optionMap[optionProgress.name] + " Option"}</Text>
-            {isDeclared && <Label className={styles.declaredLabel}>Declared</Label>}
+            <Text className={styles.title}>
+              {optionMap[optionProgress.name] + " Option"}
+            </Text>
+            {isDeclared && (
+              <Label className={styles.declaredLabel}>Declared</Label>
+            )}
           </>
         ) : (
           <Skeleton className={styles.skeletonTitle} />
@@ -57,7 +70,9 @@ export default function OptionProgressPreview({
             className={styles.progressBar}
             progress={
               optionProgress
-                ? (optionProgress.completedRequirements / optionProgress.totalRequirements) * 100
+                ? (optionProgress.completedRequirements /
+                    optionProgress.totalRequirements) *
+                  100
                 : 0
             }
           />
