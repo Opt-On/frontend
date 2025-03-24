@@ -1,10 +1,12 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
 export default function UploadTranscript() {
   const [file, setFile] = useState<File>();
   const [summary, setSummary] = useState<object>();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -15,29 +17,29 @@ export default function UploadTranscript() {
 
   const handleUpload = async () => {
     if (!file) {
-      alert('Please select a PDF file first.');
+      alert("Please select a PDF file first.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await fetch('http://localhost:8080/transcript/upload', {
-        method: 'POST',
+      const response = await fetch(`${BASE_URL}/transcript/upload`, {
+        method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Upload failed');
+        throw new Error("Upload failed");
       }
 
-      const result = await response.json(); 
+      const result = await response.json();
       console.log(result);
-      setSummary(result); 
+      setSummary(result);
     } catch (error) {
-      console.error('Upload failed:', error);
-      setError('Upload failed');
+      console.error("Upload failed:", error);
+      setError("Upload failed");
     }
   };
 
@@ -54,7 +56,7 @@ export default function UploadTranscript() {
         </div>
       )}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }

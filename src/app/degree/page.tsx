@@ -38,7 +38,8 @@ export default function Degree() {
           const degreeRequirement = data[0];
           for (const requirement of degreeRequirement.requirementLists) {
             // ignore coops
-            if (requirement.name == "WKTRM") {
+
+            if (requirement.name == "WKTRM" || requirement.name == "MLSTN") {
               continue;
             }
             const courseResults: CourseResult[] = [];
