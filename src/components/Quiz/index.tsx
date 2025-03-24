@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Dialog } from "@primer/react";
+import { Box, Dialog } from "@primer/react";
 import styles from "@/components/Quiz/Quiz.module.scss";
 import { questions } from "./questionData";
 import Header from "./Header";

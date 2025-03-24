@@ -116,7 +116,7 @@ export default function Home() {
           >
             <HorizontalScroll />
           </Box>
-          <Box style={{ paddingBottom: "224px", width: "100%", margin: "auto" }}>
+          <Box style={{ paddingBottom: "50px", width: "100%", margin: "auto" }}>
             <Text as='h2' style={{ fontSize: "32px", textAlign: "center", marginBottom: "32px" }}>
               Frequently asked questions
             </Text>
