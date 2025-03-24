@@ -1,11 +1,8 @@
-.container {
-
-    height: auto;
-}
-
 .wrapper {
+  width: 100vw;
+  overflow: hidden;
   display: flex;
-  padding: 16px 0;
   gap: 16px;
   cursor: grab;
+  width: auto;
 }

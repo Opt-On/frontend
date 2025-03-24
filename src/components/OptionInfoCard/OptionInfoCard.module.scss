@@ -1,0 +1,41 @@
+$quizGradient: linear-gradient(to right, #e1eaf8, #dbc4e9);
+
+.card {
+  background: $quizGradient;
+  padding: 2px;
+  border-radius: 10px;
+  display: inline-block;
+  height: 250px;
+  width: 250px;
+  text-align: center;
+}
+
+.inner {
+  background: #fff;
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 130%;
+  font-weight: 600;
+  width: 75%;
+  color: #000;
+  text-decoration: none;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 130%;
+  font-weight: 400;
+  width: 95%;
+  color: #000;
+  text-decoration: none;
+}

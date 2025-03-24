@@ -89,16 +89,8 @@ export default function Quiz() {
 
   return (
     <>
-      <Button
-        leadingVisual={() => (
-          <span className={styles.icon}>
-            <PlayIcon />
-          </span>
-        )}
-        className={styles.button}
-        onClick={toggleModal}
-      >
-        Take our quiz!
+      <Button variant="invisible" className={styles.button} onClick={toggleModal}>
+        <Box className={styles.innerButton}>Take a short and fun quiz 🎁</Box>
       </Button>
       {displayQuiz && (
         <Dialog

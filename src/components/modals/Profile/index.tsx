@@ -223,7 +223,7 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
             Last uploaded on {userInfo.uploadDate}
           </Text>
         )}
-        <FileUpload file={file} setFile={setFile} submitTranscript={submitTranscript} />
+        <FileUpload file={file} setFile={setFile} />
       </Box>
       <Box style={{ display: "flex", justifyContent: "space-between" }}>
         <Button onClick={handleLogout} variant='danger' sx={{ width: 76 }}>

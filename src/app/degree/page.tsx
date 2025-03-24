@@ -11,6 +11,7 @@ import {
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function splitAtFirstNumber(str: string) {
@@ -26,6 +27,10 @@ export default function Degree() {
   >([]);
   const degreeType = "Bachelors of BOFA"; // need to parse this field or some shit idk
   const degreeName = userInfo?.program || "NUTS Engineering";
+
+  if (!user) {
+    return redirect("/");
+  } 
 
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
