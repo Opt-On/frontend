@@ -11,6 +11,9 @@ export const submitTranscript = async (transcript: File, email: string) => {
   const response = await fetch(TRANSCRIPT_URL, {
     method: "POST",
     body: formData,
+    headers: {
+      "req-url": "upload",
+    },
   });
 
   if (!response.ok) throw new Error("File upload failed");

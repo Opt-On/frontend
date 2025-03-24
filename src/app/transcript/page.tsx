@@ -31,6 +31,9 @@ export default function UploadTranscript() {
       const response = await fetch(TRANSCRIPT_URL, {
         method: "POST",
         body: formData,
+        headers: {
+          "req-url": "upload",
+        },
       });
 
       if (!response.ok) {
