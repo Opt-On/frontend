@@ -134,7 +134,7 @@ export default function Degree() {
             <Text weight="semibold" marginTop="2rem">
               {degreeName}
             </Text>
-            <Text size="small" color="6e7781">
+            <Text fontStyle="italic" size="small" color="6e7781">
               *Approved course overrides are not shown in degree or option tracking
             </Text>
           </Stack>
