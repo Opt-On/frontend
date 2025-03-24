@@ -2,7 +2,6 @@ import { Box, Text } from "@primer/react";
 import { motion, AnimatePresence } from "motion/react";
 import styles from "@/components/OptionInfoCard/OptionInfoCard.module.scss";
 import { OptionDetails } from "../HorizontalScroll";
-import Link from "next/link";
 import { useState } from "react";
 
 interface OptionInfoCardProps {

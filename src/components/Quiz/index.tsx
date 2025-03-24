@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, Dialog } from "@primer/react";
-import { PlayIcon } from "@primer/octicons-react";
 import styles from "@/components/Quiz/Quiz.module.scss";
 import { questions } from "./questionData";
 import Header from "./Header";

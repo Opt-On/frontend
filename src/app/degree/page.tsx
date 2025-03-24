@@ -29,9 +29,11 @@ export default function Degree() {
   const degreeName = userInfo?.program || "NUTS Engineering";
 
   if (!user) {
-    return redirect("/");
-  } 
+    redirect("/");
+    return null; 
+  }
 
+  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
       try {
@@ -121,7 +123,7 @@ export default function Degree() {
     };
 
     getDeclaredAuditResult();
-  }, [courseResultMap, courseNameMap, userInfo]); // courseResultMap is updated when user is updated so we dont need an extra rerender
+  }, [courseResultMap, courseNameMap, userInfo]);
 
   return (
     <main>

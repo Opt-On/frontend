@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import styles from "@/components/HorizontalScroll/HorizontalScroll.module.scss";
-import { useState } from "react";
 import { OptionInfoCard } from "@/components/OptionInfoCard";
 
 export interface OptionDetails {

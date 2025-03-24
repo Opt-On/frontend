@@ -37,7 +37,7 @@ export default function Home() {
               margin: "32px 0",
             }}
           >
-            <Text as='h2'>Let's get started 📣</Text>
+            <Text as='h2'>Let&#39;s get started 📣</Text>
             <Text as='p'>Upload your transcript for personalized recommendations</Text>
             <FileUpload file={file} setFile={setFile} />
           </Box>
