@@ -3,18 +3,32 @@ import { Box, Label, ProgressBar, Text } from "@primer/react";
 import styles from "@/components/option/OptionProgressPreview/OptionProgressPreview.module.scss";
 import { optionMap } from "../OptionProgressOverview";
 import Skeleton from "react-loading-skeleton";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
 
 export type OptionProgressPreviewProps = {
   optionProgress: OptionProgress;
-  isDeclared?: boolean;
   onClick: () => void;
 };
 
+
 export default function OptionProgressPreview({
   optionProgress,
-  isDeclared = false,
   onClick,
 }: OptionProgressPreviewProps) {
+  const { userInfo } = useAuth();
+  const [isDeclared, setIsDeclared] = useState(false);
+
+  useEffect(() => {
+    if (userInfo && optionProgress) {
+      setIsDeclared(userInfo.optionNames.includes(optionMap[optionProgress.name] + " Option"));
+    }
+  }, [userInfo, optionProgress]);
+
+  if (!userInfo) {
+    return <Skeleton className={styles.skeletonTitle} />;
+  }
+
   return (
     <Box className={styles.optionProgressPreview} onClick={onClick} role='button' tabIndex={0}>
       <Box className={styles.header}>

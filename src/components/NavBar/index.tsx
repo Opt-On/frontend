@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Login } from "../modals/Login";
 import { Profile } from "../modals/Profile";
 import { SignUp } from "../modals/SignUp";
+import Image from "next/image";
 
 export default function NavBar() {
   const { user, avatar } = useAuth();
@@ -53,25 +54,20 @@ export default function NavBar() {
         paddingRight: "64px",
         paddingLeft: "64px",
         height: "6rem",
+        position: "relative",
       }}
     >
-      <h1 style={{ fontWeight: 600, fontSize: "20px", lineHeight: "160%" }}>
-        OPT&apos;ON
-      </h1>
-      {user ? (
-        <>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <SliderButton />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              height: "100%",
-              cursor: "pointer",
-            }}
-          >
+      <div style={{ flex: 1 }}>
+        <Image src='/logo.svg' height={100} width={100} alt='logo' />
+      </div>
+
+      <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+        <SliderButton />
+      </div>
+
+      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+        {user ? (
+          <>
             {avatar[0] === -1 ? (
               <Avatar
                 size={32}
@@ -95,26 +91,19 @@ export default function NavBar() {
                 {emojis[avatar[0]]}
               </Box>
             )}
-          </div>
-          {displayProfile && <Profile handleClose={hideProfile} />}
-        </>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "100%",
-            height: "100%",
-            alignItems: "center",
-            gap: "16px"
-          }}
-        >
-          <Button onClick={toggleLogin}>Log in</Button>
-          {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
-          <Button variant="primary" onClick={toggleSignUp}>Sign up</Button>
-          {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
-        </div>
-      )}
+          </>
+        ) : (
+          <>
+            <Button onClick={toggleLogin}>Log in</Button>
+            {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
+            <Button variant='primary' onClick={toggleSignUp}>
+              Sign up
+            </Button>
+            {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
+          </>
+        )}
+      </div>
+      {displayProfile && <Profile handleClose={hideProfile} />}
     </nav>
   );
 }

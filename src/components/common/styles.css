@@ -1,0 +1,9 @@
+.hide-text {
+  font-size: 0 !important;
+  text-indent: -9999px !important;
+}
+
+.hide-text > span > div {
+  font-size: 0 !important;
+  text-indent: -9999px !important;
+}

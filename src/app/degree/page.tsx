@@ -38,7 +38,8 @@ export default function Degree() {
           const degreeRequirement = data[0];
           for (const requirement of degreeRequirement.requirementLists) {
             // ignore coops
-            if (requirement.name == "WKTRM") {
+
+            if (requirement.name == "WKTRM" || requirement.name == "MLSTN") {
               continue;
             }
             const courseResults: CourseResult[] = [];
@@ -53,7 +54,7 @@ export default function Degree() {
                 grade:
                   formattedCourseName in courseResultMap
                     ? courseResultMap[formattedCourseName]
-                    : "Not taken",
+                    : "-",
               });
             }
             degreeRequirementList.push({
@@ -74,10 +75,12 @@ export default function Degree() {
 
           // options audit
           const optionRequirements: RequirementDisplayInfo[] = [];
+
           for (const optionRequirement of data.slice(1)) {
             const optionRequirementList: RequirementInfo[] = [];
-            console.log("option requirements", optionRequirement);
-            for (const requirement of optionRequirement.requirementLists) {
+            for (const requirementIndex in optionRequirement.requirementLists) {
+              const requirement =
+                optionRequirement.requirementLists[requirementIndex];
               const courseResults: CourseResult[] = [];
               for (const courseName of requirement.completedCourses) {
                 courseResults.push({
@@ -89,11 +92,11 @@ export default function Degree() {
                   grade:
                     courseName in courseResultMap
                       ? courseResultMap[courseName]
-                      : "Not taken",
+                      : "-",
                 });
               }
               optionRequirementList.push({
-                requirementName: requirement.name,
+                requirementName: `List ${parseInt(requirementIndex) + 1}`,
                 status: requirement.completionStatus,
                 courses: courseResults,
               });
@@ -106,8 +109,6 @@ export default function Degree() {
             optionRequirements.push(optionRequirementInfo);
           }
           setOptionsRequirementInfo(optionRequirements);
-
-          console.log("courseResultMap", courseResultMap);
         }
       } catch (e) {
         console.error("failed to get declared audit result", e);

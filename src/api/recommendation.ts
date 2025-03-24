@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
 export const getRecommendations = async (email: string, option: string) => {
   const response = await fetch(`${BASE_URL}/recommendation/`, {

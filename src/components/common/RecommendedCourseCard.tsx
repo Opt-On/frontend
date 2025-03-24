@@ -13,25 +13,37 @@ export default function RecommendedCourseCard({
   altCourses,
   altCourseInfo,
   handleSwitchCourse,
+  filterPrereqs,
 }: {
   courseInfo: recommendedCourseInfo;
   altCourses: string[];
   altCourseInfo: { [key: string]: RecommendedCourse };
   handleSwitchCourse: (a: string, b: string) => void;
+  filterPrereqs: boolean;
 }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const filteredAltCourses = altCourses.filter(
-    (altCourse) => altCourseInfo[altCourse].isUsed === false
+    (altCourse) =>
+      altCourse in altCourseInfo && altCourseInfo[altCourse].isUsed === false
   );
 
-  const currCourseData = altCourseInfo[courseInfo.name];
+  const currCourseData =
+    courseInfo.name in altCourseInfo && altCourseInfo[courseInfo.name];
+
+  if (!currCourseData) {
+    return <>err</>;
+  }
 
   const enrichedAltCourses = filteredAltCourses.map(
     (altCourse) => altCourseInfo[altCourse]
   );
 
   enrichedAltCourses.sort((a, b) => -a.score + b.score);
+
+  if (filterPrereqs) {
+    enrichedAltCourses.filter((a) => !a.missingPrereq);
+  }
   const courses = enrichedAltCourses;
 
   const handleSetSelected = (switchCourse: string) => {
@@ -88,7 +100,7 @@ export default function RecommendedCourseCard({
                 {courseInfo.name}
               </Text>
             </Link>
-            {missingPrereqs.length > 0 && (
+            {currCourseData.missingPrereq && (
               <Box
                 display="flex"
                 flexDirection="row"
