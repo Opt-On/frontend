@@ -113,7 +113,12 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
         )}
       </FormControl>
 
-      <Button variant='primary' size='large' onClick={handleEmailLogin}>
+      <Button
+        variant='primary'
+        style={{ background: "#8466b4" }}
+        size='large'
+        onClick={handleEmailLogin}
+      >
         Log in
       </Button>
 

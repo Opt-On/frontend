@@ -226,10 +226,10 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
         <FileUpload file={file} setFile={setFile} />
       </Box>
       <Box style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button onClick={handleLogout} variant='danger' sx={{ width: 76 }}>
+        <Button onClick={handleLogout} variant='danger' style={{ width: 76 }}>
           Logout
         </Button>
-        <Button onClick={handleSave} variant='primary' sx={{ width: 76 }}>
+        <Button onClick={handleSave} variant='primary' style={{ background: "#8466b4", width: 76 }}>
           Save
         </Button>
       </Box>

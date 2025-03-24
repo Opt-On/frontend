@@ -31,7 +31,7 @@ export default function Result({ program, handleClose }: ResultProps) {
           </div>
         </Box>
       </Box>
-      <Button className={styles.button} onClick={handleClose} variant='primary'>
+      <Button className={styles.button} onClick={handleClose} variant='primary' style={{ background: "#8466b4" }}>
         Nice, that&#39;s all :&#41;
       </Button>
     </div>
