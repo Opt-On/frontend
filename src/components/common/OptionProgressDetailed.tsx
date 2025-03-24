@@ -58,7 +58,68 @@ export const getColor = (status: string) => {
   }
 };
 
-export default function OptionProgressDetailed({ option }: { option: string }) {
+export type OptionSubheaderInfo = {
+  minGrade: string;
+  coordinator: string;
+  email: string;
+};
+const optionInfo: { [key: string]: OptionSubheaderInfo } = {
+  "Artificial Intelligence": {
+    minGrade: "Minimum cumulative option average of 60%",
+    coordinator: "Otman Basir, Electrical and Computer Engineering",
+    email: "obasir@uwaterloo.ca",
+  },
+  Biomechanics: {
+    minGrade: "Minimum cumulative option average of 60%",
+    coordinator:
+      "Naveen Chandrashekar, Mechanical and Mechatronics Engineering",
+    email: "nchandra@uwaterloo.ca",
+  },
+  Computing: {
+    minGrade: "Minimum cumulative option average of 75%",
+    coordinator: "Wojciech Golab, Electrical and Computer Engineering",
+    email: "wgolab@uwaterloo.ca",
+  },
+  "Computer Engineering": {
+    minGrade: "ENG Minimum cumulative option average of 75%",
+    coordinator: "Wojciech Golab, Electrical and Computer Engineering",
+    email: "wgolab@uwaterloo.ca",
+  },
+  Entrepreneurship: {
+    minGrade: "Minimum cumulative option average of 60%",
+    coordinator: "Nada Basir, Conrad School of Business and Entrepreneurship",
+    email: "nbasir@uwaterloo.ca",
+  },
+  Mechatronics: {
+    minGrade: "Minimum cumulative option average of 60%",
+    coordinator: "John McPhee, Systems Design Engineering",
+    email: "mcphee@uwaterloo.ca",
+  },
+  "Management Sciences": {
+    minGrade: "Minimum cumulative option average of 60%",
+    coordinator: "Fatih Safa Erenay, Management Science and Engineering",
+    email: "ferenay@uwaterloo.ca",
+  },
+  Statistics: {
+    minGrade: "Minimum cumulative option average of 60%",
+    coordinator: "Riley Metzger, Statistics and Actuarial Science",
+    email: "rametzger@uwaterloo.ca",
+  },
+  "Software Engineering": {
+    minGrade: "Minimum cumulative option average of 75%",
+    coordinator: "Wojciech Golab, Electrical and Computer Engineering",
+    email: "wgolab@uwaterloo.ca",
+  },
+};
+
+export default function OptionProgressDetailed({
+  option,
+  optionName,
+}: {
+  option: string;
+  optionName: string;
+}) {
+  console.log(option);
   const { user, courseTerms, courseNameMap } = useAuth();
 
   const [completedRequirements, setCompletedRequirements] = useState<number>(0);
@@ -333,7 +394,7 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
         showRecommendations={showRecommendations}
         toggleShowRecommendations={toggleShowRecommendations}
       />
-      <OptionInfoSubheader />
+      <OptionInfoSubheader optionInfo={optionInfo[optionName]} />
       {showRecommendations ? (
         <OptionProgressRec
           recommendationCourses={recommendationCourses}

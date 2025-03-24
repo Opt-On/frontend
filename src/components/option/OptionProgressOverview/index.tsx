@@ -9,17 +9,14 @@ import { useCallback, useEffect, useState } from "react";
 import OptionProgressPreview from "../OptionProgressPreview";
 
 export const optionMap: { [key: string]: string } = {
-  // COGSCOPT: "Cognitive Science", this shit aint real
   COMPENGOPT: "Computer Engineering",
-  MSCIOPT: "Management Science",
+  MSCIOPT: "Management Sciences",
   BIOMECHOPT: "Biomechanics",
-  // BUSOPT: "Business",
   SWENGOPT: "Software Engineering",
   ENTROPT: "Entrepreneurship",
   AIENGOPT: "Artificial Intelligence",
   COMPUOPT: "Computing",
   STATOPT: "Statistics",
-  // MATHOPT: "Mathematics",
   MECTROPT: "Mechatronics",
 };
 
@@ -129,7 +126,6 @@ export default function OptionProgressOverview() {
           <Box className={styles.progressPreviewContainer}>
             <OptionProgressPreview
               optionProgress={optionProgress[0]}
-              isDeclared
               onClick={() => handlePreviewClick(optionProgress[0].name)}
             />
             <OptionProgressPreview

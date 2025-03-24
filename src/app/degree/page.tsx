@@ -24,7 +24,7 @@ export default function Degree() {
   const [optionsRequirementInfo, setOptionsRequirementInfo] = useState<
     RequirementDisplayInfo[]
   >([]);
-  const degreeType = "Bachelors of BOFA"; // need to parse this field or some shit idk
+  const degreeType = "Bachelors of Applied Science"; // need to parse this field or some shit idk
   const degreeName = userInfo?.program || "NUTS Engineering";
 
   useEffect(() => {
@@ -38,7 +38,8 @@ export default function Degree() {
           const degreeRequirement = data[0];
           for (const requirement of degreeRequirement.requirementLists) {
             // ignore coops
-            if (requirement.name == "WKTRM") {
+
+            if (requirement.name == "WKTRM" || requirement.name == "MLSTN") {
               continue;
             }
             const courseResults: CourseResult[] = [];

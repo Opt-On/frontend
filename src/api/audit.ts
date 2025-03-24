@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 
 function processString(str: string) {
   return str.split(" ").slice(0, -1).join("_").toLowerCase();
