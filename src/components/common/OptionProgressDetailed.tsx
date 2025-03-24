@@ -124,6 +124,8 @@ export default function OptionProgressDetailed({
 
   const [completedRequirements, setCompletedRequirements] = useState<number>(0);
   const [totalRequirements, setTotalRequirements] = useState<number>(1);
+  const [missingRequirementsList, setMissingRequirementsList] =
+    useState<number[]>();
 
   // static no recs
   const [optionRequirements, setOptionRequirements] = useState<
@@ -158,6 +160,7 @@ export default function OptionProgressDetailed({
           const formattedData = [];
           let currCompletedRequirements = 0;
           let currTotalRequirements = 0;
+          const newMissingRequirementsList: number[] = [];
           const keys = Object.keys(data);
           for (const keyIndex in keys) {
             const key = keys[keyIndex];
@@ -191,8 +194,13 @@ export default function OptionProgressDetailed({
             currCompletedRequirements +=
               optionRequirement.completedCourses.length;
             currTotalRequirements += optionRequirement.required;
+            newMissingRequirementsList.push(
+              optionRequirement.required -
+                optionRequirement.completedCourses.length
+            );
             formattedData.push(formattedRequirementInfo);
           }
+          setMissingRequirementsList(newMissingRequirementsList);
           setCompletedRequirements(currCompletedRequirements);
           setTotalRequirements(currTotalRequirements);
           setOptionRequirements(formattedData);
@@ -393,6 +401,7 @@ export default function OptionProgressDetailed({
         togglePrereq={togglePrereq}
         showRecommendations={showRecommendations}
         toggleShowRecommendations={toggleShowRecommendations}
+        missingRequirementsList={missingRequirementsList}
       />
       <OptionInfoSubheader optionInfo={optionInfo[optionName]} />
       {showRecommendations ? (
