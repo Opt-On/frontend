@@ -81,7 +81,7 @@ export default function OptionHeader({
         />
       </Box>
       <div
-        style={{ width: "1px", backgroundColor: "#dee3e8", margin: "0 0.5rem" }}
+        style={{ width: "1px", background: "#dee3e8", margin: "0 0.5rem" }}
       />
 
       <Box
@@ -112,7 +112,7 @@ export default function OptionHeader({
             block={false}
             style={{ padding: '8px 16px' }}            
             onClick={toggleShowRecommendations}
-            backgroundColor="6260AD"
+            background="6260AD"
           >
             Get Recommendations
           </Button>

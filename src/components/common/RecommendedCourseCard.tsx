@@ -83,7 +83,7 @@ export default function RecommendedCourseCard({
       width="100%"
       padding="0.5rem 1rem"
       height="69px"
-      backgroundColor="rgba(9, 107, 218, 0.1)"
+      background="rgba(9, 107, 218, 0.1)"
       sx={{
         // todo: color is off need to add gradient
         border: "1px solid rgba(84, 174, 255, 0.4)",

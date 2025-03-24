@@ -32,7 +32,6 @@ export default function Degree() {
     redirect("/");
   }
 
-  /* eslint-disable react-hooks/rules-of-hooks */
   useEffect(() => {
     const getDeclaredAuditResult = async () => {
       try {

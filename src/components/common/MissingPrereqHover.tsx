@@ -12,7 +12,7 @@ export default function MissingPrereqHover({
         top="-2.5rem"
         left="0.5rem"
         position="absolute"
-        backgroundColor="white"
+        background="white"
         padding="1rem"
         sx={{
           border: "1px solid #656d76",

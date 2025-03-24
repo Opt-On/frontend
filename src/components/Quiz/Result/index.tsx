@@ -1,5 +1,6 @@
-import { Button, Text } from "@primer/react";
+import { Box, Button, Text } from "@primer/react";
 import styles from "@/components/Quiz/Result/Result.module.scss";
+import Image from "next/image";
 
 interface ResultProps {
   program: string;
@@ -17,7 +18,19 @@ export default function Result({ program, handleClose }: ResultProps) {
           {program} Option
         </Text>
       </div>
-      <div className={styles.imagePlaceholder} />
+      <Box className={styles.image}>
+        <Box className={styles.inner}>
+          <div className={styles.imageWrapper}>
+            <Image
+              src={`/quiz/${program}.png`}
+              alt={`${program} option illustration`}
+              layout='fill'
+              objectFit='contain'
+              className={styles.responsiveImage}
+            />
+          </div>
+        </Box>
+      </Box>
       <Button className={styles.button} onClick={handleClose} variant='primary'>
         Nice, that&#39;s all :&#41;
       </Button>

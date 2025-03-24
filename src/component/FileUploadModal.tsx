@@ -80,7 +80,7 @@ export default function FileUploadModal() {
           borderRadius: 16,
           textAlign: "center",
           cursor: "pointer",
-          backgroundColor: isDragging ? "#f6f7f8" : "#ffffff",
+          background: isDragging ? "#f6f7f8" : "#ffffff",
         }}
       >
         <Text as="h4">Drag and drop a file to upload</Text>

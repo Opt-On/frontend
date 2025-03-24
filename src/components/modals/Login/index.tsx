@@ -133,7 +133,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
           icon={() => <Image src='/google.svg' alt='Google Icon' width={40} height={40} />}
           sx={{
             "&:hover": {
-              backgroundColor: "transparent",
+              background: "transparent",
             },
           }}
         />
@@ -144,7 +144,7 @@ export const Login: React.FC<LoginProps> = ({ toggleSignUp, handleClose }) => {
           icon={() => <Image src='/github.svg' alt='Github Icon' width={38} height={38} />}
           sx={{
             "&:hover": {
-              backgroundColor: "transparent",
+              background: "transparent",
             },
           }}
         />
