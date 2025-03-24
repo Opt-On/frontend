@@ -16,7 +16,6 @@ export default function NavBar() {
   const [displayProfile, setDisplayProfile] = useState<boolean>(false);
 
   const emojis = ["🐱", "🐶", "🐰", "🐻", "🐻‍❄️", "🦊", "🐮"];
-
   const bgColors = ["#fbefff", "#ffeff7", "#ddf4ff", "#dafbe1", "#fff8c5", "#fff1e5", "#ffebe9"];
 
   const toggleProfile = () => {
@@ -62,7 +61,7 @@ export default function NavBar() {
       </div>
 
       <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-        <SliderButton />
+        {user && <SliderButton />}
       </div>
 
       <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
@@ -93,14 +92,14 @@ export default function NavBar() {
             )}
           </>
         ) : (
-          <>
+          <Box style={{ display: "flex", justifyContent: "flex-end", gap: "16px", width: "100%" }}>
             <Button onClick={toggleLogin}>Log in</Button>
             {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
-            <Button variant='primary' onClick={toggleSignUp}>
+            <Button variant='primary' onClick={toggleSignUp} style={{ backgroundColor: "#8466b4" }}>
               Sign up
             </Button>
             {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
-          </>
+          </Box>
         )}
       </div>
       {displayProfile && <Profile handleClose={hideProfile} />}

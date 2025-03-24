@@ -1,45 +1,60 @@
 "use client";
-import { OptionInfoCard } from "@/components/common/OptionInfoCard";
+import FileUpload from "@/components/FileUpload";
+import HorizontalScroll from "@/components/HorizontalScroll";
 import NavBar from "@/components/NavBar";
 import Quiz from "@/components/Quiz";
+import { useFile } from "@/context/FileContext";
 // import { useAuth } from "@/context";
 import { Box, Text } from "@primer/react";
 
 export default function Home() {
   // const { user } = useAuth();
+  const { file, setFile } = useFile();
   return (
     <main>
       <section>
         <NavBar />
-        <Box display='flex' padding='6rem' width='100%' flexDirection='column' alignItems='center'>
-          <Text as='h1' style={{ fontWeight: 600, fontSize: 32, lineHeight: "150%" }}>
-            This is our super cool headline.
+        <Box
+          display='flex'
+          width='100%'
+          flexDirection='column'
+          alignItems='center'
+          overflow='hidden'
+        >
+          <Text as='h1' style={{ fontWeight: 500, fontSize: 40, lineHeight: "140%" }}>
+            Get more out of your degree
           </Text>
           <Text as='h2' style={{ color: "#57606A", fontWeight: 400, fontSize: 20 }}>
-            Making your option planning easier or whatever
+            We got you - we&#39;re making options planning easier ✌️
           </Text>
-          <Box paddingTop='2rem'>
-            <Quiz />
-          </Box>
           <Box
-            display='grid'
-            gridTemplateColumns='repeat(4, 1fr)'
-            paddingTop='2rem'
-            width='60%'
-            sx={{ gap: "1.25rem" }}
+            style={{
+              width: "600px",
+              height: "auto",
+              padding: "24px 32px",
+              borderRadius: "16px",
+              background: "linear-gradient(to right, #E1EAF8, #DBC4E9)",
+              margin: "32px 0",
+            }}
           >
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
-            <OptionInfoCard />
+            <Text as='h2'>Let&#39;s get started 📣</Text>
+            <Text as='p'>Upload your transcript for personalized recommendations</Text>
+            <FileUpload file={file} setFile={setFile} />
+          </Box>
+          <Text
+            as='h3'
+            style={{ color: "#57606A", fontWeight: 400, fontSize: 16, padding: "16px" }}
+          >
+            Unsure which option is right for you?
+          </Text>
+          <Quiz />
+          <Box
+            padding='128px 0'
+            display='flex'
+            flexDirection='column'
+            justifyContent='space-around'
+          >
+            <HorizontalScroll />
           </Box>
         </Box>
       </section>

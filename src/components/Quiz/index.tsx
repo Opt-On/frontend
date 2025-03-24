@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, Dialog } from "@primer/react";
-import { PlayIcon } from "@primer/octicons-react";
 import styles from "@/components/Quiz/Quiz.module.scss";
 import { questions } from "./questionData";
 import Header from "./Header";
@@ -90,15 +89,12 @@ export default function Quiz() {
   return (
     <>
       <Button
-        leadingVisual={() => (
-          <span className={styles.icon}>
-            <PlayIcon />
-          </span>
-        )}
+        variant='invisible'
         className={styles.button}
+        style={{ padding: 0 }}
         onClick={toggleModal}
       >
-        Take our quiz!
+        <Box className={styles.inner}>Take a short and fun quiz 🎁</Box>
       </Button>
       {displayQuiz && (
         <Dialog
