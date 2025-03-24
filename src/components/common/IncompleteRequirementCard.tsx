@@ -22,7 +22,7 @@ export default function IncompleteRequirementCard({
       }}
     >
       <Text as="h4" weight="medium" color="#656d76">
-        {`Course ${index} requirement`}
+        {`Course requirement`}
       </Text>
     </Box>
   );
