@@ -19,5 +19,6 @@ export const getRecommendations = async (email: string, option: string) => {
 
   if (!response.ok) throw new Error("failed to get option recommendations");
   const json = await response.json();
+  console.log("rec json", json);
   return json;
 };
