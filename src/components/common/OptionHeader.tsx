@@ -50,7 +50,7 @@ export default function OptionHeader({
 
   return (
     <Box
-      padding="0.5rem"
+      padding="1.5rem"
       display="flex"
       flexDirection="row"
       justifyContent="space-between"
@@ -62,14 +62,14 @@ export default function OptionHeader({
         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <Box padding="0.5rem" minWidth="12rem">
+      <Box minWidth="12rem" paddingRight={2}>
         <Text as="h1" weight="medium" style={{ fontSize: "2.5rem" }}>
           {completedRequirements}/{totalRequirements}
         </Text>
         <Text weight="light">option requirements met</Text>
         <ProgressBar
           style={{
-            marginTop: "0.25rem",
+            marginTop: "3rem",
             color: "#d4a72c",
             borderRadius: "1rem",
             opacity: 0.8,
@@ -81,20 +81,18 @@ export default function OptionHeader({
         />
       </Box>
       <div
-        style={{ width: "1px", backgroundColor: "gray", margin: "0 0.5rem" }}
+        style={{ width: "1px", backgroundColor: "#dee3e8", margin: "0 0.5rem" }}
       />
 
       <Box
-        display="flex"
-        flexDirection="column"
-        padding="0.5rem"
-        justifyContent="space-between"
+        direction={"vertical"}
+        paddingX={16}
       >
         <Box display="flex" flexDirection="column">
           <Text weight="semibold">TLDR;</Text>
           <Text>{courseReqStr}</Text>
         </Box>
-        <Box padding="0.25rem 0">
+        <Box padding="1rem 0">
           <Stack direction="horizontal" align="center" justify="space-between">
             <Text as="p" weight="light" marginBottom="0">
               Recommend only courses with fulfiled prerequisites
@@ -112,7 +110,9 @@ export default function OptionHeader({
             variant="primary"
             trailingVisual={SparkleFillIcon}
             block={false}
+            style={{ padding: '8px 16px' }}            
             onClick={toggleShowRecommendations}
+            backgroundColor="6260AD"
           >
             Get Recommendations
           </Button>

@@ -10,7 +10,7 @@ import {
 } from "@/components/common/RequirementDisplayList";
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/context/AuthContext";
-import { Box, Text } from "@primer/react";
+import { Box, Stack, Text } from "@primer/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,7 @@ export default function Degree() {
     RequirementDisplayInfo[]
   >([]);
   const degreeType = "Bachelors of Applied Science"; // need to parse this field or some shit idk
-  const degreeName = userInfo?.program || "NUTS Engineering";
+  const degreeName = userInfo?.program || "Engineering Degree";
 
   if (!user) {
     redirect("/");
@@ -72,8 +72,8 @@ export default function Degree() {
 
           const degreeRequirements: RequirementDisplayInfo = {
             requirementInfo: degreeRequirementList,
-            name: degreeRequirement.name || "fix me bozo",
-            date: "Parse me daddy", // PARSE THIS
+            name: degreeRequirement.name || "Degree",
+            date: "Not found", // PARSE THIS TODO
             completionStatus: degreeRequirement.overallStatus,
           };
 
@@ -137,9 +137,15 @@ export default function Degree() {
         >
           <h1>Track your degree</h1>
           <Text>See how you&apos;re tracking towards a {degreeType}</Text>
-          <Text weight="semibold" marginTop="2rem">
-            {degreeName}
-          </Text>
+          <Stack direction="vertical" align="center">
+            <Text weight="semibold" marginTop="2rem">
+              {degreeName}
+            </Text>
+            <Text fontStyle="italic" size="small" color="6e7781">
+              *Approved course overrides are not shown in degree or option tracking
+            </Text>
+          </Stack>
+          
           {degreeRequirementInfo && (
             <RequirementDisplay
               requirementDisplayInfo={degreeRequirementInfo}
