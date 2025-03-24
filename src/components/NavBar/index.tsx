@@ -9,6 +9,7 @@ import { Login } from "../modals/Login";
 import { Profile } from "../modals/Profile";
 import { SignUp } from "../modals/SignUp";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default function NavBar() {
   const { user, avatar } = useAuth();
@@ -28,8 +29,8 @@ export default function NavBar() {
 
   return (
     <nav className={styles.navBar}>
-      <div className={styles.leftContent}>
-        <Image src='/logo.svg' height={100} width={100} alt='logo' />
+      <div className={styles.leftContent} onClick={() => redirect("/")}>
+        <Image src='/logo.svg' height={100} width={100} alt='logo' style={{ cursor: "pointer" }} />
       </div>
 
       <div className={styles.centerContent}>{user && <SliderButton />}</div>
@@ -43,11 +44,7 @@ export default function NavBar() {
               onClick={toggleProfile}
             />
           ) : (
-            <Box
-              className={styles.avatarBox}
-              bg={bgColors[avatar[1]]}
-              onClick={toggleProfile}
-            >
+            <Box className={styles.avatarBox} bg={bgColors[avatar[1]]} onClick={toggleProfile}>
               {emojis[avatar[0]]}
             </Box>
           )
