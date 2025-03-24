@@ -116,7 +116,7 @@ export default function OptionProgressOverview() {
             </Text>
           )}
           </Box>
-          <OptionProgressDetailed option={optionSelected} />
+          <OptionProgressDetailed option={optionSelected} optionName={`${optionMap[optionSelected]} Option`} />
         </>
       ) : (
         <>

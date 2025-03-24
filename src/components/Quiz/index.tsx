@@ -88,14 +88,9 @@ export default function Quiz() {
 
   return (
     <>
-      <Button
-        variant='invisible'
-        className={styles.button}
-        style={{ padding: 0 }}
-        onClick={toggleModal}
-      >
+      <Box className={styles.button} onClick={toggleModal}>
         <Box className={styles.inner}>Take a short and fun quiz 🎁</Box>
-      </Button>
+      </Box>
       {displayQuiz && (
         <Dialog
           onClose={handleClose}

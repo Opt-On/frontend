@@ -27,17 +27,14 @@ export const questions: QuestionType[] = [
       {
         label: "The Future of AI & Robotics 🤖",
         points: { [OptionEnum.AI]: 2, [OptionEnum.TRON]: 1 },
-        src: "/youtube/robot.png",
       },
       {
         label: "Medical & Human Innovation 🏥",
         points: { [OptionEnum.BIOMECHANICS]: 2 },
-        src: "/youtube/medicine.png",
       },
       {
         label: "The Science of the Digital World 🔐",
         points: { [OptionEnum.COMPUTER_ENGINEERING]: 2, [OptionEnum.QUANTUM]: 1 },
-        src: "/youtube/digital world.png",
       },
       {
         label: "Building Software & Startups 💻",
@@ -46,17 +43,14 @@ export const questions: QuestionType[] = [
           [OptionEnum.COMPUTING]: 1,
           [OptionEnum.ENTREPRENEURSHIP]: 1,
         },
-        src: "/square.png",
       },
       {
         label: "Business, Finance, & Data 📊",
         points: { [OptionEnum.MSCI]: 2, [OptionEnum.STATS]: 1, [OptionEnum.ENTREPRENEURSHIP]: 1 },
-        src: "/youtube/business.png",
       },
       {
         label: "Sustainability & Engineering the Future 🌱",
         points: { [OptionEnum.ENVIRO]: 2 },
-        src: "/square.png",
       },
     ],
   },
@@ -124,32 +118,26 @@ export const questions: QuestionType[] = [
       {
         label: "Mind Reading 🧠",
         points: { [OptionEnum.AI]: 2 },
-        src: "/square.png",
       },
       {
         label: "Healing 🏥",
         points: { [OptionEnum.BIOMECHANICS]: 2, [OptionEnum.ENVIRO]: 1 },
-        src: "/square.png",
       },
       {
         label: "Invisibility 👁️",
         points: { [OptionEnum.COMPUTER_ENGINEERING]: 2 },
-        src: "/superpower/invisibility.webp",
       },
       {
         label: "Teleportation ⚛️",
         points: { [OptionEnum.QUANTUM]: 2 },
-        src: "/superpower/teleportation.webp",
       },
       {
         label: "Super Speed ⚡",
         points: { [OptionEnum.SOFTWARE]: 2 },
-        src: "/superpower/speed.webp",
       },
       {
         label: "Super Intelligence 📊",
         points: { [OptionEnum.MSCI]: 2, [OptionEnum.STATS]: 1, [OptionEnum.ENTREPRENEURSHIP]: 1 },
-        src: "/superpower/super intelligence.png",
       },
     ],
   },
@@ -183,31 +171,26 @@ export const questions: QuestionType[] = [
   {
     question: "Pick a drink to fuel your ambitions.",
     answers: [
-      { label: "Espresso ☕", points: { [OptionEnum.AI]: 2 }, src: "/drink/espresso.png" },
+      { label: "Espresso ☕", points: { [OptionEnum.AI]: 2 } },
       {
         label: "Black Coffee",
         points: { [OptionEnum.COMPUTER_ENGINEERING]: 2 },
-        src: "/drink/coffee.png",
       },
       {
         label: "Sparkling Water 🌊",
         points: { [OptionEnum.QUANTUM]: 2 },
-        src: "/drink/sparkling water.png",
       },
       {
         label: "Energy Drink ⚡️",
         points: { [OptionEnum.SOFTWARE]: 2 },
-        src: "/drink/energy drink.png",
       },
       {
         label: "Craft Cocktail 🍹",
         points: { [OptionEnum.ENTREPRENEURSHIP]: 2, [OptionEnum.MSCI]: 1, [OptionEnum.STATS]: 1 },
-        src: "/drink/cocktail.png",
       },
       {
         label: "Herbal Tea 🍃",
         points: { [OptionEnum.ENVIRO]: 2, [OptionEnum.BIOMECHANICS]: 1 },
-        src: "/drink/tea.png",
       },
     ],
   },

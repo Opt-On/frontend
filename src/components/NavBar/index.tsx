@@ -64,7 +64,7 @@ export default function NavBar() {
         {user && <SliderButton />}
       </div>
 
-      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", cursor: "pointer" }}>
         {user ? (
           <>
             {avatar[0] === -1 ? (
@@ -95,7 +95,7 @@ export default function NavBar() {
           <Box style={{ display: "flex", justifyContent: "flex-end", gap: "16px", width: "100%" }}>
             <Button onClick={toggleLogin}>Log in</Button>
             {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
-            <Button variant='primary' onClick={toggleSignUp} style={{ backgroundColor: "#8466b4" }}>
+            <Button variant='primary' onClick={toggleSignUp} style={{ background: "#8466b4" }}>
               Sign up
             </Button>
             {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
