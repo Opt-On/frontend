@@ -2,9 +2,10 @@ import { Dialog, Box, IconButton, Text, Button, TextInput } from "@primer/react"
 import { CheckIcon, XIcon } from "@primer/octicons-react";
 import styles from "./Profile.module.scss";
 import FileUpload from "@/components/FileUpload";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import { useState } from "react";
+import { useFile } from "@/context/FileContext";
 
 type ProfileProps = {
   handleClose: (gesture: "close-button" | "escape") => void;
@@ -12,6 +13,7 @@ type ProfileProps = {
 
 export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
   const { user, userInfo, logout, avatar, updateAvatar } = useAuth();
+  const { file, setFile, submitTranscript } = useFile();
 
   const [indexA, setIndexA] = useState(avatar[0]);
   const [indexB, setIndexB] = useState(avatar[1]);
@@ -63,6 +65,9 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
 
   const handleSave = () => {
     updateAvatar(indexA, indexB);
+    if (file) {
+      submitTranscript();
+    }
     handleClose("escape");
   };
 
@@ -178,28 +183,35 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
           To update basic information please re-upload your transcript.
         </Text>
         <Box display='grid' gridTemplateColumns='repeat(2, 1fr)' mt={3} sx={{ gap: 2 }}>
-          {["firstName", "lastName", "program", "email"].map((field) => (
-            <Box key={field} className={styles.flexColumn}>
-              <Text fontSize={14} fontWeight='semibold'>
-                {field === "email"
-                  ? "Email"
-                  : field
-                      .split(/(?=[A-Z])/)
-                      .join(" ")
-                      .replace(/\b\w/g, (char) => char.toUpperCase())}{" "}
-              </Text>
-              <TextInput
-                value={
-                  field === "email"
-                    ? user?.[field] || ""
-                    : userInfo?.[field as keyof typeof userInfo] || ""
-                }
-                disabled
-                block
-                style={{ cursor: "auto" }}
-              />
-            </Box>
-          ))}
+          <Box className={styles.flexColumn}>
+            <Text fontSize={14} fontWeight='semibold'>
+              First Name
+            </Text>
+            <TextInput
+              value={userInfo?.firstName || ""}
+              disabled
+              block
+              style={{ cursor: "auto" }}
+            />
+          </Box>
+          <Box className={styles.flexColumn}>
+            <Text fontSize={14} fontWeight='semibold'>
+              Last Name
+            </Text>
+            <TextInput value={userInfo?.lastName || ""} disabled block style={{ cursor: "auto" }} />
+          </Box>
+          <Box className={styles.flexColumn}>
+            <Text fontSize={14} fontWeight='semibold'>
+              Program
+            </Text>
+            <TextInput value={userInfo?.program || ""} disabled block style={{ cursor: "auto" }} />
+          </Box>
+          <Box className={styles.flexColumn}>
+            <Text fontSize={14} fontWeight='semibold'>
+              Email
+            </Text>
+            <TextInput value={user?.email || ""} disabled block style={{ cursor: "auto" }} />
+          </Box>
         </Box>
       </Box>
       <Box display='flex' flexDirection='column'>
@@ -211,7 +223,7 @@ export const Profile: React.FC<ProfileProps> = ({ handleClose }) => {
             Last uploaded on {userInfo.uploadDate}
           </Text>
         )}
-        <FileUpload />
+        <FileUpload file={file} setFile={setFile} submitTranscript={submitTranscript} />
       </Box>
       <Box style={{ display: "flex", justifyContent: "space-between" }}>
         <Button onClick={handleLogout} variant='danger' sx={{ width: 76 }}>

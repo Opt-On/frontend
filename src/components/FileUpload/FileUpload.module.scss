@@ -1,0 +1,51 @@
+.container {
+  padding: 1.5rem;
+  min-height: 208px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px dashed;
+  border-color: #d0d7de;
+  border-radius: 16px;
+  text-align: center;
+  background-color: #ffffff;
+
+  &.dragging {
+    background-color: #ddf4ff;
+    border-color: #91a1b2;
+  }
+
+  .dropText {
+    font-weight: 400;
+  }
+
+  .text {
+    margin: 0;
+
+    span {
+      color: #0969da;
+      border-bottom: 2px solid #0969da;
+    }
+  }
+
+  .info {
+    padding-top: 1rem;
+    color: #656d76;
+  }
+}
+
+.file {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  .fileName {
+    font-weight: bold;
+  }
+}
+
+.buttonContainer {
+  button:disabled {
+    opacity: 0.5;
+  }
+}

@@ -1,6 +1,6 @@
 import { auditWhatIf } from "@/api/audit";
 import { getRecommendations } from "@/api/recommendation";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import {
   ArrowUpRightIcon,
   SparkleFillIcon,
@@ -24,6 +24,7 @@ export type completedCourseInfo = {
 export type recommendedCourseInfo = {
   name: string;
   description: string;
+  sublistName: string;
 };
 
 export type OptionRequirement = {
@@ -35,7 +36,7 @@ export type OptionRequirement = {
 };
 
 export const getColor = (status: string) => {
-  switch (status) {
+  switch (status.split("_").join(" ").toLowerCase()) {
     case RequirementStatus.COMPLETE:
       return "green";
     case RequirementStatus.PROVISIONALLY_COMPLETE:
@@ -45,6 +46,16 @@ export const getColor = (status: string) => {
     default:
       return "plum";
   }
+};
+
+export type RecommendedCourse = {
+  name: string;
+  score: number;
+  prereqFlag: number;
+  programFlag: [number, number];
+  termFlag: number;
+  isUsed: boolean;
+  description: string;
 };
 
 export default function OptionProgressDetailed({ option }: { option: string }) {
@@ -60,6 +71,14 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
   ] = useState<OptionRequirement[]>([]);
   const [completedRequirements, setCompletedRequirements] = useState<number>(3);
   const [totalRequirements, setTotalRequirements] = useState<number>(6);
+  // list -> courses
+  const [recommendationCourseLists, setRecommendationCourseLists] = useState<{
+    [key: string]: string[];
+  }>({});
+  // course -> used
+  const [recommendationCourses, setRecommendationCourses] = useState<{
+    [key: string]: RecommendedCourse;
+  }>({});
 
   // cache this value i forgot the hook name
   useEffect(() => {
@@ -124,9 +143,13 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
             optionName
           );
 
+          console.log(recommendations);
+          // programFlag: [1, 0] - NEVER, [0, 1] - missing prereq, [0, 0] - chilling
+
           const newOptionRequirements = [...optionRequirements];
 
           const requirementsNeeded: { [key: string]: number } = {};
+          const totalRequirementsNeeded: { [key: string]: number } = {};
 
           // calc number of requirements we need
           for (const optionRequirement of optionRequirements) {
@@ -134,38 +157,77 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
               optionRequirement.courseCount -
               optionRequirement.completedCourses.length;
             requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
+            totalRequirementsNeeded[optionRequirement.name] =
+              optionRequirement.courseCount;
           }
+
+          const newRecommendationCourseLists: { [key: string]: string[] } = {};
+          const newRecommendationCourses: { [key: string]: RecommendedCourse } =
+            {};
 
           for (const course of recommendations) {
             const courseSublists = JSON.parse(
               course.option_sublist.replace(/'/g, '"')
             ); // json str to array
 
+            let courseUsed = false;
+
+            // keep track of all rec courses
+            for (const courseSublist of courseSublists) {
+              if (courseSublist in newRecommendationCourseLists) {
+                newRecommendationCourseLists[courseSublist].push(
+                  course.courseName
+                );
+              } else {
+                newRecommendationCourseLists[courseSublist] = [
+                  course.courseName,
+                ];
+              }
+            }
+
             for (const courseSublist of courseSublists) {
               if (
                 courseSublist in requirementsNeeded &&
                 requirementsNeeded[courseSublist] > 0
               ) {
-                // add to recs, remove
+                // add to recs, decrement counter
                 for (const optionRequirement of newOptionRequirements) {
-                  if (optionRequirement.name == courseSublist) {
+                  if (
+                    optionRequirement.name == courseSublist &&
+                    optionRequirement.recommendedCourses.length <
+                      totalRequirementsNeeded[courseSublist]
+                  ) {
                     optionRequirement.recommendedCourses.push({
                       name: course.courseName,
                       description:
                         course.courseName in courseNameMap
                           ? courseNameMap[course.courseName]
                           : "Missing course name",
+                      sublistName: courseSublist, // sublist that this course is counted towards
                     });
+                    courseUsed = true;
                     break;
                   }
                 }
 
                 requirementsNeeded[courseSublist] -= 1;
-                break;
+                break; // only use courses once
               }
             }
+
+            newRecommendationCourses[course.courseName] = {
+              name: course.courseName,
+              score: course.Score,
+              prereqFlag: course.prereqFlag,
+              programFlag: course.programFlag, // i think object ref but its ok since we dont change
+              termFlag: course.termFlag,
+              isUsed: courseUsed,
+              description: courseNameMap[course.courseName],
+            };
           }
           setOptionRequirementsRecommendation(newOptionRequirements);
+          setRecommendationCourses(newRecommendationCourses);
+          setRecommendationCourseLists(newRecommendationCourseLists);
         }
         setShowRecommendations(!showRecommendations);
       } catch (e) {
@@ -174,6 +236,49 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
     } else {
       console.error("missing user");
     }
+  };
+
+  const switchCourse = (originalCourse: string, switchCourse: string) => {
+    // im assuming these are valid, ass u and me wtv
+    // update optionRequirementsRecommendation[list].recommendedCourses (display)
+    let listIndex = -1;
+    let recIndex = -1;
+    for (const i in optionRequirementsRecommendation) {
+      const list = optionRequirementsRecommendation[i];
+      for (const j in list.recommendedCourses) {
+        const rec = list.recommendedCourses[j];
+        if (rec.name == originalCourse) {
+          // @ts-expect-error  TS IS SCHIZOING OUT ON ME
+          listIndex = i;
+          // @ts-expect-error TS IS SCHIZOING OUT ON ME
+          recIndex = j;
+        }
+      }
+    }
+
+    if (listIndex == -1 || recIndex == -1) {
+      console.log("u fukedc up ");
+      return;
+    }
+
+    const newOptionRequirementsRecommendation = JSON.parse(
+      JSON.stringify(optionRequirementsRecommendation)
+    );
+
+    newOptionRequirementsRecommendation[listIndex].recommendedCourses[
+      recIndex
+    ].name = switchCourse;
+    newOptionRequirementsRecommendation[listIndex].recommendedCourses[
+      recIndex
+    ].description = courseNameMap[switchCourse] || ""; // todo: use actual names
+
+    setOptionRequirementsRecommendation(newOptionRequirementsRecommendation);
+
+    // update used
+    const newRecommendationCourses = { ...recommendationCourses };
+    newRecommendationCourses[originalCourse].isUsed = false;
+    newRecommendationCourses[switchCourse].isUsed = true;
+    setRecommendationCourses(newRecommendationCourses);
   };
 
   return (
@@ -349,6 +454,16 @@ export default function OptionProgressDetailed({ option }: { option: string }) {
                         <RecommendedCourseCard
                           key={`recommendation${index}-${recommendationIndex}`}
                           courseInfo={recommendedCourse}
+                          altCourses={
+                            recommendedCourse.sublistName in
+                            recommendationCourseLists
+                              ? recommendationCourseLists[
+                                  recommendedCourse.sublistName
+                                ]
+                              : []
+                          }
+                          altCourseInfo={recommendationCourses}
+                          handleSwitchCourse={switchCourse}
                         />
                       );
                     })}

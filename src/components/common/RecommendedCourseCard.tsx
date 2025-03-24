@@ -1,12 +1,67 @@
-import { SyncIcon } from "@primer/octicons-react";
-import { Box, Button, Text } from "@primer/react";
-import { recommendedCourseInfo } from "./OptionProgressDetailed";
+import { AlertIcon } from "@primer/octicons-react";
+import { Box, Link, Text } from "@primer/react";
+import { useState } from "react";
+import MissingPrereqHover from "./MissingPrereqHover";
+import {
+  RecommendedCourse,
+  recommendedCourseInfo,
+} from "./OptionProgressDetailed";
+import SwitchCourseSelect from "./SwitchCourseSelect";
 
 export default function RecommendedCourseCard({
   courseInfo,
+  altCourses,
+  altCourseInfo,
+  handleSwitchCourse,
 }: {
   courseInfo: recommendedCourseInfo;
+  altCourses: string[];
+  altCourseInfo: { [key: string]: RecommendedCourse };
+  handleSwitchCourse: (a: string, b: string) => void;
 }) {
+  const [showDetails, setShowDetails] = useState(false);
+
+  const filteredAltCourses = altCourses.filter(
+    (altCourse) => altCourseInfo[altCourse].isUsed === false
+  );
+
+  const currCourseData = altCourseInfo[courseInfo.name];
+
+  const enrichedAltCourses = filteredAltCourses.map(
+    (altCourse) => altCourseInfo[altCourse]
+  );
+
+  enrichedAltCourses.sort((a, b) => -a.score + b.score);
+  const courses = enrichedAltCourses;
+
+  const handleSetSelected = (switchCourse: string) => {
+    handleSwitchCourse(courseInfo.name, switchCourse);
+  };
+
+  const uwFlowLink = () => {
+    return `https://uwflow.com/course/${courseInfo.name
+      .split(" ")
+      .join("")
+      .toLowerCase()}`;
+  };
+
+  const setShowDetailss = () => {
+    setShowDetails(true);
+  };
+
+  const missingTermPrereq =
+    currCourseData.termFlag + currCourseData.programFlag[1];
+
+  const missingCoursePrereq = currCourseData.prereqFlag;
+
+  const missingPrereqs = [];
+  if (missingTermPrereq > 0) {
+    missingPrereqs.push("Term");
+  }
+  if (missingCoursePrereq > 0) {
+    missingPrereqs.push("Course");
+  }
+
   return (
     <Box
       display="flex"
@@ -25,15 +80,50 @@ export default function RecommendedCourseCard({
       }}
     >
       <Box>
-        <Text as="h3" weight="medium" color="#0969DA">
-          {courseInfo.name}
-        </Text>
+        <Box>
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Link href={uwFlowLink()} target="_blank">
+              {" "}
+              <Text as="h3" weight="medium">
+                {courseInfo.name}
+              </Text>
+            </Link>
+            {missingPrereqs.length > 0 && (
+              <Box
+                display="flex"
+                flexDirection="row"
+                paddingLeft="0.8rem"
+                color="#9a6700" // yellow
+                alignItems="center"
+                onMouseEnter={() => setShowDetailss()}
+                onMouseLeave={() => setShowDetails(false)}
+              >
+                <Text
+                  as="p"
+                  marginBottom="0"
+                  marginRight="0.25rem"
+                  weight="light"
+                >
+                  Prequisites not met
+                </Text>
+
+                <AlertIcon size={16} />
+                {showDetails && (
+                  <MissingPrereqHover missingPrereqs={missingPrereqs} />
+                )}
+              </Box>
+            )}
+          </Box>
+        </Box>
+
         <Text as="h5" weight="light">
           {courseInfo.description}
         </Text>
       </Box>
-      {/* TODO: replace this shit with a select menu */}
-      <Button leadingVisual={SyncIcon}>Change</Button>
+      <SwitchCourseSelect
+        courseList={courses}
+        handleSetSelected={handleSetSelected}
+      />
     </Box>
   );
 }

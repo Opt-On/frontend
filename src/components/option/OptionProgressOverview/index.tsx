@@ -3,7 +3,7 @@ import { auditOptions, OptionProgress } from "@/api/audit";
 import OptionProgressDetailed from "@/components/common/OptionProgressDetailed";
 import ActionSelect from "@/components/option/ActionSelect";
 import styles from "@/components/option/OptionProgressOverview/OptionProgressOverview.module.scss";
-import { useAuth } from "@/context";
+import { useAuth } from "@/context/AuthContext";
 import { Box, Text } from "@primer/react";
 import { useCallback, useEffect, useState } from "react";
 import OptionProgressPreview from "../OptionProgressPreview";
