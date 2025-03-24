@@ -100,7 +100,27 @@ export default function OptionProgressOverview() {
       </Box>
 
       {optionSelected ? (
-        <OptionProgressDetailed option={optionSelected} />
+        <>
+          <Box>
+          {["SWENGOPT", "COMPENGOPT", "COMPUOPT"].includes(optionSelected) && (
+            <Text fontStyle="italic" color="9a6700" marginTop="0.5rem">
+              *Note: This option cannot be taken with the{" "}
+              {["SWENGOPT", "COMPENGOPT", "COMPUOPT"]
+                .filter((option) => option !== optionSelected) // Get other two options
+                .map((option) =>
+                  option === "SWENGOPT"
+                    ? "Software Engineering"
+                    : option === "COMPENGOPT"
+                    ? "Computer Engineering"
+                    : "Computing"
+                )
+                .join(" and ")}{" "}
+              options.
+            </Text>
+          )}
+          </Box>
+          <OptionProgressDetailed option={optionSelected} />
+        </>
       ) : (
         <>
           <Text as="h4" className={styles.text}>
