@@ -143,19 +143,19 @@ export const questions: QuestionType[] = [
     question: "Which fictional world would you thrive in?",
     answers: [
       {
-        label: "Westworld / Altered Carbon 🤖🧬",
+        label: "Westworld 🤖🧬",
         points: { [OptionEnum.AIENGOPT]: 2, [OptionEnum.MECTROPT]: 1 },
       },
       { 
-        label: "Gattaca / The Six Million Dollar Man 🧪🦾", 
+        label: "Altered Carbon 🧪🦾", 
         points: { [OptionEnum.BIOMECHOPT]: 2 } 
       },
       {
-        label: "Mr. Robot / The Matrix 💻🕶️",
+        label: "The Matrix 💻🕶️",
         points: { [OptionEnum.COMPENGOPT]: 2, [OptionEnum.COMPUOPT]: 1 },
       },
       {
-        label: "Silicon Valley / Ready Player One 🚀🎮",
+        label: "Ready Player One 🚀🎮",
         points: {
           [OptionEnum.SWENGOPT]: 2,
           [OptionEnum.COMPUOPT]: 1,
@@ -163,11 +163,11 @@ export const questions: QuestionType[] = [
         },
       },
       {
-        label: "Billions / Succession 💼💰",
+        label: "Suits 💼💰",
         points: { [OptionEnum.ENTROPT]: 2, [OptionEnum.MSCIOPT]: 1, [OptionEnum.STATOPT]: 1 },
       },
       { 
-        label: "Iron Man / Big Hero 6 🔧🦸‍♂️", 
+        label: "Iron Man 🔧🦸‍♂️", 
         points: { [OptionEnum.MECTROPT]: 2, [OptionEnum.COMPENGOPT]: 1 } 
       },
     ],
