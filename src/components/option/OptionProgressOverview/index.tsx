@@ -13,13 +13,13 @@ export const optionMap: { [key: string]: string } = {
   COMPENGOPT: "Computer Engineering",
   MSCIOPT: "Management Science",
   BIOMECHOPT: "Biomechanics",
-  BUSOPT: "Business",
+  // BUSOPT: "Business",
   SWENGOPT: "Software Engineering",
   ENTROPT: "Entrepreneurship",
   AIENGOPT: "Artificial Intelligence",
   COMPUOPT: "Computing",
   STATOPT: "Statistics",
-  MATHOPT: "Mathematics",
+  // MATHOPT: "Mathematics",
   MECTROPT: "Mechatronics",
 };
 
