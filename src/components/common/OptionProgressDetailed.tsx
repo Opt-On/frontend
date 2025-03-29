@@ -403,7 +403,7 @@ export default function OptionProgressDetailed({
         toggleShowRecommendations={toggleShowRecommendations}
         missingRequirementsList={missingRequirementsList}
       />
-      <OptionInfoSubheader optionInfo={optionInfo[optionName]} />
+      <OptionInfoSubheader optionName={optionName} optionInfo={optionInfo[optionName]} />
       {showRecommendations ? (
         <OptionProgressRec
           recommendationCourses={recommendationCourses}

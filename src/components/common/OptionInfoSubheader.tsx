@@ -2,12 +2,17 @@ import { useAuth } from "@/context/AuthContext";
 import { Box, Link, Text } from "@primer/react";
 import { OptionSubheaderInfo } from "./OptionProgressDetailed";
 
-export default function OptionInfoSubheader({ optionInfo }: { optionInfo: OptionSubheaderInfo }) {
+interface OptionInfoSubheaderProps {
+  optionName: string;
+  optionInfo: OptionSubheaderInfo;
+}
+
+export default function OptionInfoSubheader({ optionName, optionInfo } : OptionInfoSubheaderProps) {
   const { userInfo } = useAuth();
 
-  const fullOptionName = `${optionInfo} Option`;
+  const fullOptionName = `${optionName} Option`;
 
-  const declared = userInfo && userInfo.optionNames && fullOptionName in userInfo.optionNames;
+  const declared = userInfo && userInfo.optionNames && userInfo.optionNames.includes(fullOptionName);
 
   const coordName = optionInfo?.coordinator?.split(",")[0] || "";
   const coordExtra = optionInfo?.coordinator?.split(",")[1] || "";
