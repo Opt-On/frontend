@@ -34,7 +34,7 @@ export const auditDeclared = async (email: string) => {
   formData.append("email", email);
 
   // const response = await fetch(`${BASE_URL}/audit/declared`, {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(`${AUDIT_URL}/audit/declared`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export const auditWhatIf = async (email: string, plan: string) => {
   formData.append("option", plan);
 
   // const response = await fetch(`${BASE_URL}/audit/whatif`, {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(`${AUDIT_URL}/audit/whatif`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -179,7 +179,7 @@ export const auditWhatIf = async (email: string, plan: string) => {
 };
 
 export const auditOptions = async (email: string) => {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(`${AUDIT_URL}/audit/options`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
