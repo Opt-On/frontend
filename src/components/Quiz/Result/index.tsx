@@ -22,7 +22,7 @@ export default function Result({ program, handleClose }: ResultProps) {
         <Box className={styles.inner}>
           <div className={styles.imageWrapper}>
             <Image
-              src={`/quiz/${program}.png`}
+              src={`/quiz/${program}.webp`}
               alt={`${program} option illustration`}
               layout='fill'
               objectFit='contain'
