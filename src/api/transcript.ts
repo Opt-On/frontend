@@ -8,7 +8,7 @@ export const submitTranscript = async (transcript: File, email: string) => {
   formData.append("email", email);
 
   // const response = await fetch(`${BASE_URL}/transcript/upload`, {
-  const response = await fetch(TRANSCRIPT_URL, {
+  const response = await fetch(`${TRANSCRIPT_URL}/transcript/upload`, {
     method: "POST",
     body: formData,
     headers: {
