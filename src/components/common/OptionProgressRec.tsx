@@ -13,6 +13,7 @@ export default function OptionProgressRec({
   switchCourse,
   optionRequirementsRecommendation,
   recommendationCourseLists,
+  courseUsageMap,
 }) {
   return (
     <Box
@@ -62,6 +63,7 @@ export default function OptionProgressRec({
                     <CourseCompletionProgress
                       key={`courseProgressCard${index}-${courseIndex}`}
                       courseInfo={completedCourse}
+                      courseUsageMap={courseUsageMap}
                     />
                   );
                 }
@@ -88,6 +90,7 @@ export default function OptionProgressRec({
                       altCourseInfo={recommendationCourses}
                       filterPrereqs={filterPrereqs}
                       handleSwitchCourse={switchCourse}
+                      courseUsageMap={courseUsageMap}
                     />
                   );
                 })}
