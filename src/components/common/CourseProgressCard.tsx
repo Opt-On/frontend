@@ -3,6 +3,7 @@ import { IssueLabel } from "@primer/react/experimental";
 import { completedCourseInfo } from "./OptionProgressDetailed";
 import { RequirementStatus } from "./RequirementDisplayList";
 import { getVariant } from "./RequirementToggleDisplay";
+import { MortarBoardIcon } from "@primer/octicons-react";
 
 function getCourseCompletionString(completionStatus: RequirementStatus, term: string) {
   if (completionStatus == RequirementStatus.COMPLETE) {
@@ -15,9 +16,13 @@ function getCourseCompletionString(completionStatus: RequirementStatus, term: st
 
 export default function CourseCompletionProgress({
   courseInfo,
+  courseUsageMap,
 }: {
   courseInfo: completedCourseInfo;
+  courseUsageMap: Map<string, number>;
 }) {
+  const isDegreeRequirement = courseUsageMap?.has(courseInfo.name) ?? false;
+
   return (
     <Box
       display='flex'
@@ -35,9 +40,12 @@ export default function CourseCompletionProgress({
       }}
     >
       <Box>
-        <Text as='h3' weight='medium'>
-          {courseInfo.name}
-        </Text>
+        <Box style={{ display: "flex", alignItems: "center", columnGap: "8px" }}>
+          <Text as='h3' weight='medium'>
+            {courseInfo.name}
+          </Text>
+          {isDegreeRequirement && <MortarBoardIcon size={16} />}
+        </Box>
         <Text as='h5' weight='light' color='#656d76'>
           {courseInfo.description}
         </Text>

@@ -7,7 +7,7 @@ import CourseCompletionProgress from "./CourseProgressCard";
 import IncompleteRequirementCard from "./IncompleteRequirementCard";
 import { getColor } from "./OptionProgressDetailed";
 
-export default function OptionProgressNoRec({ optionRequirements }) {
+export default function OptionProgressNoRec({ optionRequirements, courseUsageMap }) {
   return (
     <Box display='flex' flexDirection='column' width='100%' sx={{ gap: "2rem" }}>
       {optionRequirements.map((optionRequirement, index) => {
@@ -41,6 +41,7 @@ export default function OptionProgressNoRec({ optionRequirements }) {
                   <CourseCompletionProgress
                     key={`courseProgressCard${index}-${courseIndex}`}
                     courseInfo={completedCourse}
+                    courseUsageMap={courseUsageMap}
                   />
                 );
               })}

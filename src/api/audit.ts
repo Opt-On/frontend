@@ -178,6 +178,63 @@ export const auditWhatIf = async (email: string, plan: string) => {
   return listRequirements;
 };
 
+export const auditDeclaredDegree = async (email: string) => {
+  const response = await fetch(`${AUDIT_URL}/audit/declared/degree`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      email: email,
+      "req-url": "degree",
+    },
+    body: JSON.stringify({}),
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("Request failed");
+  }
+
+  const json = await response.json();
+
+  const courseUsageMap = json.courseUsageMap || {};
+
+  const completedRequirements = json.requirementCourseListMap;
+  const completedKeys = Object.keys(completedRequirements);
+  const listRequirements: { [key: string]: ListRequirement } = {};
+
+  for (const listRequirement of json.plan.categoryIterator) {
+    for (const requirement of listRequirement["requirementList"]) {
+      if (requirement.cnbr_name in listRequirements) {
+        listRequirements[requirement.cnbr_name].required += 1;
+      } else {
+        listRequirements[requirement.cnbr_name] = {
+          name: requirement.cnbr_name,
+          required: 1,
+          completedCourses: [],
+          completionStatus: "Incomplete",
+        };
+      }
+    }
+  }
+
+  for (const listKey of completedKeys) {
+    const formattedKey = processString(listKey);
+    const completedCourses = completedRequirements[listKey];
+    for (const completedCourse of completedCourses) {
+      const courseCode =
+        completedCourse.sbj_list + " " + completedCourse.cnbr_name;
+      if (listRequirements[formattedKey]) {
+        listRequirements[formattedKey].completedCourses.push(courseCode);
+      }
+    }
+  }
+
+  return {
+    listRequirements,
+    courseUsageMap
+  };
+};
+
 export const auditOptions = async (email: string) => {
   const response = await fetch(`${AUDIT_URL}/audit/options`, {
     method: "POST",
