@@ -44,6 +44,7 @@ export const auditDeclared = async (email: string) => {
   }
 
   const json = await response.json();
+  console.log("success", json)
   const allRequirementLists = [];
   const degreeAuditResult = json[0];
   const requirementListKeys = Object.keys(degreeAuditResult.categoryStatusMap);
