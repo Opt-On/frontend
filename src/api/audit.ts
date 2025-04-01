@@ -1,4 +1,4 @@
-// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
+// const BASE_URL = "http://localhost:8080";
 const AUDIT_URL = process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080";
 
 function processString(str: string) {
@@ -34,7 +34,7 @@ export const auditDeclared = async (email: string) => {
   formData.append("email", email);
 
   // const response = await fetch(`${BASE_URL}/audit/declared`, {
-  const response = await fetch(`${AUDIT_URL}/audit/declared`, {
+  const response = await fetch(AUDIT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export const auditWhatIf = async (email: string, plan: string) => {
   formData.append("option", plan);
 
   // const response = await fetch(`${BASE_URL}/audit/whatif`, {
-  const response = await fetch(`${AUDIT_URL}/audit/whatif`, {
+  const response = await fetch(AUDIT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -179,7 +179,8 @@ export const auditWhatIf = async (email: string, plan: string) => {
 };
 
 export const auditDeclaredDegree = async (email: string) => {
-  const response = await fetch(`${AUDIT_URL}/audit/declared/degree`, {
+  // const response = await fetch(`${BASE_URL}/audit/declared/degree`, {
+  const response = await fetch(AUDIT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -236,7 +237,8 @@ export const auditDeclaredDegree = async (email: string) => {
 };
 
 export const auditOptions = async (email: string) => {
-  const response = await fetch(`${AUDIT_URL}/audit/options`, {
+  // const response = await fetch(`${BASE_URL}/audit/options`, {
+  const response = await fetch(AUDIT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
