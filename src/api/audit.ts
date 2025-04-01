@@ -1,6 +1,3 @@
-// const BASE_URL = "http://localhost:8080";
-const AUDIT_URL = process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080";
-
 function processString(str: string) {
   return str.split(" ").slice(0, -1).join("_").toLowerCase();
 }
@@ -30,11 +27,7 @@ export interface OptionProgress {
 
 // degree audit
 export const auditDeclared = async (email: string) => {
-  const formData = new FormData();
-  formData.append("email", email);
-
-  // const response = await fetch(`${BASE_URL}/audit/declared`, {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/declared", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -119,12 +112,7 @@ export const auditDeclared = async (email: string) => {
 
 // Audit an option
 export const auditWhatIf = async (email: string, plan: string) => {
-  const formData = new FormData();
-  formData.append("email", email);
-  formData.append("option", plan);
-
-  // const response = await fetch(`${BASE_URL}/audit/whatif`, {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/whatif", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -179,13 +167,12 @@ export const auditWhatIf = async (email: string, plan: string) => {
 };
 
 export const auditDeclaredDegree = async (email: string) => {
-  // const response = await fetch(`${BASE_URL}/audit/declared/degree`, {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/declared/degree", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       email: email,
-      "req-url": "degree",
+      "req-url": "declared/degree",
     },
     body: JSON.stringify({}),
   });
@@ -237,8 +224,7 @@ export const auditDeclaredDegree = async (email: string) => {
 };
 
 export const auditOptions = async (email: string) => {
-  // const response = await fetch(`${BASE_URL}/audit/options`, {
-  const response = await fetch(AUDIT_URL, {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/options", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

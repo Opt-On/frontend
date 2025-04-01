@@ -1,14 +1,9 @@
-// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
-const TRANSCRIPT_URL =
-  process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080";
-
 export const submitTranscript = async (transcript: File, email: string) => {
   const formData = new FormData();
   formData.append("file", transcript);
   formData.append("email", email);
 
-  // const response = await fetch(`${BASE_URL}/transcript/upload`, {
-  const response = await fetch(TRANSCRIPT_URL, {
+  const response = await fetch(process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080/transcript/upload", {
     method: "POST",
     body: formData,
     headers: {
