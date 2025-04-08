@@ -42,12 +42,6 @@ const optionDetails: OptionDetails[] = [
     url: "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/programs/rJl0Jy0Aj2?group=Options%3A%20Faculty%20of%20Engineering&bc=true&bcCurrent=Entrepreneurship%20Option&bcGroup=Options%3A%20Faculty%20of%20Engineering&bcItemType=programs",
   },
   {
-    name: "Quantum Engineering Option",
-    description:
-      "Focus on foundations, design methodologies and experimental skills to analyze and implement technological platforms using quantum devices, systems and algorithms.",
-    url: "https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/programs/SykqVPcop/none?group=Options%3A%20Faculty%20of%20Engineering&bc=true&bcCurrent=Options%3A%20Faculty%20of%20Engineering&bcItemType=programs&bc=true&bcCurrent=Quantum%20Engineering%20Option&bcGroup=Options%3A%20Faculty%20of%20Engineering&bcItemType=programs",
-  },
-  {
     name: "Artificial Intelligence Option",
     description:
       "Study and advance ever-greater degrees of efficacy, reliability, and safety, the ways in which machines and systems perceive, see, speak, decide, respond, act, and plan.",
