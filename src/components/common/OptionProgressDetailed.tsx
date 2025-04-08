@@ -1,6 +1,7 @@
 import { auditDeclaredDegree, auditWhatIf } from "@/api/audit";
 import { getRecommendations } from "@/api/recommendation";
 import { useAuth } from "@/context/AuthContext";
+import { MortarBoardIcon } from "@primer/octicons-react";
 import { Box, Text } from "@primer/react";
 import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
@@ -11,7 +12,6 @@ import OptionProgressNoRec from "./OptionProgressNoRec";
 import OptionProgressRec from "./OptionProgressRec";
 import { RequirementStatus } from "./RequirementDisplayList";
 import "./styles.css";
-import { MortarBoardIcon } from "@primer/octicons-react";
 
 export type completedCourseInfo = {
   name: string;
@@ -72,7 +72,8 @@ const optionInfo: { [key: string]: OptionSubheaderInfo } = {
   },
   Biomechanics: {
     minGrade: "Minimum cumulative option average of 60%",
-    coordinator: "Naveen Chandrashekar, Mechanical and Mechatronics Engineering",
+    coordinator:
+      "Naveen Chandrashekar, Mechanical and Mechatronics Engineering",
     email: "nchandra@uwaterloo.ca",
   },
   Computing: {
@@ -119,21 +120,26 @@ export default function OptionProgressDetailed({
   option: string;
   optionName: string;
 }) {
-  console.log(option);
   const { user, courseTerms, courseNameMap } = useAuth();
 
   const [completedRequirements, setCompletedRequirements] = useState<number>(0);
   const [totalRequirements, setTotalRequirements] = useState<number>(1);
-  const [missingRequirementsList, setMissingRequirementsList] = useState<number[]>();
-  const [courseUsageMap, setCourseUsageMap] = useState<Map<string, number>>(new Map());
+  const [missingRequirementsList, setMissingRequirementsList] =
+    useState<number[]>();
+  const [courseUsageMap, setCourseUsageMap] = useState<Map<string, number>>(
+    new Map()
+  );
 
   // static no recs
-  const [optionRequirements, setOptionRequirements] = useState<OptionRequirement[]>([]);
-
-  // optionRequirements with recs
-  const [optionRequirementsRecommendation, setOptionRequirementsRecommendation] = useState<
+  const [optionRequirements, setOptionRequirements] = useState<
     OptionRequirement[]
   >([]);
+
+  // optionRequirements with recs
+  const [
+    optionRequirementsRecommendation,
+    setOptionRequirementsRecommendation,
+  ] = useState<OptionRequirement[]>([]);
 
   // course -> used for rec
   const [recommendationCourses, setRecommendationCourses] = useState<{
@@ -170,7 +176,8 @@ export default function OptionProgressDetailed({
               displayName: `List ${parseInt(keyIndex) + 1}`,
               courseCount: optionRequirement.required,
               completionStatus:
-                optionRequirement.completedCourses.length == optionRequirement.required
+                optionRequirement.completedCourses.length ==
+                optionRequirement.required
                   ? RequirementStatus.COMPLETE
                   : RequirementStatus.INCOMPLETE,
               completedCourses: [],
@@ -182,15 +189,19 @@ export default function OptionProgressDetailed({
                 name: courseName,
                 term: courseName in courseTerms ? courseTerms[courseName] : "",
                 description:
-                  courseName in courseNameMap ? courseNameMap[courseName] : "Missing course name",
+                  courseName in courseNameMap
+                    ? courseNameMap[courseName]
+                    : "Missing course name",
                 status: RequirementStatus.COMPLETE,
               });
             }
 
-            currCompletedRequirements += optionRequirement.completedCourses.length;
+            currCompletedRequirements +=
+              optionRequirement.completedCourses.length;
             currTotalRequirements += optionRequirement.required;
             newMissingRequirementsList.push(
-              optionRequirement.required - optionRequirement.completedCourses.length
+              optionRequirement.required -
+                optionRequirement.completedCourses.length
             );
             formattedData.push(formattedRequirementInfo);
           }
@@ -198,6 +209,7 @@ export default function OptionProgressDetailed({
           setCompletedRequirements(currCompletedRequirements);
           setTotalRequirements(currTotalRequirements);
           setOptionRequirements(formattedData);
+          console.log(formattedData);
         } catch (e: unknown) {
           console.error(e);
         }
@@ -206,11 +218,21 @@ export default function OptionProgressDetailed({
     getOptionProgress();
   }, [option, user]); // updating user updates course terms
 
-  const updateRecommendationData = async (shouldFilterPrereqs = filterPrereqs) => {
+  useEffect(() => {
+    setShowRecommendations(false);
+  }, [option, user]);
+
+  const updateRecommendationData = async (
+    shouldFilterPrereqs = filterPrereqs
+  ) => {
     if (user && user.email) {
-      const optionName = option in optionMap ? `${optionMap[option]} Option` : "womp womp";
+      const optionName =
+        option in optionMap ? `${optionMap[option]} Option` : "womp womp";
       try {
-        const recommendations = await getRecommendations(user?.email, optionName);
+        const recommendations = await getRecommendations(
+          user?.email,
+          optionName
+        );
 
         const newOptionRequirements = [...optionRequirements];
         for (const optionRequirements of newOptionRequirements) {
@@ -222,21 +244,30 @@ export default function OptionProgressDetailed({
         // calc number of requirements we need
         for (const optionRequirement of optionRequirements) {
           const listRequirementsNeeded =
-            optionRequirement.courseCount - optionRequirement.completedCourses.length;
+            optionRequirement.courseCount -
+            optionRequirement.completedCourses.length;
           requirementsNeeded[optionRequirement.name] = listRequirementsNeeded;
-          totalRequirementsNeeded[optionRequirement.name] = optionRequirement.courseCount;
+          totalRequirementsNeeded[optionRequirement.name] =
+            optionRequirement.courseCount;
         }
 
         const newRecommendationCourseLists: { [key: string]: string[] } = {};
-        const newRecommendationCourses: { [key: string]: RecommendedCourse } = {};
+        const newRecommendationCourses: { [key: string]: RecommendedCourse } =
+          {};
 
         for (const course of recommendations) {
-          const courseSublists = JSON.parse(course.option_sublist.replace(/'/g, '"')); // json str to array
+          const courseSublists = JSON.parse(
+            course.option_sublist.replace(/'/g, '"')
+          ); // json str to array
 
           let courseUsed = false;
 
           const isMissingPrereq =
-            course.prereqFlag + course.programFlag[0] + course.programFlag[1] + course.termFlag > 0;
+            course.prereqFlag +
+              course.programFlag[0] +
+              course.programFlag[1] +
+              course.termFlag >
+            0;
 
           if (isMissingPrereq && shouldFilterPrereqs) {
             continue;
@@ -245,7 +276,9 @@ export default function OptionProgressDetailed({
           // keep track of all rec courses per sublist
           for (const courseSublist of courseSublists) {
             if (courseSublist in newRecommendationCourseLists) {
-              newRecommendationCourseLists[courseSublist].push(course.courseName);
+              newRecommendationCourseLists[courseSublist].push(
+                course.courseName
+              );
             } else {
               newRecommendationCourseLists[courseSublist] = [course.courseName];
             }
@@ -253,7 +286,10 @@ export default function OptionProgressDetailed({
 
           // matching algo
           for (const courseSublist of courseSublists) {
-            if (courseSublist in requirementsNeeded && requirementsNeeded[courseSublist] > 0) {
+            if (
+              courseSublist in requirementsNeeded &&
+              requirementsNeeded[courseSublist] > 0
+            ) {
               // add to recs, decrement counter
               for (const optionRequirement of newOptionRequirements) {
                 if (
@@ -343,9 +379,12 @@ export default function OptionProgressDetailed({
       JSON.stringify(optionRequirementsRecommendation)
     );
 
-    newOptionRequirementsRecommendation[listIndex].recommendedCourses[recIndex].name = switchCourse;
-    newOptionRequirementsRecommendation[listIndex].recommendedCourses[recIndex].description =
-      courseNameMap[switchCourse] || ""; // todo: use actual names
+    newOptionRequirementsRecommendation[listIndex].recommendedCourses[
+      recIndex
+    ].name = switchCourse;
+    newOptionRequirementsRecommendation[listIndex].recommendedCourses[
+      recIndex
+    ].description = courseNameMap[switchCourse] || ""; // todo: use actual names
 
     setOptionRequirementsRecommendation(newOptionRequirementsRecommendation);
 
@@ -357,7 +396,13 @@ export default function OptionProgressDetailed({
   };
 
   return (
-    <Box display='flex' flexDirection='column' marginTop='1rem' alignItems='center' width='50rem'>
+    <Box
+      display="flex"
+      flexDirection="column"
+      marginTop="1rem"
+      alignItems="center"
+      width="50rem"
+    >
       <OptionHeader
         completedRequirements={completedRequirements}
         totalRequirements={totalRequirements}
@@ -367,7 +412,10 @@ export default function OptionProgressDetailed({
         toggleShowRecommendations={toggleShowRecommendations}
         missingRequirementsList={missingRequirementsList}
       />
-      <OptionInfoSubheader optionName={optionName} optionInfo={optionInfo[optionName]} />
+      <OptionInfoSubheader
+        optionName={optionName}
+        optionInfo={optionInfo[optionName]}
+      />
       {showRecommendations ? (
         <OptionProgressRec
           recommendationCourses={recommendationCourses}
@@ -394,7 +442,7 @@ export default function OptionProgressDetailed({
           }}
         >
           <MortarBoardIcon size={16} />
-          <Text as='h5' weight='light' color='#656d76'>
+          <Text as="h5" weight="light" color="#656d76">
             Counts towards degree requirements
           </Text>
         </Box>
