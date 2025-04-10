@@ -56,7 +56,7 @@ export default function Home() {
 
   const toggleLogin = () => setDisplayLogin(!displayLogin && !user);
   const hideLogin = () => setDisplayLogin(false);
-  const toggleSignUp = () => setDisplaySignUp(!displaySignUp && !user);
+  const openSignUp = () => setDisplaySignUp(true);
   const hideSignUp = () => setDisplaySignUp(false);
 
   return (
@@ -104,7 +104,7 @@ export default function Home() {
                 <Text as='h2'>Let&#39;s get started 📣</Text>
                 {file !== null && (
                   <IconButton
-                    onClick={toggleSignUp}
+                    onClick={openSignUp}
                     style={{
                       borderRadius: "50%",
                       width: "40px",
@@ -117,7 +117,7 @@ export default function Home() {
                   />
                 )}
                 {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
-                {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
+                {displayLogin && <Login toggleSignUp={openSignUp} handleClose={hideLogin} />}
               </Box>
               <Text as='p'>Upload your transcript for personalized recommendations</Text>
               <FileUpload file={file} setFile={setFile} />
