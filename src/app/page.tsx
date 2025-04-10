@@ -4,11 +4,15 @@ import Accordion from "@/components/Accordion";
 import FileUpload from "@/components/FileUpload";
 import Footer from "@/components/Footer";
 import HorizontalScroll from "@/components/HorizontalScroll";
+import { Login } from "@/components/modals/Login";
+import { SignUp } from "@/components/modals/SignUp";
 import NavBar from "@/components/NavBar";
 import Quiz from "@/components/Quiz";
 import { useAuth } from "@/context/AuthContext";
 import { useFile } from "@/context/FileContext";
-import { Box, Text } from "@primer/react";
+import { ArrowRightIcon } from "@primer/octicons-react";
+import { Box, IconButton, Text } from "@primer/react";
+import { useState } from "react";
 
 const faqData = [
   {
@@ -44,8 +48,17 @@ const faqData = [
 ];
 
 export default function Home() {
-  const { userInfo } = useAuth();
+  const { user, userInfo } = useAuth();
   const { file, setFile } = useFile();
+
+  const [displayLogin, setDisplayLogin] = useState<boolean>(false);
+  const [displaySignUp, setDisplaySignUp] = useState<boolean>(false);
+
+  const toggleLogin = () => setDisplayLogin(!displayLogin && !user);
+  const hideLogin = () => setDisplayLogin(false);
+  const toggleSignUp = () => setDisplaySignUp(!displaySignUp && !user);
+  const hideSignUp = () => setDisplaySignUp(false);
+
   return (
     <main>
       <section>
@@ -87,7 +100,25 @@ export default function Home() {
                 marginTop: "32px",
               }}
             >
-              <Text as='h2'>Let&#39;s get started 📣</Text>
+              <Box style={{ display: "flex", justifyContent: "space-between", minHeight: "40px" }}>
+                <Text as='h2'>Let&#39;s get started 📣</Text>
+                {file !== null && (
+                  <IconButton
+                    onClick={toggleSignUp}
+                    style={{
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#fff",
+                      borderColor: "#fff",
+                    }}
+                    icon={ArrowRightIcon}
+                    aria-labelledby='next'
+                  />
+                )}
+                {displaySignUp && <SignUp toggleLogin={toggleLogin} handleClose={hideSignUp} />}
+                {displayLogin && <Login toggleSignUp={toggleSignUp} handleClose={hideLogin} />}
+              </Box>
               <Text as='p'>Upload your transcript for personalized recommendations</Text>
               <FileUpload file={file} setFile={setFile} />
             </Box>
