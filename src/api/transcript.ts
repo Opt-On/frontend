@@ -3,7 +3,7 @@ export const submitTranscript = async (transcript: File, email: string) => {
   formData.append("file", transcript);
   formData.append("email", email);
 
-  const response = await fetch(process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080/transcript/upload", {
+  const response = await fetch(process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:443/transcript/upload", {
     method: "POST",
     body: formData,
     headers: {

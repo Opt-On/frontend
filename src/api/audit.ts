@@ -27,7 +27,7 @@ export interface OptionProgress {
 
 // degree audit
 export const auditDeclared = async (email: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/declared", {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:443/audit/declared", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export const auditDeclared = async (email: string) => {
 
 // Audit an option
 export const auditWhatIf = async (email: string, plan: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/whatif", {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:443/audit/whatif", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -168,7 +168,7 @@ export const auditWhatIf = async (email: string, plan: string) => {
 };
 
 export const auditDeclaredDegree = async (email: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/declared/degree", {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:443/audit/declared/degree", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -225,7 +225,7 @@ export const auditDeclaredDegree = async (email: string) => {
 };
 
 export const auditOptions = async (email: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/options", {
+  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:443/audit/options", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

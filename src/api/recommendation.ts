@@ -1,4 +1,4 @@
-// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
+// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:443";
 const URL =
   process.env.NEXT_REC_URL ||
   "https://qpsvyvfwwg.execute-api.us-east-2.amazonaws.com/default/forward-req";
