@@ -6,10 +6,18 @@ import Link from "next/link";
 export default function Privacy() {
   return (
     <main>
-      <section style={{ padding: "20px" }}>
+      <section>
         <NavBar />
-        <Box maxWidth='720px' width='80vw' margin='auto' marginY='64px'>
-          <Text as='h1' style={{ textAlign: "center", fontSize: "32px", fontWeight: "semibold", margin: "32px 0" }}>
+        <Box maxWidth='720px' width='80vw' margin='auto' paddingBottom='16px'>
+          <Text
+            as='h1'
+            style={{
+              textAlign: "center",
+              fontSize: "32px",
+              fontWeight: "semibold",
+              margin: "32px 0",
+            }}
+          >
             Privacy Policy
           </Text>
           <Text as='p' style={{ marginBottom: "16px" }}>
