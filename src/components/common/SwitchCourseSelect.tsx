@@ -15,7 +15,7 @@ export default function SwitchCourseSelect({
       <ActionMenu.Button leadingVisual={SyncIcon}>
         <Box className={styles.button}>Switch</Box>
       </ActionMenu.Button>
-      <ActionMenu.Overlay side="outside-bottom">
+      <ActionMenu.Overlay side="outside-bottom" className={styles.overlay}>
         <Box className={styles.overlay}>
           <ActionList>
             {courseList.length ? (

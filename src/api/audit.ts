@@ -27,16 +27,20 @@ export interface OptionProgress {
 
 // degree audit
 export const auditDeclared = async (email: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/declared", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      email: email,
-      "req-url": "declared",
-    },
-    body: JSON.stringify({}),
-    cache: "no-store",
-  });
+  const response = await fetch(
+    // process.env.NEXT_PUBLIC_AUDIT || "http://3.143.22.149:443//audit/declared",
+    "http://3.143.22.149:443/audit/declared",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        email: email,
+        "req-url": "declared",
+      },
+      body: JSON.stringify({}),
+      cache: "no-store",
+    }
+  );
 
   if (!response.ok) {
     console.log(response);
@@ -44,7 +48,7 @@ export const auditDeclared = async (email: string) => {
   }
 
   const json = await response.json();
-  console.log("success", json)
+  console.log("success", json);
   const allRequirementLists = [];
   const degreeAuditResult = json[0];
   const requirementListKeys = Object.keys(degreeAuditResult.categoryStatusMap);
@@ -113,16 +117,20 @@ export const auditDeclared = async (email: string) => {
 
 // Audit an option
 export const auditWhatIf = async (email: string, plan: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/whatif", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      email: email,
-      option: plan,
-      "req-url": "whatIf",
-    },
-    body: JSON.stringify({}),
-  });
+  const response = await fetch(
+    // process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/whatif", {
+    "http://3.143.22.149:443/audit/whatif",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        email: email,
+        option: plan,
+        "req-url": "whatIf",
+      },
+      body: JSON.stringify({}),
+    }
+  );
 
   if (!response.ok) {
     console.log(response);
@@ -130,6 +138,7 @@ export const auditWhatIf = async (email: string, plan: string) => {
   }
 
   const json = await response.json();
+  console.log("what if", json);
 
   const completedRequirements = json.requirementCourseListMap;
   const completedKeys = Object.keys(completedRequirements); // the course lists with at least 1 completed course
@@ -168,15 +177,20 @@ export const auditWhatIf = async (email: string, plan: string) => {
 };
 
 export const auditDeclaredDegree = async (email: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/declared/degree", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      email: email,
-      "req-url": "declared/degree",
-    },
-    body: JSON.stringify({}),
-  });
+  const response = await fetch(
+    // process.env.NEXT_PUBLIC_AUDIT ||
+    //   "http://localhost:8080/audit/declared/degree",
+    "http://3.143.22.149:443/audit/declared/degree",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        email: email,
+        "req-url": "declared/degree",
+      },
+      body: JSON.stringify({}),
+    }
+  );
 
   if (!response.ok) {
     console.log(response);
@@ -184,6 +198,7 @@ export const auditDeclaredDegree = async (email: string) => {
   }
 
   const json = await response.json();
+  console.log("degree audit", json);
 
   const courseUsageMap = json.courseUsageMap || {};
 
@@ -220,20 +235,24 @@ export const auditDeclaredDegree = async (email: string) => {
 
   return {
     listRequirements,
-    courseUsageMap
+    courseUsageMap,
   };
 };
 
 export const auditOptions = async (email: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/options", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      email: email,
-      "req-url": "options",
-    },
-    body: JSON.stringify({}),
-  });
+  const response = await fetch(
+    // process.env.NEXT_PUBLIC_AUDIT || "http://localhost:8080/audit/options",
+    "http://3.143.22.149:443/audit/options",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        email: email,
+        "req-url": "options",
+      },
+      body: JSON.stringify({}),
+    }
+  );
 
   if (!response.ok) throw new Error("Request failed");
 

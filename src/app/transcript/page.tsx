@@ -2,8 +2,10 @@
 import { useState } from "react";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
-const TRANSCRIPT_URL =
-  process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080";
+const TRANSCRIPT_URL = "http://3.143.22.149:443/transcript/upload";
+
+// process.env.NEXT_PUBLIC_TRANSCRIPT_URL ||
+// "http://18.119.110.137:443/transcript/upload";
 
 export default function UploadTranscript() {
   const [file, setFile] = useState<File>();

@@ -3,13 +3,17 @@ export const submitTranscript = async (transcript: File, email: string) => {
   formData.append("file", transcript);
   formData.append("email", email);
 
-  const response = await fetch(process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080/transcript/upload", {
-    method: "POST",
-    body: formData,
-    headers: {
-      "req-url": "upload",
-    },
-  });
+  const response = await fetch(
+    // process.env.NEXT_PUBLIC_TRANSCRIPT_URL || "http://localhost:8080/transcript/upload", {
+    "http://3.143.22.149:443/transcript/upload",
+    {
+      method: "POST",
+      body: formData,
+      headers: {
+        "req-url": "upload",
+      },
+    }
+  );
 
   if (!response.ok) throw new Error("File upload failed");
 
